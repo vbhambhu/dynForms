@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+    <title>Hello AngularJS</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+
+    <h3>All forms</h3>
+
+
+<table class="table table-striped">
+    <tr>
+        <th>Title</th>
+        <th>Action</th>
+    </tr>
+
+    <tr th:each="form : ${forms}">
+        <td th:text="${form.title}"></td>
+        <td><a class="btn btn-default btn-sm" th:href="@{/capture/} + ${form.id}">Capture data</a></td>
+    </tr>
+</table>
+
+</div>
+</body>
+</html>
