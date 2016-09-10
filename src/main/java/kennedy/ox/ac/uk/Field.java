@@ -15,12 +15,12 @@ public class Field {
     private Boolean isRequired;
     private String value;
 
-    private Boolean hasError;
+    private Boolean hasError = false;
     private String errMsg;
 
     private List<Option> options = new ArrayList<>();
 
-    private List<Object> validations = new ArrayList<>();
+    private TextValidation validations = new TextValidation();
 
 
 
@@ -100,11 +100,11 @@ public class Field {
         this.value = value;
     }
 
-    public List<Object> getValidations() {
-        return validations;
+    public <T extends TextValidation> T getValidations()  {
+        return (T)validations;
     }
 
-    public void setValidations(List<Object> validations) {
+    public void setValidations(TextValidation validations) {
         this.validations = validations;
     }
 }
