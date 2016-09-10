@@ -92,6 +92,10 @@ public class Field {
         this.errMsg = errMsg;
     }
 
+    public void setHasErrorAndErrMsg(String errMsg, Object... args) {
+        this.setHasError(true);
+        this.errMsg = String.format(errMsg, args);
+    }
     public String getValue() {
         return value;
     }
