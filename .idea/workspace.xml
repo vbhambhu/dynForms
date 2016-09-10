@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ffc0b60-3d4c-4d44-8400-a8423ae81853" name="Default" comment="added text validation.">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/TextAreaValidation.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/TextValidation.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/kennedy/ox/ac/uk/Field.class" afterPath="$PROJECT_DIR$/target/classes/kennedy/ox/ac/uk/Field.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/kennedy/ox/ac/uk/HomeController.class" afterPath="$PROJECT_DIR$/target/classes/kennedy/ox/ac/uk/HomeController.class" />
+    <list default="true" id="8ffc0b60-3d4c-4d44-8400-a8423ae81853" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Validation.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Field.java" afterPath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Field.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/HomeController.java" afterPath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/HomeController.java" />
     </list>
     <ignored path="dynForms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HomeController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/HomeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="178" column="33" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
+            <state relative-caret-position="210">
+              <caret line="179" column="34" selection-start-line="179" selection-start-column="34" selection-end-line="179" selection-end-column="34" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2393#2409#0" expanded="true" />
@@ -129,7 +124,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Validation.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Validation.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Validation.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
@@ -841,7 +836,7 @@
       <workItem from="1473504463957" duration="440000" />
       <workItem from="1473504909396" duration="112000" />
       <workItem from="1473505396682" duration="3193000" />
-      <workItem from="1473509000639" duration="19448000" />
+      <workItem from="1473509000639" duration="19849000" />
     </task>
     <task id="LOCAL-00001" summary="2nd changes">
       <created>1473508707636</created>
@@ -850,7 +845,14 @@
       <option name="project" value="LOCAL" />
       <updated>1473508707636</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="added text validation.">
+      <created>1473540109154</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1473540109154</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -862,7 +864,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="48746000" />
+    <option name="totallyTimeSpent" value="49147000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="8" y="23" width="1412" height="767" extended-state="0" />
@@ -910,7 +912,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="2nd changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="2nd changes" />
+    <MESSAGE value="added text validation." />
+    <option name="LAST_COMMIT_MESSAGE" value="added text validation." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1549,14 +1552,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Validation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.2.RELEASE/spring-beans-4.3.2.RELEASE.jar!/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="351">
@@ -1649,12 +1644,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/HomeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="178" column="33" selection-start-line="178" selection-start-column="33" selection-end-line="178" selection-end-column="33" />
+        <state relative-caret-position="210">
+          <caret line="179" column="34" selection-start-line="179" selection-start-column="34" selection-end-line="179" selection-end-column="34" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2393#2409#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Validation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
