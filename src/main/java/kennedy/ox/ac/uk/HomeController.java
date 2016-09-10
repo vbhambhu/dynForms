@@ -82,8 +82,8 @@ public class HomeController {
             } else {
                 //System.out.println("NULL" + field.getReqired());
             }
-            Validation validation = null;
-
+            Validation validation = field.getValidations();
+/*
             if(field.getType().equals("text")) {
                // System.out.println("getType(): " + field.getType());
                 validation = field.<TextValidation>getValidations();
@@ -94,7 +94,7 @@ public class HomeController {
             }
             else
                 validation = field.getValidations();
-
+*/
             //System.out.println("field.getType(): " + field.getType());
 
             //System.out.println("validation" + validation);
@@ -105,48 +105,51 @@ public class HomeController {
                 try {
                     Object value = reflectedField.get(validation);
                     if (value != null) {
-                        //System.out.println(field1.getName() + "=" + value);
-                        //System.out.println(field1.getName() + "=" + Integer.parseInt(value.toString()));
+                        System.out.println(reflectedField.getName() + "=" + value);
                     }
 
                     switch(reflectedField.getName()) {
                         case ValidationKeywords.minLength:
-                            int minLength = Integer.parseInt(value.toString());
+                            int minLength = (int)value;
 
                             if(minLength > 0 && fieldValue.length() < minLength) {
                                 field.setHasErrorAndErrMsg("The %s field must be at least %d characters in length.", field.getName(), minLength);
                             }
                             break;
                         case ValidationKeywords.maxLength:
-                            int maxLength = Integer.parseInt(value.toString());
+                            int maxLength = (int)value;
                             if(maxLength > 0 && fieldValue.length() > maxLength) {
                                 field.setHasErrorAndErrMsg("The %s field cannot exceed %d characters in length.", field.getName(), maxLength);
                             }
                             break;
                         case ValidationKeywords.exactLength:
-                            int exactLength = Integer.parseInt(value.toString());
+                            int exactLength = (int)value;
                             if(exactLength > 0 && fieldValue.length() != exactLength) {
                                 field.setHasErrorAndErrMsg("The %s field must be exactly %d characters in length.", field.getName(), exactLength);
                             }
                             break;
                         case ValidationKeywords.greaterThan:
-                            if(!isInt(fieldValue) || !(Integer.parseInt(value.toString()) < Integer.parseInt(fieldValue))  ){
-                                field.setHasErrorAndErrMsg("The %s field must contain a number greater than %d.", field.getName(), Integer.parseInt(value.toString()));
+                            int greaterThan = (int)value;
+                            if(greaterThan > 0 && (!isInt(fieldValue) || !(greaterThan < Integer.parseInt(fieldValue)))) {
+                                field.setHasErrorAndErrMsg("The %s field must contain a number greater than %d.", field.getName(), greaterThan);
                             }
                             break;
                         case ValidationKeywords.lessThan:
-                            if(!isInt(fieldValue) || !(Integer.parseInt(value.toString()) > Integer.parseInt(fieldValue))  ){
-                                field.setHasErrorAndErrMsg("The %s field must contain a number less than %d.", field.getName(), Integer.parseInt(value.toString()));
+                            int lessThan = (int)value;
+                            if(lessThan > 0 && (!isInt(fieldValue) || !(lessThan > Integer.parseInt(fieldValue)))) {
+                                field.setHasErrorAndErrMsg("The %s field must contain a number less than %d.", field.getName(), lessThan);
                             }
                             break;
                         case ValidationKeywords.greaterThanEqualTo:
-                            if(!isInt(fieldValue) || !(Integer.parseInt(value.toString()) <= Integer.parseInt(fieldValue))  ){
-                                field.setHasErrorAndErrMsg("The %s field must contain a number greater than or equal to %d.", field.getName(), Integer.parseInt(value.toString()));
+                            int greaterThanEqualTo = (int)value;
+                            if(greaterThanEqualTo > 0 && (!isInt(fieldValue) || !(greaterThanEqualTo <= Integer.parseInt(fieldValue)))) {
+                                field.setHasErrorAndErrMsg("The %s field must contain a number greater than or equal to %d.", field.getName(), greaterThanEqualTo);
                             }
                             break;
                         case ValidationKeywords.lessThanEqualTo:
-                            if(!isInt(fieldValue) || !(Integer.parseInt(value.toString()) >= Integer.parseInt(fieldValue))  ){
-                                field.setHasErrorAndErrMsg("The %s field must contain a number less than or equal to %d.", field.getName(), Integer.parseInt(value.toString()));
+                            int lessThanEqualTo = (int)value;
+                            if(lessThanEqualTo > 0 && (!isInt(fieldValue) || !(lessThanEqualTo >= Integer.parseInt(fieldValue)))  ){
+                                field.setHasErrorAndErrMsg("The %s field must contain a number less than or equal to %d.", field.getName(), lessThanEqualTo);
                             }
                             break;
                         case ValidationKeywords.matches:
@@ -156,28 +159,27 @@ public class HomeController {
                             }
                             break;
                         case ValidationKeywords.numeric:
-                            if(Boolean.parseBoolean(value.toString()) && !isInt(fieldValue)){
+                            if((Boolean)value && !isInt(fieldValue)){
                                 field.setHasErrorAndErrMsg("The %s field must contain an integer.", field.getName());
                             }
                             break;
                         case ValidationKeywords.decimal:
-                            if(Boolean.parseBoolean(value.toString()) && !isDecimal(fieldValue)){
+                            if((Boolean)value && !isDecimal(fieldValue)){
                                 field.setHasErrorAndErrMsg("The %s field must contain a decimal number.", field.getName());
                             }
                             break;
                         case ValidationKeywords.validUrl:
-                            if(Boolean.parseBoolean(value.toString()) && !isValidUrl(fieldValue)){
+                            if((Boolean)value && !isValidUrl(fieldValue)){
                                 field.setHasErrorAndErrMsg("The %s field must contain a valid URL.", field.getName());
                             }
                             break;
                         case ValidationKeywords.validEmail:
-                            if(Boolean.parseBoolean(value.toString()) && !isValidEmail(fieldValue)){
+                            if((Boolean)value && !isValidEmail(fieldValue)){
                                 field.setHasErrorAndErrMsg("The %s field must contain a valid email address.", field.getName());
                             }
                             break;
                         case ValidationKeywords.validIp:
-                            System.out.println("reflectedField: " + reflectedField.getName());
-                            if(Boolean.parseBoolean(value.toString()) && !isValidIp(fieldValue)){
+                            if((Boolean)value && !isValidIp(fieldValue)){
                                 field.setHasErrorAndErrMsg("The %s field must contain a valid IP.", field.getName());
                             }
                             break;
@@ -186,37 +188,10 @@ public class HomeController {
 
                     }
 
-
-
-
                 } catch(Exception ex) {}
             }
-
-
-
-
-
-            // now check other validations
-//            for (Validation validation : field.getValidations()) {
-//                if(validation == null)
-//                    continue;
-//                System.out.println(validation.getName());
-//                switch(validation.getName()) {
-//                    case "min_length":
-//                    validation.getValue();
-//                        break;
-//                }
-//            }
-
-
         }
 
-
-       //
-
-
-
-        //System.out.println(value1);
         return "capture";
     }
 
