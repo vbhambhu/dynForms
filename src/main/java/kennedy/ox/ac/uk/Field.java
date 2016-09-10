@@ -12,7 +12,7 @@ public class Field {
     private String type;
     private String name;
     private String label;
-    private Boolean isReqired;
+    private Boolean isRequired;
     private String value;
 
     private Boolean hasError;
@@ -20,7 +20,7 @@ public class Field {
 
     private List<Option> options = new ArrayList<>();
 
-    private List<Object> validation = new ArrayList<>();
+    private List<Object> validations = new ArrayList<>();
 
 
 
@@ -67,12 +67,13 @@ public class Field {
         this.options = options;
     }
 
-    public Boolean getReqired() {
-        return isReqired;
+
+    public Boolean getRequired() {
+        return isRequired;
     }
 
-    public void setReqired(Boolean reqired) {
-        isReqired = reqired;
+    public void setRequired(Boolean required) {
+        isRequired = required;
     }
 
     public Boolean getHasError() {
@@ -99,11 +100,11 @@ public class Field {
         this.value = value;
     }
 
-    public List<Object> getValidation() {
-        return validation;
+    public List<Object> getValidations() {
+        return validations;
     }
 
-    public void setValidation(List<Object> validation) {
-        this.validation = validation;
+    public void setValidations(List<Object> validations) {
+        this.validations = validations;
     }
 }

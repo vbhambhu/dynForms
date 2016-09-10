@@ -2,13 +2,14 @@
 <html>
 <head>
     <title>Hello AngularJS</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
 </head>
 <body>
 <div class="container">
 
 
+    <p><a href="/">Home</a></p>
 
     <h4 th:text="${form.title}">{title}</h4>
 
@@ -18,15 +19,15 @@
     <hr/>
 
 
-    <form action="#" th:action="@{/capture}" th:object="${form}" method="post"  enctype="multipart/form-data">
+    <form  th:object="${form}" method="post"  enctype="multipart/form-data">
 
         <input type="hidden" th:value="${form.id}" name="formId"/>
 
         <span th:each="field : ${form.fields}" th:classappend="${field.hasError} ? has-danger">
 
             <div class="form-group" th:classappend="${field.hasError} ? adminclass : userclass">
-            <label th:if="${field.reqired}" th:text="${field.label + '*'}">{label}</label>
-            <label th:unless="${field.reqired}" th:text="${field.label}">{label}</label>
+            <label th:if="${field.required}" th:text="${field.label + '*'}">{label}</label>
+            <label th:unless="${field.required}" th:text="${field.label}">{label}</label>
 
 
         <span  th:switch="${field.type}">

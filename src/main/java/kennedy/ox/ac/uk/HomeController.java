@@ -3,6 +3,7 @@ package kennedy.ox.ac.uk;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -20,30 +21,27 @@ public class HomeController {
 
     @Autowired
     private FormRepository formRepository;
+    
 
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String showHome() {
+
         return "home";
+
     }
 
 
-    @RequestMapping(value="/capture", method= RequestMethod.GET)
-    public String capture(Model model) {
+    @RequestMapping(value="/capture/{id}", method= RequestMethod.GET)
+    public String capture(Model model, @PathVariable String id) {
 
-        Form f = formRepository.findById("57d15a45c13eb148b44e3075");
-        model.addAttribute("form",  f);
-
-//        System.out.println("==============" +f.getFields());
-//
-//        for (Field field : f.getFields()) {
-//            System.out.println(field);
-//        }
-
+        Form form = formRepository.findById(id);
+        model.addAttribute("form", form);
         return "capture";
+
     }
 
-    @RequestMapping(value="/capture", method= RequestMethod.POST)
-    public String capturePost(Model model, @RequestParam("formId") String formId, MultipartHttpServletRequest mrequest) {
+    @RequestMapping(value="/capture/{id}", method= RequestMethod.POST)
+    public String capturePost(Model model, @RequestParam("formId") String formId, MultipartHttpServletRequest mrequest, @PathVariable String id) {
 
         Form form = formRepository.findById(formId);
         //FormValidator fv = new FormValidator(form);
@@ -53,9 +51,9 @@ public class HomeController {
         for (Field field : form.getFields()) {
 
             String fieldValue = mrequest.getParameter(field.getName());
-            field.setValue(fieldValue);
+            field.setValue(fieldValue);  // for redisplay on error
 
-            if(field.getReqired() != null && field.getReqired()){
+            if(field.getRequired() != null && field.getRequired()){
 
                 // if required
                 if(fieldValue == null || fieldValue.trim().isEmpty() ){
@@ -63,15 +61,13 @@ public class HomeController {
                     field.setErrMsg("Invalid input");
                 }
 
-                // now check other validations
-                for (Object validation : field.getValidation()) {
-                    System.out.println(validation);
-                }
-
-
-
             } else {
                 //System.out.println("NULL" + field.getReqired());
+            }
+
+            // now check other validations
+            for (Object validation : field.getValidations()) {
+                System.out.println(validation);
             }
 
 
