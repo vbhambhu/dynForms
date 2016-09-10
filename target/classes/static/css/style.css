@@ -1,4 +1,18 @@
 body {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.header {
+    padding-bottom: 50px;
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 65px;
+}
+
+.container {
+    max-width: 900px;
+}
+
+.footer {
+    margin-top: 100px;
 }
