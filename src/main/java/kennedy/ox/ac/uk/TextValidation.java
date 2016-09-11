@@ -19,7 +19,7 @@ public class TextValidation extends Validation  {
 
     String regex_match  = null;
     String in_list  = null;
-    String alpha  = null;
-    String alpha_numeric  = null;
+    boolean alpha  = false;
+    boolean alpha_numeric  = false;
 
 }

@@ -129,12 +129,12 @@ public class Validation {
                         }
                         break;
                     case Keywords.alpha:
-                        if((Boolean)value && !fieldValue.matches("[a-zA-Z]+")){
+                        if(((Boolean)value) && !fieldValue.matches("[a-zA-Z]+")){
                             field.setHasErrorAndErrMsg("The %s field may only contain alphabetical characters.", field.getName());
                         }
                         break;
                     case Keywords.alphaNumeric:
-                        if((Boolean)value && !fieldValue.matches("[A-Za-z0-9]+")){
+                        if(((Boolean)value) && !fieldValue.matches("[A-Za-z0-9]+")){
                             field.setHasErrorAndErrMsg("The %s field may only contain alpha-numeric characters.", field.getName());
                         }
                         break;
