@@ -6,4 +6,7 @@ package kennedy.ox.ac.uk;
 public class TextAreaValidation extends Validation {
    int min_length = 0;
    int max_length = 0;
+
+   public void validate() {}
+
 }

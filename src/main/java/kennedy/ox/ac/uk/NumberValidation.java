@@ -11,4 +11,7 @@ public class NumberValidation extends Validation {
 
     boolean numeric  = false;
     boolean decimal  = false;
+
+    public void validate() {}
+
 }
