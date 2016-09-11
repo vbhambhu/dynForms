@@ -18,6 +18,8 @@ public class Field {
     private Boolean hasError = false;
     private String errMsg;
 
+    private String helpText = null;
+
     private List<Option> options = new ArrayList<>();
 
     private Validation validations = new TextValidation();
@@ -110,5 +112,14 @@ public class Field {
 
     public void setValidations(Validation validations) {
         this.validations = validations;
+    }
+
+
+    public String getHelpText() {
+        return helpText;
+    }
+
+    public void setHelpText(String helpText) {
+        this.helpText = helpText;
     }
 }

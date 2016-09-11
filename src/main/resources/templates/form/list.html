@@ -15,11 +15,13 @@
     <tr>
         <th>Title</th>
         <th>Action</th>
+        <th>Action</th>
     </tr>
 
     <tr th:each="form : ${forms}">
         <td th:text="${form.title}"></td>
         <td><a class="btn btn-default btn-sm" th:href="@{/capture/} + ${form.id}">Capture data</a></td>
+        <td><a class="btn btn-default btn-sm" th:href="@{/import/} + ${form.id}">Import CSV</a></td>
     </tr>
 </table>
 
