@@ -75,7 +75,10 @@
 
 
     </span>
+                <div th:if="${field.helpText != null}" class="form-text text-muted" th:text="${field.helpText}">{errMsg}</div>
             <div th:if="${field.hasError}" class="form-control-feedback" th:text="${field.errMsg}">{errMsg}</div>
+
+
         </div></span>
 
         <input type="submit" value="submit" class="btn btn-success" />
