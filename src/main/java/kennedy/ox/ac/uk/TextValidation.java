@@ -23,4 +23,9 @@ public class TextValidation extends TextAreaValidation {
     String valid_emails  = null;
     String valid_ip  = null;
 
+    String regex_match  = null;
+    String in_list  = null;
+    String alpha  = null;
+    String alpha_numeric  = null;
+
 }

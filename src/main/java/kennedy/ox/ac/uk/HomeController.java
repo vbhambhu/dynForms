@@ -11,6 +11,7 @@ import kennedy.ox.ac.uk.FormRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -57,6 +58,11 @@ public class HomeController {
         public static final String validUrl = "valid_url";
         public static final String validEmail = "valid_email";
         public static final String validIp = "valid_ip";
+
+        public static final String regexMatch = "regex_match";
+        public static final String inList = "in_list";
+        public static final String alpha = "alpha";
+        public static final String alphaNumeric = "alpha_numeric";
     }
     @RequestMapping(value="/capture/{id}", method= RequestMethod.POST)
     public String capturePost(Model model, @RequestParam("formId") String formId, MultipartHttpServletRequest mrequest, @PathVariable String id) {
@@ -112,20 +118,19 @@ public class HomeController {
                     switch(reflectedField.getName()) {
                         case ValidationKeywords.minLength:
                             int minLength = Integer.parseInt(value.toString());
-
-                            if(minLength > 0 && fieldValue.length() < minLength) {
+                            if(minLength > 0 && fieldValue.trim().length() < minLength) {
                                 field.setHasErrorAndErrMsg("The %s field must be at least %d characters in length.", field.getName(), minLength);
                             }
                             break;
                         case ValidationKeywords.maxLength:
                             int maxLength = Integer.parseInt(value.toString());
-                            if(maxLength > 0 && fieldValue.length() > maxLength) {
+                            if(maxLength > 0 && fieldValue.trim().length() > maxLength) {
                                 field.setHasErrorAndErrMsg("The %s field cannot exceed %d characters in length.", field.getName(), maxLength);
                             }
                             break;
                         case ValidationKeywords.exactLength:
                             int exactLength = Integer.parseInt(value.toString());
-                            if(exactLength > 0 && fieldValue.length() != exactLength) {
+                            if(exactLength > 0 && fieldValue.trim().length() != exactLength) {
                                 field.setHasErrorAndErrMsg("The %s field must be exactly %d characters in length.", field.getName(), exactLength);
                             }
                             break;
@@ -176,9 +181,29 @@ public class HomeController {
                             }
                             break;
                         case ValidationKeywords.validIp:
-                            System.out.println("reflectedField: " + reflectedField.getName());
+                            //System.out.println("reflectedField: " + reflectedField.getName());
                             if(Boolean.parseBoolean(value.toString()) && !isValidIp(fieldValue)){
                                 field.setHasErrorAndErrMsg("The %s field must contain a valid IP.", field.getName());
+                            }
+                            break;
+                        case ValidationKeywords.regexMatch:
+                            if(!isRegexMatch(value.toString(), fieldValue)){
+                                field.setHasErrorAndErrMsg("The %s field is not in the correct format.", field.getName());
+                            }
+                            break;
+                        case ValidationKeywords.inList:
+                            if(!isInList(value.toString(), fieldValue)){
+                                field.setHasErrorAndErrMsg("The %s field must be one of: %s.", field.getName(), value.toString());
+                            }
+                            break;
+                        case ValidationKeywords.alpha:
+                            if(Boolean.parseBoolean(value.toString()) && !fieldValue.matches("[a-zA-Z]+")){
+                                field.setHasErrorAndErrMsg("The %s field may only contain alphabetical characters.", field.getName());
+                            }
+                            break;
+                        case ValidationKeywords.alphaNumeric:
+                            if(Boolean.parseBoolean(value.toString()) && !fieldValue.matches("[A-Za-z0-9]+")){
+                                field.setHasErrorAndErrMsg("The %s field may only contain alpha-numeric characters.", field.getName());
                             }
                             break;
                         default :
@@ -218,6 +243,26 @@ public class HomeController {
 
         //System.out.println(value1);
         return "capture";
+    }
+
+    private Boolean isInList(String lists,String needle) {
+        try {
+            String[] haystack = lists.split(",");
+            return Arrays.asList(haystack).contains(needle);
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+
+    private Boolean isRegexMatch(String regex,String text) {
+        try {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(text);
+            return matcher.matches();
+        } catch (RuntimeException e) {
+            return false;
+        }
     }
 
     private Boolean isValidUrl(String text) {
