@@ -1,5 +1,7 @@
-package kennedy.ox.ac.uk;
+package kennedy.ox.ac.uk.Controllers;
 
+import kennedy.ox.ac.uk.Field;
+import kennedy.ox.ac.uk.Form;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,14 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import kennedy.ox.ac.uk.FormRepository;
+import kennedy.ox.ac.uk.Repositories.FormRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by vinod on 08/09/2016.
@@ -28,9 +25,7 @@ public class HomeController {
 
     @RequestMapping(value="/", method= RequestMethod.GET)
     public String showHome() {
-
         return "home";
-
     }
 
 
