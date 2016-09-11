@@ -1,0 +1,179 @@
+{
+  "_id" : ObjectId("57d3e981b417cd91afeba0ae"),
+  "title" : "All text input validations",
+  "description" : "This is desc",
+  "fields" : [
+    {
+      "fieldId" : 1,
+      "label" : "usersname",
+      "name" : "username",
+      "type" : "text",
+      "isRequired" : true
+    },
+    {
+      "fieldId" : 2,
+      "label" : "min_length",
+      "name" : "min_length",
+      "type" : "text",
+      "validations" : {
+        "min_length" : 12
+      }
+    },
+    {
+      "fieldId" : 3,
+      "label" : "max_length",
+      "name" : "max_length",
+      "type" : "text",
+      "validations" : {
+        "max_length" : 14
+      }
+    },
+    {
+      "fieldId" : 4,
+      "label" : "exact_length",
+      "name" : "exact_length",
+      "type" : "text",
+      "validations" : {
+        "exact_length" : 16
+      }
+    },
+    {
+      "fieldId" : 5,
+      "label" : "greater_than",
+      "name" : "greater_than",
+      "type" : "text",
+      "validations" : {
+        "greater_than" : 17
+      }
+    },
+    {
+      "fieldId" : 6,
+      "label" : "less_than",
+      "name" : "less_than",
+      "type" : "text",
+      "validations" : {
+        "less_than" : 18
+      }
+    },
+    {
+      "fieldId" : 7,
+      "label" : "greater_than_equal_to",
+      "name" : "greater_than_equal_to",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "greater_than_equal_to" : 12
+      }
+    },
+    {
+      "fieldId" : 8,
+      "label" : "less_than_equal_to",
+      "name" : "less_than_equal_to",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "less_than_equal_to" : 12
+      }
+    },
+    {
+      "fieldId" : 9,
+      "label" : "matches",
+      "name" : "matches",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "matches" : "username"
+      }
+    },
+    {
+      "fieldId" : 10,
+      "label" : "numeric",
+      "name" : "numeric",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "numeric" : true
+      }
+    },
+    {
+      "fieldId" : 11,
+      "label" : "decimal",
+      "name" : "decimal",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "decimal" : true
+      }
+    },
+    {
+      "fieldId" : 12,
+      "label" : "valid_url",
+      "name" : "valid_url",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "valid_url" : true
+      }
+    },
+    {
+      "fieldId" : 13,
+      "label" : "valid_email",
+      "name" : "valid_email",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "valid_email" : true
+      }
+    },
+    {
+      "fieldId" : 14,
+      "label" : "valid_ip",
+      "name" : "valid_ip",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "valid_ip" : true
+      }
+    },
+    {
+      "fieldId" : 15,
+      "label" : "regex_match",
+      "name" : "regex_match",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "regex_match" : "[0-9]+"
+      }
+    },
+    {
+      "fieldId" : 16,
+      "label" : "alpha",
+      "name" : "alpha",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "alpha" : true
+      }
+    },
+    {
+      "fieldId" : 17,
+      "label" : "in_list",
+      "name" : "in_list",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "in_list" : "vinod,zim,hazel"
+      }
+    },
+    {
+      "fieldId" : 18,
+      "label" : "alpha_numeric",
+      "name" : "alpha_numeric",
+      "type" : "text",
+      "isRequired" : false,
+      "validations" : {
+        "alpha_numeric" : true
+      }
+    }
+  ]
+}

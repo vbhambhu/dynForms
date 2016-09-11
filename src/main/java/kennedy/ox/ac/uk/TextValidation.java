@@ -17,4 +17,9 @@ public class TextValidation extends Validation  {
     boolean valid_emails  = false;
     boolean valid_ip  = false;
 
+    String regex_match  = null;
+    String in_list  = null;
+    String alpha  = null;
+    String alpha_numeric  = null;
+
 }
