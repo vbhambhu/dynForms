@@ -20,7 +20,7 @@ public class Field {
 
     private List<Option> options = new ArrayList<>();
 
-    private TextValidation validations = new TextValidation();
+    private Validation validations = new TextValidation();
 
 
 
@@ -104,11 +104,11 @@ public class Field {
         this.value = value;
     }
 
-    public <T extends TextValidation> T getValidations()  {
+    public <T extends Validation> T getValidations()  {
         return (T)validations;
     }
 
-    public void setValidations(TextValidation validations) {
+    public void setValidations(Validation validations) {
         this.validations = validations;
     }
 }
