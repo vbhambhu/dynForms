@@ -2,6 +2,7 @@ package kennedy.ox.ac.uk;
 
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +27,11 @@ public class Validation {
         public static final String validUrl = "valid_url";
         public static final String validEmail = "valid_email";
         public static final String validIp = "valid_ip";
+
+        public static final String regexMatch = "regex_match";
+        public static final String inList = "in_list";
+        public static final String alpha = "alpha";
+        public static final String alphaNumeric = "alpha_numeric";
     }
     public void validate(Field field, String fieldValue, MultipartHttpServletRequest mrequest) {
         for (java.lang.reflect.Field reflectedField : this.getClass().getDeclaredFields()) {
@@ -112,15 +118,55 @@ public class Validation {
                             field.setHasErrorAndErrMsg("The %s field must contain a valid IP.", field.getName());
                         }
                         break;
-                    default:
+                    case Keywords.regexMatch:
+                        if(!isRegexMatch(value.toString(), fieldValue)){
+                            field.setHasErrorAndErrMsg("The %s field is not in the correct format.", field.getName());
+                        }
                         break;
-
+                    case Keywords.inList:
+                        if(!isInList(value.toString(), fieldValue)){
+                            field.setHasErrorAndErrMsg("The %s field must be one of: %s.", field.getName(), value.toString());
+                        }
+                        break;
+                    case Keywords.alpha:
+                        if(Boolean.parseBoolean(value.toString()) && !fieldValue.matches("[a-zA-Z]+")){
+                            field.setHasErrorAndErrMsg("The %s field may only contain alphabetical characters.", field.getName());
+                        }
+                        break;
+                    case Keywords.alphaNumeric:
+                        if(Boolean.parseBoolean(value.toString()) && !fieldValue.matches("[A-Za-z0-9]+")){
+                            field.setHasErrorAndErrMsg("The %s field may only contain alpha-numeric characters.", field.getName());
+                        }
+                        break;
+                    default :
+                        break;
                 }
 
             } catch (Exception ex) {
             }
         }
     }
+
+    private Boolean isInList(String lists,String needle) {
+        try {
+            String[] haystack = lists.split(",");
+            return Arrays.asList(haystack).contains(needle);
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
+
+    private Boolean isRegexMatch(String regex,String text) {
+        try {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(text);
+            return matcher.matches();
+        } catch (RuntimeException e) {
+            return false;
+        }
+    }
+
     private Boolean isValidUrl(String text) {
         try {
             String regex = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
@@ -171,5 +217,4 @@ public class Validation {
             return false;
         }
     }
-
 }
