@@ -94,27 +94,27 @@ public class Validation {
                         }
                         break;
                     case Keywords.numeric:
-                        if ((Boolean) value && !isInt(fieldValue)) {
+                        if ((Boolean)value && !isInt(fieldValue)) {
                             field.setHasErrorAndErrMsg("The %s field must contain an integer.", field.getName());
                         }
                         break;
                     case Keywords.decimal:
-                        if ((Boolean) value && !isDecimal(fieldValue)) {
+                        if ((Boolean)value && !isDecimal(fieldValue)) {
                             field.setHasErrorAndErrMsg("The %s field must contain a decimal number.", field.getName());
                         }
                         break;
                     case Keywords.validUrl:
-                        if ((Boolean) value && !isValidUrl(fieldValue)) {
+                        if ((Boolean)value && !isValidUrl(fieldValue)) {
                             field.setHasErrorAndErrMsg("The %s field must contain a valid URL.", field.getName());
                         }
                         break;
                     case Keywords.validEmail:
-                        if ((Boolean) value && !isValidEmail(fieldValue)) {
+                        if ((Boolean)value && !isValidEmail(fieldValue)) {
                             field.setHasErrorAndErrMsg("The %s field must contain a valid email address.", field.getName());
                         }
                         break;
                     case Keywords.validIp:
-                        if ((Boolean) value && !isValidIp(fieldValue)) {
+                        if ((Boolean)value && !isValidIp(fieldValue)) {
                             field.setHasErrorAndErrMsg("The %s field must contain a valid IP.", field.getName());
                         }
                         break;
@@ -129,12 +129,12 @@ public class Validation {
                         }
                         break;
                     case Keywords.alpha:
-                        if(Boolean.parseBoolean(value.toString()) && !fieldValue.matches("[a-zA-Z]+")){
+                        if((Boolean)value && !fieldValue.matches("[a-zA-Z]+")){
                             field.setHasErrorAndErrMsg("The %s field may only contain alphabetical characters.", field.getName());
                         }
                         break;
                     case Keywords.alphaNumeric:
-                        if(Boolean.parseBoolean(value.toString()) && !fieldValue.matches("[A-Za-z0-9]+")){
+                        if((Boolean)value && !fieldValue.matches("[A-Za-z0-9]+")){
                             field.setHasErrorAndErrMsg("The %s field may only contain alpha-numeric characters.", field.getName());
                         }
                         break;
