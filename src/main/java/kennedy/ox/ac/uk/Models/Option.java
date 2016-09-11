@@ -1,4 +1,4 @@
-package kennedy.ox.ac.uk;
+package kennedy.ox.ac.uk.Models;
 
 /**
  * Created by vinod on 09/09/2016.

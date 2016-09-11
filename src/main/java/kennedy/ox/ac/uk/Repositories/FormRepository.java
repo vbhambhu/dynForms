@@ -1,6 +1,6 @@
 package kennedy.ox.ac.uk.Repositories;
 
-import kennedy.ox.ac.uk.Form;
+import kennedy.ox.ac.uk.Models.Form;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**

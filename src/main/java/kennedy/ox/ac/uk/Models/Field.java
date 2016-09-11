@@ -1,7 +1,8 @@
-package kennedy.ox.ac.uk;
+package kennedy.ox.ac.uk.Models;
 
 
-import org.springframework.data.annotation.Id;
+import kennedy.ox.ac.uk.Helpers.validation.TextValidation;
+import kennedy.ox.ac.uk.Helpers.validation.Validation;
 
 import java.util.*;
 

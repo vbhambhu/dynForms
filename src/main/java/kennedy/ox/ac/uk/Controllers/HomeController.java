@@ -1,7 +1,7 @@
 package kennedy.ox.ac.uk.Controllers;
 
-import kennedy.ox.ac.uk.Field;
-import kennedy.ox.ac.uk.Form;
+import kennedy.ox.ac.uk.Models.Field;
+import kennedy.ox.ac.uk.Models.Form;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

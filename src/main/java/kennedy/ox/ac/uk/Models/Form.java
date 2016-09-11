@@ -1,4 +1,4 @@
-package kennedy.ox.ac.uk;
+package kennedy.ox.ac.uk.Models;
 
 
 import java.util.ArrayList;

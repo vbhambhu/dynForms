@@ -1,5 +1,6 @@
-package kennedy.ox.ac.uk;
+package kennedy.ox.ac.uk.Helpers.validation;
 
+import kennedy.ox.ac.uk.Models.Field;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.Arrays;
