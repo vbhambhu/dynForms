@@ -37,7 +37,7 @@ public class Validation {
     public void validate(Field field, String fieldValue, MultipartHttpServletRequest mrequest) {
         for (java.lang.reflect.Field reflectedField : this.getClass().getDeclaredFields()) {
             if (field.getHasError())
-                continue;
+                break;
             reflectedField.setAccessible(true); // You might want to set modifier to public first.
             try {
                 Object value = reflectedField.get(this);
