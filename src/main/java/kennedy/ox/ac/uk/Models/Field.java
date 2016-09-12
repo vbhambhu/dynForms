@@ -29,6 +29,13 @@ public class Field {
 
     public Field() {}
 
+    public Field(int fieldId, String type, String name, String label ) {
+        this.fieldId = fieldId;
+        this.type = type;
+        this.name = name;
+        this.label = label;
+    }
+
 
     public int getFieldId() {
         return fieldId;

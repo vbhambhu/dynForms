@@ -26,10 +26,10 @@ public class Form {
 
     public Form() {}
 
-    public Form(String title, String description, Date createdAt) {
+    public Form(String title, String description) {
         this.title = title;
         this.description = description;
-        this.createdAt = createdAt;
+
     }
 
 
