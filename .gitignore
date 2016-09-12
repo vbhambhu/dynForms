@@ -1,3 +1,4 @@
 # basic gitignore
 .idea
 target
+upload-dir/
