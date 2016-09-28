@@ -63,7 +63,7 @@ public class HomeController {
             } else {
                 //System.out.println("NULL" + field.getReqired());
             }
-            field.getValidations().validate(field, fieldValue, mrequest);
+            //field.getValidations().validate(field, fieldValue, mrequest);
 
         }
 

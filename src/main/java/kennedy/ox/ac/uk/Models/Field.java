@@ -3,37 +3,41 @@ package kennedy.ox.ac.uk.Models;
 
 import kennedy.ox.ac.uk.Helpers.validation.TextValidation;
 import kennedy.ox.ac.uk.Helpers.validation.Validation;
+import org.springframework.data.annotation.Id;
 
 import java.util.*;
 
 public class Field {
 
 
+    @Id
     private int fieldId;
+
     private String type;
     private String name;
     private String label;
     private Boolean isRequired;
     private String value;
 
-    private Boolean hasError = false;
+    private Boolean hasError;
     private String errMsg;
 
     private String helpText = null;
 
     private List<Option> options = new ArrayList<>();
 
-    private Validation validations = new TextValidation();
+    private List<Validation> validations = new ArrayList<>();
 
-
+    //private Validation validations = new TextValidation();
 
     public Field() {}
 
-    public Field(int fieldId, String type, String name, String label ) {
-        this.fieldId = fieldId;
+    public Field( String type, String name, String label) {
+       // this.fieldId = fieldId;
         this.type = type;
         this.name = name;
         this.label = label;
+
     }
 
 
@@ -114,14 +118,13 @@ public class Field {
         this.value = value;
     }
 
-    public <T extends Validation> T getValidations()  {
-        return (T)validations;
+    public List<Validation> getValidations() {
+        return validations;
     }
 
-    public void setValidations(Validation validations) {
+    public void setValidations(List<Validation> validations) {
         this.validations = validations;
     }
-
 
     public String getHelpText() {
         return helpText;
