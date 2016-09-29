@@ -1,9 +1,14 @@
 package kennedy.ox.ac.uk.Controllers;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 import kennedy.ox.ac.uk.Models.Field;
 import kennedy.ox.ac.uk.Models.Form;
+import kennedy.ox.ac.uk.Models.Validation;
 import kennedy.ox.ac.uk.Repositories.FormRepository;
+import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +25,10 @@ public class CaptureController {
 
     @Autowired
     private FormRepository formRepository;
+
+    @Autowired
+    MongoOperations mongoOperation;
+
 
 
     @RequestMapping(value="/capture/{id}", method= RequestMethod.GET)
@@ -39,6 +48,8 @@ public class CaptureController {
         //FormValidator fv = new FormValidator(form);
         model.addAttribute("form",  form);
         //model.addAttribute("fv",  fv);
+
+        Boolean formSuccess = true;
 
         for (Field field : form.getFields()) {
 
@@ -60,8 +71,46 @@ public class CaptureController {
 
             //field.getValidations().validate(field, fieldValue, mrequest);
 
+
+
+            for (Validation validation : field.getValidations()) {
+
+                switch (validation.getKey()) {
+                    case "minLength":
+                        int minLengthValue = Integer.parseInt(validation.getValue());
+                        if (fieldValue.length() < minLengthValue) {
+                            formSuccess = false;
+                            field.setHasError(true);
+                            field.setErrMsg(String.format("The %s field must be at least %d characters in length.", field.getName(), minLengthValue));
+                        }
+                        break;
+                    case "maxLength":
+                        int maxLengthValue = Integer.parseInt(validation.getValue());
+                        if (fieldValue.length() > maxLengthValue) {
+                            formSuccess = false;
+                            field.setHasError(true);
+                            field.setErrMsg(String.format("The %s field cannot exceed %d characters in length", field.getName(), maxLengthValue));
+                        }
+                        break;
+                }
+
+            }
+
         }
 
+        if(formSuccess){
+
+            //add data saving steps here!
+            BasicDBObject document = new BasicDBObject();
+            document.put("Hello","World");
+            DBCollection collection = mongoOperation.getCollection("dummyColl");
+            collection.insert(document);
+            return "form/thankyou";
+
+        }
+
+
         return "capture";
+
     }
 }

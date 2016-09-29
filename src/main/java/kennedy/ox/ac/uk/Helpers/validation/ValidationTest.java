@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * Created by vinodkumar on 10/09/2016.
  */
-public class Validation {
+public class ValidationTest {
 
     // TODO: further split when Spring Reflection used
     public class Keywords

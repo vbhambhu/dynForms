@@ -1,8 +1,7 @@
 package kennedy.ox.ac.uk.Models;
 
 
-import kennedy.ox.ac.uk.Helpers.validation.TextValidation;
-import kennedy.ox.ac.uk.Helpers.validation.Validation;
+
 import org.springframework.data.annotation.Id;
 
 import java.util.*;
@@ -28,7 +27,7 @@ public class Field {
 
     private List<Validation> validations = new ArrayList<>();
 
-    //private Validation validations = new TextValidation();
+    //private ValidationTest validations = new TextValidation();
 
     public Field() {}
 
