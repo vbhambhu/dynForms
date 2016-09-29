@@ -4,6 +4,7 @@ import com.mongodb.WriteResult;
 import kennedy.ox.ac.uk.Models.Field;
 import kennedy.ox.ac.uk.Models.Form;
 import kennedy.ox.ac.uk.Repositories.FormRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -44,34 +45,27 @@ public class FormController {
     public String test() {
 
         Form form = new Form("form title", "this is form description.", new Date() );
-        //mongoOperation.save(form);
+        mongoOperation.save(form);
 
         System.out.print(form.getId());
 
-
         String fid = form.getId();
-        
-        
+
         Field field = new Field("text", "username","Username");
-
-
         System.out.print(field);
-
         System.out.print(field.getName());
 
 
+
+
         Query query = new Query();
-        query.addCriteria(Criteria.where("_id").is("57ebdc81c4470f32c74e4564"));
+        query.addCriteria(Criteria.where("_id").is(new ObjectId(fid)));
 
         Update update = new Update();
         update.push("fields", field);
-
         mongoOperation.updateFirst(query, update , Form.class);
 
-
-        return "form/test";
-
-
+        return "redirect:/forms";
 
     }
 
