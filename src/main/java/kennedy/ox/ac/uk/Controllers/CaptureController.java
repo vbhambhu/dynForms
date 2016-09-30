@@ -6,6 +6,7 @@ import kennedy.ox.ac.uk.Models.Field;
 import kennedy.ox.ac.uk.Models.Form;
 import kennedy.ox.ac.uk.Models.Validation;
 import kennedy.ox.ac.uk.Repositories.FormRepository;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -32,7 +33,7 @@ public class CaptureController {
 
 
     @RequestMapping(value="/capture/{id}", method= RequestMethod.GET)
-    public String capture(Model model, @PathVariable String id) {
+    public String capture(Model model, @PathVariable String id ) {
 
         Form form = formRepository.findById(id);
         model.addAttribute("form", form);
@@ -51,10 +52,15 @@ public class CaptureController {
 
         Boolean formSuccess = true;
 
+        //document object to keep data to store once successfull
+        BasicDBObject document = new BasicDBObject();
+
         for (Field field : form.getFields()) {
 
             String fieldValue = mrequest.getParameter(field.getName());
             field.setValue(fieldValue);  // for redisplay on error
+
+            document.put(field.getName(),fieldValue);
 
             if(field.getRequired() != null && field.getRequired()){
 
@@ -70,8 +76,6 @@ public class CaptureController {
 
 
             //field.getValidations().validate(field, fieldValue, mrequest);
-
-
 
             for (Validation validation : field.getValidations()) {
 
@@ -94,6 +98,12 @@ public class CaptureController {
                         break;
                 }
 
+//                if(field.getHasError() == null || !field.getHasError() ){
+//
+//                    System.out.println(fieldValue);
+//
+//                }
+
             }
 
         }
@@ -101,9 +111,7 @@ public class CaptureController {
         if(formSuccess){
 
             //add data saving steps here!
-            BasicDBObject document = new BasicDBObject();
-            document.put("Hello","World");
-            DBCollection collection = mongoOperation.getCollection("dummyColl");
+            DBCollection collection = mongoOperation.getCollection(form.getId());
             collection.insert(document);
             return "form/thankyou";
 
