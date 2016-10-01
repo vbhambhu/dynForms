@@ -37,7 +37,7 @@ public class CaptureController {
 
         Form form = formRepository.findById(id);
         model.addAttribute("form", form);
-        return "capture";
+        return "capture/index";
 
     }
 
@@ -65,7 +65,8 @@ public class CaptureController {
             if(field.getRequired() != null && field.getRequired()){
 
                 // if required
-                if(fieldValue == null || fieldValue.trim().isEmpty() ){
+                if(fieldValue == null || fieldValue.trim().isEmpty() || fieldValue.trim().length() == 0 ){
+                    formSuccess = false;
                     field.setHasError(true);
                     field.setErrMsg(String.format(" The %s field is required." , field.getName()));
                 }
@@ -118,7 +119,7 @@ public class CaptureController {
         }
 
 
-        return "capture";
+        return "capture/index";
 
     }
 }

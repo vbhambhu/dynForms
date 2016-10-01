@@ -57,10 +57,8 @@ public class FormController {
 
 
 
-
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(new ObjectId(fid)));
-
         Update update = new Update();
         update.push("fields", field);
         mongoOperation.updateFirst(query, update , Form.class);
@@ -68,5 +66,5 @@ public class FormController {
         return "redirect:/forms";
 
     }
-    
+
 }
