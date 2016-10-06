@@ -76,9 +76,7 @@ public class Form {
         this.createdAt = createdAt;
     }
 
-    public List<Setting> getSettings() {
-        return settings;
-    }
+    public List<Setting> getSettings() { return settings; }
 
     public void setSettings(List<Setting> settings) {
         this.settings = settings;

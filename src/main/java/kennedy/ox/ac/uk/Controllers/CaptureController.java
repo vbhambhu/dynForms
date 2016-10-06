@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import kennedy.ox.ac.uk.Models.Field;
 import kennedy.ox.ac.uk.Models.Form;
+import kennedy.ox.ac.uk.Models.Page;
 import kennedy.ox.ac.uk.Models.Validation;
 import kennedy.ox.ac.uk.Repositories.FormRepository;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -34,27 +36,64 @@ public class CaptureController {
     MongoOperations mongoOperation;
 
 
-
     @RequestMapping(value="/capture/{id}", method= RequestMethod.GET)
     public String capture(Model model,
                           @PathVariable String id,
+                          HttpServletRequest request,
                           HttpServletResponse response,
                           @CookieValue(value="fidCookie", required=false) String fidCookie,
-                          @CookieValue(value="feildIdsCookie", required=false) String feildIdsCookie) {
+                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie) {
+        return capture(model, id, 1, request, response, null, null);
+    }
+    @RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.GET)
+    public String capture(Model model,
+                          @PathVariable String id,
+                          @PathVariable int page,
+                          HttpServletRequest request,
+                          HttpServletResponse response,
+                          @CookieValue(value="fidCookie", required=false) String fidCookie,
+                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie) {
 
         Form form = formRepository.findById(id);
         model.addAttribute("form", form);
 
+        final int fieldsPerPage = 2;
+
+        if(page == 1) {
+            if(fieldsPerPage  > 0) {
+                // build page list at start.
+                List<Page> pages = new ArrayList<>();
+                Page _page = null;
+                int number = 0;
+                for (Field field : form.getFields()) {
+                    if (_page == null || _page.getFields().size() >= fieldsPerPage) {
+                        _page = new Page(++number);
+                        pages.add(_page);
+                    }
+                    _page.add(field);
+                }
+                // store in session
+                request.getSession().setAttribute("pages", pages);
+            }
+            else {
+                request.getSession().setAttribute("pages", null);
+            }
+        }
+
+        if(request.getSession().getAttribute("pages") != null)
+            model.addAttribute("fields", ((List<Page>)request.getSession().getAttribute("pages")).get(page-1).getFields());
+        else
+            model.addAttribute("fields", form.getFields());
 
         System.out.println( this.getFieldIdsCookie(form));
 
         if(fidCookie != null){
             Cookie formIdcookie = new Cookie("fidCookie", form.getId());
-            Cookie feildIdscookie = new Cookie("feildIdsCookie", this.getFieldIdsCookie(form) );
+            Cookie fieldIdscookie = new Cookie("fieldIdsCookie", this.getFieldIdsCookie(form) );
             formIdcookie.setMaxAge(360);
-            feildIdscookie.setMaxAge(360);
+            fieldIdscookie.setMaxAge(360);
             response.addCookie(formIdcookie);
-            response.addCookie(feildIdscookie);
+            response.addCookie(fieldIdscookie);
         }
 
         model.addAttribute("fieldLimit", 1);
@@ -62,7 +101,7 @@ public class CaptureController {
         //Modify field list here
 
 
-        // System.out.println(feildIdsCookie);
+        // System.out.println(fieldIdsCookie);
 
 
         //Settings settings = form.getSettings();
@@ -97,8 +136,12 @@ public class CaptureController {
     }
 
 
-    @RequestMapping(value="/capture/{id}", method= RequestMethod.POST)
-    public String capturePost(Model model, @RequestParam("formId") String formId, MultipartHttpServletRequest mrequest, @PathVariable String id) {
+    @RequestMapping(value="/capture/{id}/{psge}", method= RequestMethod.POST)
+    public String capturePost(Model model,
+                              @RequestParam("formId") String formId,
+                              MultipartHttpServletRequest mrequest,
+                              @PathVariable String id,
+                              @PathVariable int page) {
 
         Form form = formRepository.findById(formId);
         //FormValidator fv = new FormValidator(form);
@@ -107,8 +150,9 @@ public class CaptureController {
 
         Boolean formSuccess = true;
 
-        //document object to keep data to store once successfull
+        //document object to keep data to store once successful
         BasicDBObject document = new BasicDBObject();
+
 
         for (Field field : form.getFields()) {
 
@@ -168,7 +212,10 @@ public class CaptureController {
             //add data saving steps here!
             DBCollection collection = mongoOperation.getCollection(form.getId());
             collection.insert(document);
-            return "form/thankyou";
+            if(mrequest.getSession().getAttribute("pages") != null || ((List<Page>)mrequest.getSession().getAttribute("pages")).size() > page)
+                return "form/" + form.getId() + "/" + (page + 1);
+            else
+                return "form/thankyou";
 
         }
 
