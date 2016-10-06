@@ -62,7 +62,7 @@ public class CaptureController {
         //Modify field list here
 
 
-       // System.out.println(feildIdsCookie);
+        // System.out.println(feildIdsCookie);
 
 
         //Settings settings = form.getSettings();
@@ -71,11 +71,11 @@ public class CaptureController {
 
     }
 
-/*
-    private List<Field> getDynamicFields(Form form) {
+    /*
+        private List<Field> getDynamicFields(Form form) {
 
-    }
-*/
+        }
+    */
     private String getFieldIdsCookie(Form form){
 
         StringJoiner fieldSeu = new StringJoiner("|");
