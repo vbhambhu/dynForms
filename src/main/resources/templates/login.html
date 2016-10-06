@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+    <title>Hello AngularJS</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+<div th:if="${param.error}" class="alert alert-danger" role="alert">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}" class="alert alert-success" role="alert">
+    You have been logged out.
+</div>
+<form th:action="@{/login}" method="post">
+    <div class="form-group"><label> Username  </label><input type="text" name="username" class="form-control"/> </div>
+    <div class="form-group"><label> Password</label> <input type="password" name="password" class="form-control"/> </div>
+    <input type="submit" value="Sign In" class="btn btn-primary"/>
+</form>
+
+           </div>
+    </div>
+</div>
+</body>
+</html>

@@ -21,6 +21,8 @@
 
     <form  th:object="${form}" method="post"  enctype="multipart/form-data">
 
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
         <input type="hidden" th:value="${form.id}" name="formId"/>
 
         <span th:each="field : ${form.fields}" th:classappend="${field.hasError} ? has-danger">

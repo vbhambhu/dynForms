@@ -67,7 +67,7 @@ public class CaptureController {
 
         //Settings settings = form.getSettings();
         //System.out.println(form.getSettings());
-        return "form/capture";
+        return "capture/index";
 
     }
 
@@ -173,7 +173,7 @@ public class CaptureController {
         }
 
 
-        return "form/capture";
+        return "capture/index";
 
     }
 }
