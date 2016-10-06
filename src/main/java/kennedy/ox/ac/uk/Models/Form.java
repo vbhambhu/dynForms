@@ -19,6 +19,9 @@ public class Form {
     private String title;
     private String description;
     private List<Field> fields = new ArrayList<>();
+    private List<Setting> settings = new ArrayList<>();
+
+
 
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date createdAt;
@@ -71,5 +74,13 @@ public class Form {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Setting> getSettings() {
+        return settings;
+    }
+
+    public void setSettings(List<Setting> settings) {
+        this.settings = settings;
     }
 }
