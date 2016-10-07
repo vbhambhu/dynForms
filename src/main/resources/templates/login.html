@@ -1,5 +1,5 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Hello AngularJS</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
@@ -26,6 +26,9 @@
 
            </div>
     </div>
+
+<div th:replace="fragments/footer :: footer"> </div>
+
 </div>
 </body>
 </html>
