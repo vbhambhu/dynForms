@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+    <title>Hello AngularJS</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+
+    <h3>Step 1 - Upload CSV data file</h3>
+
+<hr/>
+
+
+
+
+
+    <form  th:object="${form}" method="post"  enctype="multipart/form-data">
+
+
+        <div class="form-group">
+            <label>Data file</label>
+            <input type="file" name="file" class="form-control-file" />
+            <small id="fileHelp" class="form-text text-muted">Only CSV format is allowed with maximum of 5 MB files size.</small>
+        </div>
+
+
+        <input type="submit" value="Continue" class="btn btn-success" />
+
+    </form>
+
+    <hr/>
+    <h4>Sample data format</h4>
+    <p>Please upload csv data file with format below.</p>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th th:each="field : ${form.fields}" th:text="${field.label}">dataHeader</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>your data</td>
+            <td>your data</td>
+            <td>your data</td>
+            <td>your data</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</body>
+</html>

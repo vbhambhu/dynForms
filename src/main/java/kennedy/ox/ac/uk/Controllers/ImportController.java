@@ -3,7 +3,11 @@ package kennedy.ox.ac.uk.Controllers;
 import kennedy.ox.ac.uk.Models.Form;
 import kennedy.ox.ac.uk.Helpers.storage.StorageService;
 import kennedy.ox.ac.uk.Repositories.FormRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +26,7 @@ import java.util.List;
 public class ImportController {
 
     @Autowired
-    private FormRepository formRepository;
+    MongoOperations mongoOperation;
 
     private final StorageService storageService;
 
@@ -33,22 +37,22 @@ public class ImportController {
 
     @RequestMapping(value = "/import/{id}", method = RequestMethod.GET)
     public String importForm(Model model, @PathVariable String id) {
-
-        List<Form> forms = formRepository.findAll();
-        model.addAttribute("forms", forms);
-        return "import/index";
-
+        Query q = new Query();
+        q.addCriteria(Criteria.where("_id").is(new ObjectId(id)));
+        Form form = mongoOperation.findOne(q, Form.class);
+        model.addAttribute("form", form);
+        return "import/step-one";
     }
 
     @RequestMapping(value = "/import/{id}", method = RequestMethod.POST)
     public String importFormPost(Model model, @PathVariable String id, @RequestParam("file") MultipartFile file) {
 
-        List<Form> forms = formRepository.findAll();
-        model.addAttribute("forms", forms);
+        //List<Form> forms = formRepository.findAll();
+        //model.addAttribute("forms", forms);
 
         storageService.store(file);
 
-        return "import/index";
+        return "import/step-one";
 
     }
 
