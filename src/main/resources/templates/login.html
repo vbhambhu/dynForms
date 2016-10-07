@@ -12,6 +12,8 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
 
+            <h3>Login to your account</h3>
+
 <div th:if="${param.error}" class="alert alert-danger" role="alert">
     Invalid username and password.
 </div>
@@ -23,6 +25,9 @@
     <div class="form-group"><label> Password</label> <input type="password" name="password" class="form-control"/> </div>
     <input type="submit" value="Sign In" class="btn btn-primary"/>
 </form>
+
+
+            <a th:href="@{'/forgot-password'}">Forgot password?</a>
 
            </div>
     </div>

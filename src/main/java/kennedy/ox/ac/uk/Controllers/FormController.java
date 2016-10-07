@@ -37,7 +37,6 @@ public class FormController {
         List<Form> forms = formRepository.findAll();
         model.addAttribute("forms", forms);
         return "form/list";
-
     }
 
 
@@ -54,8 +53,6 @@ public class FormController {
         Field field = new Field("text", "username","Username");
         System.out.print(field);
         System.out.print(field.getName());
-
-
 
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(new ObjectId(fid)));
