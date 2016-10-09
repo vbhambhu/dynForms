@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+    <title>Hello AngularJS</title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+</head>
+<body>
+<div class="container">
+
+    <h3>Step 2 - Validate data</h3>
+
+    <p>Please upload csv data file with format below.</p>
+
+
+
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th th:each="field : ${form.fields}" th:text="${field.label}">dataHeader</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>your data</td>
+            <td>your data</td>
+            <td>your data</td>
+            <td>your data</td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+</body>
+</html>

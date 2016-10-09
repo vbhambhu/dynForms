@@ -24,14 +24,11 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+
     @RequestMapping(value="/user/create", method= RequestMethod.GET)
     public void create() {
 
-
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
-
         User user = new User();
         user.setUsername("admin");
         user.setPassword(passwordEncoder.encode("admin"));
