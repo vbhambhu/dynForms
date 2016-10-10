@@ -25,7 +25,7 @@
 
         <input type="hidden" th:value="${form.id}" name="formId"/>
 
-        <span th:each="field : ${form.fields}" th:classappend="${field.hasError} ? has-danger">
+        <span th:each="field : ${page.fields}" th:classappend="${field.hasError} ? has-danger">
 
             <div class="form-group" th:classappend="${field.hasError} ? adminclass : userclass">
             <label th:if="${field.required}" th:text="${field.label + '*'}">{label}</label>

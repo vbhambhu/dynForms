@@ -18,10 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * Created by vinod on 08/09/2016.
@@ -43,6 +40,45 @@ public class CaptureController {
                           HttpServletResponse response,
                           @CookieValue(value="fidCookie", required=false) String fidCookie,
                           @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie) {
+        //final String mode = "adaptive";
+        //final String mode = "random";
+        final String mode = "paged";
+        int fieldsPerPage = 2;
+        int totalRandomQuestions = 5;
+
+        Form form = formRepository.findById(id);
+
+        List<Page> pages = new ArrayList<>();
+        int number = 0;
+
+        if (mode.equals("paged") && fieldsPerPage > 0) {
+            // build page list at start.
+            Page _page = null;
+            for (Field field : form.getFields()) {
+                if (_page == null || _page.getFields().size() >= fieldsPerPage) {
+                    _page = new Page(++number);
+                    pages.add(_page);
+                }
+                _page.add(field);
+            }
+            // store in session
+        } else if (mode.equals("random")) {
+            // select questions
+            Random rand = new Random();
+            for(int i = 0; i < totalRandomQuestions; i++) {
+                pages.add(new Page(++number, form.getFields().get(rand.nextInt(form.getFields().size()) + 1)));
+            }
+        } else if (mode.equals("adaptive")) {
+            // each one on a page and the page is stepped over
+            for (Field field : form.getFields()) {
+                pages.add(new Page(++number, field));
+            }
+        } else {    // all on one page
+            pages.add(new Page(++number, form.getFields()));
+        }
+
+        request.getSession().setAttribute("pages", pages);
+
         return capture(model, id, 1, request, response, null, null);
     }
     @RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.GET)
@@ -57,33 +93,8 @@ public class CaptureController {
         Form form = formRepository.findById(id);
         model.addAttribute("form", form);
 
-        final int fieldsPerPage = 2;
-
-        if(page == 1) {
-            if(fieldsPerPage  > 0) {
-                // build page list at start.
-                List<Page> pages = new ArrayList<>();
-                Page _page = null;
-                int number = 0;
-                for (Field field : form.getFields()) {
-                    if (_page == null || _page.getFields().size() >= fieldsPerPage) {
-                        _page = new Page(++number);
-                        pages.add(_page);
-                    }
-                    _page.add(field);
-                }
-                // store in session
-                request.getSession().setAttribute("pages", pages);
-            }
-            else {
-                request.getSession().setAttribute("pages", null);
-            }
-        }
-
-        if(request.getSession().getAttribute("pages") != null)
-            model.addAttribute("fields", ((List<Page>)request.getSession().getAttribute("pages")).get(page-1).getFields());
-        else
-            model.addAttribute("fields", form.getFields());
+        Page _page = ((List<Page>)request.getSession().getAttribute("pages")).get(page - 1);    // start at 0
+        model.addAttribute("page", _page);
 
         System.out.println( this.getFieldIdsCookie(form));
 

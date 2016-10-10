@@ -13,8 +13,19 @@ public class Page {
     public Page(int number) {
         this.number = number;
     }
+    public Page(int number, Field field) {
+        this.number = number;
+        this.add(field);
+    }
+    public Page(int number, List<Field> fields) {
+        this.number = number;
+        this.addAll(fields);
+    }
     public void add(Field field) {
-        fields.add(field);
+        this.fields.add(field);
+    }
+    public void addAll(List<Field> fields) {
+        fields.addAll(fields);
     }
     public List<Field> getFields() {
         return fields;
