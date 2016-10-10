@@ -10,26 +10,21 @@
 
     <h3>Step 2 - Validate data</h3>
 
-    <p>Please upload csv data file with format below.</p>
+    <p>Please validate data.</p>
 
-
-
+    <div class="alert alert-warning" role="alert">
+        <strong>Warning!</strong> Better check yourself, you're not looking too good.
+    </div>
+    <div class="alert alert-danger" role="alert">
+        <strong>Oh snap!</strong> Change a few things up and try submitting again.
+    </div>
 
 
     <table class="table">
-        <thead>
-        <tr>
-            <th th:each="field : ${form.fields}" th:text="${field.label}">dataHeader</th>
+        <tr th:each="row : ${data}">
+            <td th:each="field : ${form.fields}" th:text="${row.__${field.name}__}">data</td>
+            <td><a href="#">edit</a> | <a href="#">delete</a></td>
         </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>your data</td>
-            <td>your data</td>
-            <td>your data</td>
-            <td>your data</td>
-        </tr>
-        </tbody>
     </table>
 
 

@@ -212,6 +212,7 @@ public class CaptureController {
             //add data saving steps here!
             DBCollection collection = mongoOperation.getCollection(form.getId());
             collection.insert(document);
+
             if(mrequest.getSession().getAttribute("pages") != null || ((List<Page>)mrequest.getSession().getAttribute("pages")).size() > page)
                 return "form/" + form.getId() + "/" + (page + 1);
             else
