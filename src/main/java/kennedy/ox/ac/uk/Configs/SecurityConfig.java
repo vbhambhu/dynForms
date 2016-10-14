@@ -24,8 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/home", "/admin/**", "/css/**","/js/**", "/images/**","/user/**","/forgot-password",
-                        "/import/**").permitAll()
+                .antMatchers("/css/**","/js/**", "/images/**","/forgot-password", "/user-create").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -51,5 +50,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //auth.userDetailsService(customUserDetailsService);
         auth.userDetailsService(customUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+
+
+        auth
+                .ldapAuthentication()
+                .userDnPatterns("uid={0},ou=people")
+                .groupSearchBase("ou=groups")
+                .contextSource().ldif("classpath:test-server.ldif");
+
+
+
     }
 }

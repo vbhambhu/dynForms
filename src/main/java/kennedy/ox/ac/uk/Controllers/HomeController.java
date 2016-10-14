@@ -23,9 +23,9 @@ public class HomeController {
     private FormRepository formRepository;
     
 
-    @RequestMapping(value="/", method= RequestMethod.GET)
-    public String showHome() {
-        return "home";
+    @RequestMapping(value={"", "/", "dashboard"}, method= RequestMethod.GET)
+    public String showDashboard() {
+        return "account/dashboard";
     }
 
 }

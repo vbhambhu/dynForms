@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Create new user</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <div th:replace="fragments/menu :: sidebar"> </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div th:replace="fragments/menu :: dashborad"> </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+
+
+                    <div class="well">
+
+
+                        <form  th:object="${user}" method="post">
+
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+
+                            <div class="form-group" th:classappend="${#fields.hasErrors('firstName')} ?  has-danger">
+                                <label>First name</label>
+                                <input type="text" th:field="*{firstName}" class="form-control"/>
+                                <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+                            <div class="form-group" th:classappend="${#fields.hasErrors('lastName')} ?  has-danger">
+                                <label>Last name</label>
+                                <input type="text" th:field="*{lastName}" class="form-control"/>
+                                <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+                            <div class="form-group" th:classappend="${#fields.hasErrors('username')} ?  has-danger">
+                                <label>Username</label>
+                                <input type="text" th:field="*{username}" class="form-control"/>
+                                <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+                            <div class="form-group" th:classappend="${#fields.hasErrors('email')} ?  has-danger">
+                                <label>Email address</label>
+                                <input type="text" th:field="*{email}" class="form-control"/>
+                                <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+                            <div class="form-group" th:classappend="${#fields.hasErrors('password')} ?  has-danger">
+                                <label>Password</label>
+                                <input type="password" th:field="*{password}" class="form-control"/>
+                                <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+
+                            <div class="form-group" th:classappend="${#fields.hasErrors('enabled')} ?  has-danger">
+                                <label>Account status</label>
+                                <select th:field="*{enabled}" class="form-control">
+                                    <option value="true">Enable</option>
+                                    <option value="true">Disable</option>
+                                </select>
+
+                                <div th:if="${#fields.hasErrors('enabled')}" th:errors="*{enabled}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+
+
+
+
+                            <input type="submit" value="Create" class="btn btn-success" />
+
+                        </form>
+
+
+                    </div>
+
+
+
+
+
+
+                    <div th:replace="fragments/footer :: footer"> </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+
+<div th:replace="fragments/footer :: scripts"> </div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
