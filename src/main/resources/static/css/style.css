@@ -101,6 +101,13 @@ body {
     background-color: #ffffff;
     padding: 20px;
     border-radius: 2px;
+    margin-bottom: 10px;
+}
+
+.footer{
+    font-size: 12px;
+    text-align: center;
+    margin-top: 50px;
 }
 
 
