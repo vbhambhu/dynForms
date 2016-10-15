@@ -42,11 +42,62 @@ app.controller('createForm', function($scope, $http) {
 
 
     $scope.options.rules = {
-        min_length:{inputType:"text", dataType:["integer"]},
-        max_length:{inputType:"text", dataType:["integer"]}
+        min_length:{label:"Min length", inputType:"text", dataType:["integer"]},
+        max_length:{label:"Max length", inputType:"text", dataType:["integer"]},
+        exact_length:{label:"Exact length", inputType:"text", dataType:["integer"]},
+        greater_than:{label:"Greater than", inputType:"text", dataType:["integer"]},
+        less_than:{label:"Less than", inputType:"text", dataType:["integer"]},
+        greater_than_equal_to:{label:"Greater than equal to", inputType:"text", dataType:["integer"]},
+        less_than_equal_to:{label:"Less than equal to", inputType:"text", dataType:["integer"]},
+        numeric:{label:"Number", inputType:"text", dataType:["integer"]},
+        decimal:{label:"Decimal", inputType:"text", dataType:["integer"]},
+        matches:{label:"Match", inputType:"text", dataType:["integer"]},
+        valid_url:{label:"Valid URL", inputType:"text", dataType:["integer"]},
+        valid_email:{label:"Vaild email", inputType:"text", dataType:["integer"]},
+        regex_match:{label:"Regex match", inputType:"text", dataType:["integer"]},
+        in_list:{label:"In list", inputType:"text", dataType:["integer"]},
+        alpha:{label:"Alpha", inputType:"text", dataType:["integer"]}
     };
+
+
+
+
+
     
     $scope.addValidation = function (field) {
+
+        field.validationErr = "";
+
+        var vKey = $scope.options.validationRule;
+        var vValue = $scope.options.validationRuleValue;
+
+
+        if(typeof vKey == 'undefined' || typeof vValue == 'undefined' || vKey == "null"){
+            field.validationErr = "Please select correct rule and value.";
+            return;
+        }
+
+        //if already exists
+        for(var i = 0; i < field.validations.length; i++){
+            if(field.validations[i].key == vKey){
+                field.validationErr = "This rule is already added.Please remove rule first to add again.";
+                return;
+                break;
+            }
+        }
+
+        //datatype validation
+
+        console.log($scope.options.rules[vKey]);
+        for(var i = 0; i < $scope.options.rules[vKey].dataType.length; i++){
+            if($scope.options.rules[vKey].dataType[i] == "integer" && !isInt(vValue)){
+                field.validationErr = "Rule value must be integer.";
+                return;
+                break;
+            }
+        }
+
+
 
         var newValidation = {
             key: $scope.options.validationRule,
@@ -54,8 +105,39 @@ app.controller('createForm', function($scope, $http) {
         }
 
         field.validations.push(newValidation);
-        
+
+        $scope.options.validationRule = "null";
+        delete($scope.options.validationRuleValue);
+
+
+
     }
+
+
+
+
+    $scope.fieldIsrequred = function (field) {
+
+        if(field.is_required){
+            field.validations.push({key: "required", value: true});
+        } else{
+            //remove validation
+            $scope.removeValidationRule(field, "required");
+        }
+
+    }
+
+    $scope.removeValidationRule = function (field, rule) {
+        for(var i = 0; i < field.validations.length; i++){
+            if(field.validations[i].key == rule){
+                field.validations.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+
+
 
 
 
@@ -111,12 +193,29 @@ app.controller('createForm', function($scope, $http) {
     }
 
 
-    // $scope.save = function () {
-    //     $scope.story.$save(function (story, headers) {
-    //         toastr.success("Submitted New Story");
-    //         $location.path('/');
-    //     });
-    // }
+    $scope.updateForm = function () {
+
+        var token = $("meta[name='_csrf']").attr("content");
+
+        $http({
+            url: 'http://localhost:8080/api/forms',
+            dataType: 'json',
+            method: 'POST',
+            data: $scope.form,
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRF-TOKEN': token
+            }
+        }).success(function(response){
+            console.log(response)
+            $scope.response = response;
+        }).error(function(error){
+            console.log(error)
+            $scope.error = error;
+        });
+
+
+    }
 
 
 
@@ -163,4 +262,10 @@ function createIdentifier() {
         text += possible.charAt(Math.floor(Math.random() * possible.length));
 
     return text.toLowerCase();
+}
+
+function isInt(value) {
+    return !isNaN(value) &&
+        parseInt(Number(value)) == value &&
+        !isNaN(parseInt(value, 10));
 }
