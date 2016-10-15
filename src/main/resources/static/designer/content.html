@@ -1,0 +1,30 @@
+<div class="wellx">
+	<div class="form-group">
+	<label ng-bind="field.value" ng-init="field.value='Add some content here.'">{{field.value}}</label>
+</div>
+
+
+<button class="btn btn-default" data-toggle="modal" data-target="#fieldEdit_{{field.id}}">Edit</button>
+<button class="btn btn-danger" ng-click="deleteField(field)">Delete</button>
+
+</div>
+
+
+
+<div class="modal fade" id="fieldEdit_{{field.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <!-- Start -->
+        <div class="form-group">
+        <label>Content</label>
+        <textarea class="form-control" rows="3" ng-model="field.value"></textarea>
+        </div>
+        <!-- end -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>

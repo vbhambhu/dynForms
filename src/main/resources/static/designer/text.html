@@ -1,0 +1,170 @@
+<div class="wellx">
+	<div class="form-group">
+	<label ng-bind="field.label">{{field.label}}</label>
+	<input type="text" class="form-control" ng-model="field.value" disabled>
+</div>
+
+
+<button class="btn btn-default" data-toggle="modal" data-target="#fieldEdit_{{field.fieldId}}">Edit</button>
+<button class="btn btn-danger" ng-click="deleteField(field)">Delete</button>
+
+<hr>
+	<!-- Start -->
+        <div class="form-group">
+          <label>Field label</label>
+          <input type="text" class="form-control" ng-model="field.label">
+        </div>
+
+
+        <div class="form-group">
+          <label>Defualt value</label>
+          <input type="text" class="form-control" ng-model="field.value">
+        </div>
+
+		<div class="checkbox">
+		<label>
+		<input type="checkbox" ng-model="field.required"> Required?
+		</label>
+		</div>
+
+		<div class="form-group">
+			<label>Help text (optional)</label>
+			<textarea class="form-control" rows="3" ng-model="field.helpText"></textarea>
+		</div>
+
+		<h4>Add validation rules</h4>
+		<hr/>
+
+
+
+		<div class="row">
+			<div class="col-sm-6">
+
+				<div class="form-group">
+					<label>Validation rule</label>
+					<select class="form-control" ng-model="options.validationRule" ng-init="options.validationRule='null'">
+						<option value="null" selected>--- Select rule ---</option>
+						<option value="min_length">Min length</option>
+						<option value="max_length">Max length</option>
+						<option value="exact_length">Exact length</option>
+						<option value="greater_than">Greater than</option>
+					</select>
+				</div>
+
+
+			</div>
+			<div class="col-sm-4">
+
+
+
+
+				<div class="form-group" ng-if="options.rules[options.validationRule].inputType == 'text'">
+
+					<label>Value</label>
+					<input type="text" class="form-control" ng-model="options.validationRuleValue"/>
+
+				</div>
+
+
+
+
+			</div>
+			<div class="col-sm-2">
+				<div class="form-group">
+				<div>&nbsp;</div>
+				<button class="btn btn-success" ng-click="addValidation(field)">Add</button>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+
+
+		<div class="checkbox">
+		<label>
+		<input type="checkbox" ng-model="field.validation.status" ng-change="updateValidation(field)"> Validation required?
+		</label>
+		</div>
+
+
+
+		<div class="form-group" ng-if="field.validation.status==true">
+			<label>Allowed data type</label>
+			<select class="form-control" ng-model="field.validation.type" ng-init="field.validation.type='numeric'">
+				<option value="numeric">Numeric</option>
+				<option value="string">String</option>
+				<option value="dateTime">Date and time</option>
+			</select>
+		</div>
+
+
+		
+
+		<div class="form-group" ng-if="field.validation.type == 'numeric' || field.validation.type == 'string'">
+		<div class="row">
+		<div class="col-md-6">
+		<label>Minimum length</label>
+		<input type="text" class="form-control" ng-model="field.validation.min" ng-init="field.validation.min=1">
+
+		</div>
+		<div class="col-md-6">
+
+		<label>Maximum length</label>
+		<input type="text" class="form-control" ng-model="field.validation.max" ng-init="field.validation.max=50">
+		</div>
+
+		</div>
+		</div>
+
+
+		<div ng-if="field.validation.type == 'dateTime'">
+
+
+		<div class="form-group">
+
+          <label>Date format</label>
+          <select class="form-control" ng-model="field.validation.dateFormat" ng-init="field.validation.dateFormat='D-M-Y'">
+				<option value="D-M-Y">Date (D-M-Y)</option>
+				<option value="M-D-Y">Date (M-D-Y)</option>
+				<option value="Y-M-D">Date (Y-M-D)</option>
+				<option value="HH:MM">Time (HH:MM)</option>
+				<option value="D-M-Y H:M">Datetime (D-M-Y H:M)</option>
+				<option value="M-D-Y H:M">Datetime (M-D-Y H:M)</option>
+				<option value="Y-M-D H:M">Datetime (Y-M-D H:M)</option>
+				<option value="D-M-Y H:M:S">Datetime w/ seconds (D-M-Y H:M:S)</option>
+				<option value="Y-M-D H:M:S">Datetime w/ seconds (Y-M-D H:M:S)</option>
+			</select>
+        </div>
+        </div>
+
+
+
+        <!-- end -->
+
+
+</div>
+
+
+
+<div class="modal fade" id="fieldEdit_{{field.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+
+
+      
+
+
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>

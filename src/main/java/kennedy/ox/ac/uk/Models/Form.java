@@ -21,10 +21,12 @@ public class Form {
     private List<Field> fields = new ArrayList<>();
     private List<Setting> settings = new ArrayList<>();
 
-
-
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date createdAt;
+
+    private Boolean isEnabled;
+    private Boolean isLocked;
+    private String ownerId;
 
 
     public Form() {}
@@ -80,5 +82,29 @@ public class Form {
 
     public void setSettings(List<Setting> settings) {
         this.settings = settings;
+    }
+
+    public Boolean getEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public Boolean getLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(Boolean locked) {
+        isLocked = locked;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 }

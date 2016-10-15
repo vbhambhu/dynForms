@@ -15,7 +15,6 @@ public class Field {
     private String type;
     private String name;
     private String label;
-    private Boolean isRequired;
     private String value;
 
     private Boolean hasError;
@@ -80,14 +79,6 @@ public class Field {
         this.options = options;
     }
 
-
-    public Boolean getRequired() {
-        return isRequired;
-    }
-
-    public void setRequired(Boolean required) {
-        isRequired = required;
-    }
 
     public Boolean getHasError() {
         return hasError;

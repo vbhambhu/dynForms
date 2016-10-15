@@ -172,17 +172,17 @@ public class CaptureController {
 
             document.put(field.getName(),fieldValue);
 
-            if(field.getRequired() != null && field.getRequired()){
+            //if(field.getRequired() != null && field.getRequired()){
 
                 // if required
-                if(fieldValue == null || fieldValue.trim().isEmpty() ){
-                    field.setHasError(true);
-                    field.setErrMsg(String.format(" The %s field is required." , field.getName()));
-                }
+//                if(fieldValue == null || fieldValue.trim().isEmpty() ){
+//                    field.setHasError(true);
+//                    field.setErrMsg(String.format(" The %s field is required." , field.getName()));
+//                }
 
-            } else {
+           // } else {
                 //System.out.println("NULL" + field.getReqired());
-            }
+           // }
 
 
             //field.getValidations().validate(field, fieldValue, mrequest);

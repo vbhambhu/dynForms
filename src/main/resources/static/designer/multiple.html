@@ -1,0 +1,108 @@
+<div class="wellx">
+  <div class="form-group">
+  <label ng-bind="field.title">{{field.title}}</label>
+  
+
+
+ <div class="radio" ng-repeat="option in field.options">
+  <label>
+    <input type="radio" name="ff_{{field.id}}" value="option1"> {{option.title}}
+  </label>
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+<button class="btn btn-default" data-toggle="modal" data-target="#fieldEdit_{{field.id}}">Edit</button>
+<button class="btn btn-danger" ng-click="deleteField(field)">Delete</button>
+
+
+<hr>
+
+      <!-- Start -->
+      
+      <div class="form-group">
+      <label>Field label</label>
+      <input type="text" class="form-control" ng-model="field.title">
+      </div>
+
+
+
+
+      <label>Choices</label>
+
+      <div class="row" ng-repeat="option in field.options">
+      <div class="col-md-8">
+
+          <div class="form-group">
+          <input type="text" class="form-control" ng-model="option.title">
+          </div>
+
+      </div>
+      <div class="col-md-4">
+
+        <button class="btn btn-danger" ng-click="deleteOption(field,option)">Delete</button>
+
+
+      </div>
+      </div>
+
+       <button class="btn btn-success" ng-click="addOption(field)">Add new</button>
+
+
+
+      
+
+       
+
+
+
+
+
+
+    <div class="checkbox">
+    <label>
+    <input type="checkbox" ng-model="field.required"> Required?
+    </label>
+    </div>
+
+
+
+  
+    <div class="form-group">
+          <label>Help text (optional)</label>
+          <textarea class="form-control" rows="3" ng-model="field.helpText"></textarea>
+        </div>
+
+
+<!-- end -->
+
+
+
+</div>
+
+
+
+<div class="modal fade" id="fieldEdit_{{field.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+
+
+
+
+
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
