@@ -1,17 +1,17 @@
 <div class="wellx">
 	<div class="form-group">
-	<label ng-bind="field.value" ng-init="field.value='Add some content here.'">{{field.value}}</label>
+	<label ng-bind="field.value">{{field.value}}</label>
 </div>
 
 
-<button class="btn btn-default" data-toggle="modal" data-target="#fieldEdit_{{field.id}}">Edit</button>
-<button class="btn btn-danger" ng-click="deleteField(field)">Delete</button>
+<button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#fieldEdit_{{field.fieldId}}">Edit</button>
+<button class="btn btn-danger btn-sm" ng-click="deleteField(field)">Delete</button>
 
 </div>
 
 
 
-<div class="modal fade" id="fieldEdit_{{field.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="fieldEdit_{{field.fieldId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
@@ -23,7 +23,7 @@
         <!-- end -->
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Done</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateForm()">Done</button>
       </div>
     </div>
   </div>

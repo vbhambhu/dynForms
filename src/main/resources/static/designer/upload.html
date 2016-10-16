@@ -1,64 +1,230 @@
 <div class="wellx">
 	<div class="form-group">
-	<label ng-bind="field.title">{{field.title}}</label>
-	<input type="file" name="pic" accept="image/*">
+		<label ng-bind="field.label">{{field.label}}</label>
+	<input type="file" name="file" disabled>
+		<small ng-if="field.helpText" class="form-text text-muted">{{field.helpText}}</small>
 </div>
 
 
-<button class="btn btn-default" data-toggle="modal" data-target="#fieldEdit_{{field.id}}">Edit</button>
-<button class="btn btn-danger" ng-click="deleteField(field)">Delete</button>
+<button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#fieldEdit_{{field.fieldId}}">Edit</button>
+<button class="btn btn-danger btn-sm" ng-click="deleteField(field)">Delete</button>
 
-<hr>
-
-      	<!-- Start -->
-        <div class="form-group">
-          <label>Field label</label>
-          <input type="text" class="form-control" ng-model="field.title" value="Hello, world!">
-        </div>
-
-		<div class="checkbox">
-		<label>
-		<input type="checkbox" ng-model="field.required"> Required?
-		</label>
-		</div>
-
-
-		<div class="checkbox">
-		<label>
-		<input type="checkbox" ng-model="field.disabled"> Disabled?
-		</label>
-		</div>
-
-
-
-		<div class="form-group">
-		<label>Validation (optional)</label>
-		<select class="form-control" ng-model="field.validation">
-			<option value="none">None</option>
-			<option value="integer">Numeric</option>
-			<option value="string">String</option>
-			<option value="date">Date</option>
-			<option value="custome">Custom</option>
-		</select>
-		</div>
-
-		<div class="form-group">
-          <label>Help text (optional)</label>
-          <textarea class="form-control" rows="3" ng-model="field.helpText"></textarea>
-        </div>
-        <!-- end -->
 
 
 </div>
 
 
 
-<div class="modal fade" id="fieldEdit_{{field.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="fieldEdit_{{field.fieldId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
 
 
+          <!-- Start -->
+          <div class="form-group">
+              <label>Field label</label>
+              <input type="text" class="form-control" ng-model="field.label">
+          </div>
+
+          <div class="checkbox">
+              <label>
+                  <input type="checkbox" ng-model="field.is_required" ng-change="fieldIsrequred(field)"> Required?
+              </label>
+          </div>
+
+          <div class="form-group">
+              <label>Help text (optional)</label>
+              <textarea class="form-control" rows="3" ng-model="field.helpText"></textarea>
+          </div>
+
+
+
+
+          <div class="form-group">
+              <label>Maximum upload size allowed</label>
+              <select class="form-control form-control-sm" ng-model="field.uploadLimit" ng-change="updateUploadSize(field)">
+                  <option ng-repeat="n in [2,5,10,15,20,25,30]" value="{{n}}">{{n}} MB</option>
+              </select>
+          </div>
+
+
+          <label>Allowed file types:</label>
+          <div class="row">
+              <div class="col-sm-3">
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.pdf" name="pdf" ng-change="updateUploadFormat(field)"> pdf
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.doc" name="doc" ng-change="updateUploadFormat(field)"> doc
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.docx" name="docx" ng-change="updateUploadFormat(field)"> docx
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.xls" name="xls" ng-change="updateUploadFormat(field)"> xls
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.xlsx" name="xlsx" ng-change="updateUploadFormat(field)"> xlsx
+                      </label>
+                  </div>
+
+              </div>
+
+
+
+              <div class="col-sm-3">
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.csv" name="csv" ng-change="updateUploadFormat(field)"> csv
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.txt" name="txt" ng-change="updateUploadFormat(field)"> txt
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.rtf" name="rtf" ng-change="updateUploadFormat(field)"> rtf
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.html" name="html" ng-change="updateUploadFormat(field)"> html
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.zip" name="zip" ng-change="updateUploadFormat(field)"> zip
+                      </label>
+                  </div>
+
+              </div>
+
+
+
+              <div class="col-sm-3">
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.mp3" name="mp3" ng-change="updateUploadFormat(field)"> mp3
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.wam" name="wam" ng-change="updateUploadFormat(field)"> wam
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.mpg" name="mpg" ng-change="updateUploadFormat(field)"> mpg
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.flv" name="flv" ng-change="updateUploadFormat(field)"> flv
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.avi" name="avi" ng-change="updateUploadFormat(field)"> avi
+                      </label>
+                  </div>
+
+              </div>
+
+
+              <div class="col-sm-3">
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.jpg" name="jpg" ng-change="updateUploadFormat(field)"> jpg
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.jpeg" name="jpeg" ng-change="updateUploadFormat(field)"> jpeg
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.png" name="png" ng-change="updateUploadFormat(field)"> png
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.gif" name="gif" ng-change="updateUploadFormat(field)"> gif
+                      </label>
+                  </div>
+
+                  <div class="checkbox">
+                      <label>
+                          <input type="checkbox" ng-model="field.files.tiff" name="tiff" ng-change="updateUploadFormat(field)"> tiff
+                      </label>
+                  </div>
+
+              </div>
+
+
+
+
+          </div>
+
+
+
+
+
+
+          <div ng-show="field.validations.length > 0">
+              <h4>Applied validation rules</h4>
+
+              <table class="table">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Rule</th>
+                      <th>Value</th>
+                      <th>Delete</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="validation in field.validations">
+                      <th scope="row">1</th>
+                      <td>{{validation.key}}</td>
+                      <td>{{validation.value}}</td>
+                      <td><button class="btn btn-danger btn-sm" ng-click="removeValidationRule(field, validation.key)">Delete</button></td>
+                  </tr>
+                  </tbody>
+              </table>
+          </div>
+          <!-- end -->
 
 
 
@@ -69,7 +235,7 @@
         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Done</button>
+		  <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateForm()">Done</button>
       </div>
     </div>
   </div>

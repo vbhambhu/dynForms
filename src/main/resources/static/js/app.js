@@ -42,6 +42,25 @@ app.controller('createForm', function($scope, $http) {
             if($scope.form.fields[i].validations[j].key == "required"){
                 $scope.form.fields[i].is_required = true;
             }
+
+            if($scope.form.fields[i].validations[j].key == "file_size"){
+                $scope.form.fields[i].uploadLimit = $scope.form.fields[i].validations[j].value;
+            }
+
+            if($scope.form.fields[i].validations[j].key == "file_formats"){
+
+                var fobj = {};
+                var arr =  $scope.form.fields[i].validations[j].value.split(",");
+
+                for (var av in  arr) {
+                    fobj[arr[av]] = true;
+                }
+
+                $scope.form.fields[i].files = fobj;
+            }
+
+
+
         }
         }
 
@@ -87,12 +106,22 @@ app.controller('createForm', function($scope, $http) {
         var vKey = $scope.options.validationRule;
         var vValue = $scope.options.validationRuleValue;
 
+        if(field.type == "check"){
+            var vKey = "min_checks";
+            var vValue = $scope.options.validationRule;
+        }
+
+        if(typeof vValue == 'undefined' || vValue == "null" && field.type == "check"){
+            field.validationErr = "Please select correct value.";
+            return;
+        }
+
         if(typeof vKey == 'undefined' || vKey == "null"){
             field.validationErr = "Please select valid rule.";
             return;
         }
 
-        if(typeof vValue == 'undefined'){
+        if(typeof vValue == 'undefined' && field.type != "check"){
             field.validationErr = "Rule value is required.";
             return;
         }
@@ -106,9 +135,13 @@ app.controller('createForm', function($scope, $http) {
             }
         }
 
-        //datatype validation
+        //add for check
+        if(field.type == "check"){
+            field.validations.push({key: vKey, value: $scope.options.validationRule});
+            return;
+        }
 
-        console.log($scope.options.rules[vKey]);
+        //datatype validation
         for(var i = 0; i < $scope.options.rules[vKey].dataType.length; i++){
             if($scope.options.rules[vKey].dataType[i] == "integer" && !isInt(vValue)){
                 field.validationErr = "Rule value must be integer.";
@@ -178,14 +211,15 @@ app.controller('createForm', function($scope, $http) {
             newField.options = [{id:1,label:"Choice 1", value:"1"}, {id:2,label:"Choice 2", value:"2"}, {id:3,label:"Choice 3", value:"3"}];
         }
 
+        if(fieldType == "upload"){
+            newField.validations = [{key:"file_size",value:2}, {key:"file_formats",value:"docx"}];
+            newField.uploadLimit = '2';
+            newField.files = {"docx":true};
+        }
+
         $scope.form.fields.push(newField);
 
-
         var token = $("meta[name='_csrf']").attr("content");
-
-
-        console.log(token);
-
 
         $http({
             url: 'http://localhost:8080/api/forms',
@@ -197,10 +231,8 @@ app.controller('createForm', function($scope, $http) {
                 'X-CSRF-TOKEN': token
             }
         }).success(function(response){
-            console.log(response)
             $scope.response = response;
         }).error(function(error){
-            console.log(error)
             $scope.error = error;
         });
 
@@ -227,10 +259,8 @@ app.controller('createForm', function($scope, $http) {
                 'X-CSRF-TOKEN': token
             }
         }).success(function(response){
-            console.log(response)
             $scope.response = response;
         }).error(function(error){
-            console.log(error)
             $scope.error = error;
         });
 
@@ -286,6 +316,29 @@ app.controller('createForm', function($scope, $http) {
     }
 
 
+    $scope.updateUploadFormat = function (field){
+
+        var file_format_arr = [];
+        for (var format in  field.files) {
+            if(field.files[format] == true){
+                file_format_arr.push(format);
+            }
+        }
+        $scope.removeValidationRule(field, "file_formats");
+        field.validations.push({key: "file_formats", value: file_format_arr.join()});
+    }
+
+    $scope.updateUploadSize = function (field){
+        $scope.removeValidationRule(field, "file_size");
+        field.validations.push({key: "file_size", value: field.uploadLimit});
+    }
+
+
+
+
+
+
+
 
 
 
@@ -294,10 +347,6 @@ app.controller('createForm', function($scope, $http) {
 
 
 app.directive('fieldDirective', function($http, $compile) {
-
-
-    console.log("ddd");
-
 
     var getTemplateUrl = function(field) {
         return '/designer/'+field.type+'.html';
