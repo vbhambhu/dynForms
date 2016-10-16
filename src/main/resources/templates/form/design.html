@@ -49,15 +49,28 @@
                             <div class="well">
 
 
+                                <div id="form_details" data-toggle="modal" data-target="#myModal">
+                                    <h3 id="titleLabel">{{form.title}}</h3>
+                                    <p id="descriptionLabel">{{form.description}}</p>
+                                </div>
+
+                                <hr/>
+
 
                                 <div ng-repeat="field in form.fields">
                                     <field-directive field="field"></field-directive>
                                 </div>
 
 
+<pre>
+{{form | json}}
+</pre>
 
 
-                           
+
+
+
+
 
 
                             </div>
@@ -75,6 +88,36 @@
         </div>
     </div>
     <!-- /#page-content-wrapper -->
+
+
+
+    <!-- Project title and description -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Form title</label>
+                        <input type="text" class="form-control" ng-model="form.title" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>Form description</label>
+                        <textarea class="form-control" rows="3" ng-model="form.description">Descriptiton</textarea>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateForm()">Done</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Project title and description -->
+
+
+
 
 </div>
 </div>

@@ -47,7 +47,7 @@ public class FormController {
         Form form = new Form();
         form.setTitle("Untitled form");
         form.setDescription("Form description");
-        form.setEnabled(false);
+        form.setPublished(false);
         form.setLocked(false);
         form.setCreatedAt(new Date());
         mongoOperation.save(form);

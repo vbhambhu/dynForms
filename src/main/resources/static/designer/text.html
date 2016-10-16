@@ -2,11 +2,12 @@
 	<div class="form-group">
 	<label ng-bind="field.label">{{field.label}}</label>
 	<input type="text" class="form-control" ng-model="field.value" disabled>
+		<small ng-if="field.helpText" class="form-text text-muted">{{field.helpText}}</small>
 </div>
 
 
-<button class="btn btn-default" data-toggle="modal" data-target="#fieldEdit_{{field.fieldId}}">Edit</button>
-<button class="btn btn-danger" ng-click="deleteField(field)">Delete</button>
+<button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#fieldEdit_{{field.fieldId}}">Edit</button>
+<button class="btn btn-danger btn-sm" ng-click="deleteField(field)">Delete</button>
 
 <hr>
 
@@ -56,8 +57,8 @@
 			  <div class="col-sm-6">
 
 				  <div class="form-group">
-					  <label>Validation rule</label>
-					  <select class="form-control" ng-model="options.validationRule" ng-init="options.validationRule='null'">
+					  <label form-label-sm>Validation rule</label>
+					  <select class="form-control form-control-sm" ng-model="options.validationRule" ng-init="options.validationRule='null'">
 						  <option value="null" selected>--- Select rule ---</option>
 						  <option ng-repeat="(rule,validationRule) in options.rules" value="{{rule}}">{{validationRule.label}}</option>
 					  </select>
@@ -73,18 +74,20 @@
 				  <div class="form-group" ng-if="options.rules[options.validationRule].inputType == 'text'">
 
 					  <label>Value</label>
-					  <input type="text" class="form-control" ng-model="options.validationRuleValue"/>
+					  <input type="text" class="form-control form-control-sm" ng-model="options.validationRuleValue"/>
 
 				  </div>
 
-				  <label ng-bind="field.validationErr">{{field.validationErr}}</label>
+				  <div class="error text-sm" ng-bind="field.validationErr">{{field.validationErr}}</div>
+
+
 
 
 			  </div>
 			  <div class="col-sm-2">
 				  <div class="form-group">
 					  <div>&nbsp;</div>
-					  <button class="btn btn-default" ng-click="addValidation(field)">Add</button>
+					  <button class="btn btn-secondary" ng-click="addValidation(field)">Add</button>
 				  </div>
 			  </div>
 		  </div>

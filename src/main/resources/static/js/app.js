@@ -35,10 +35,26 @@ app.controller('createForm', function($scope, $http) {
     }).then(function successCallback(response) {
         $scope.form = response.data;
         $scope.options.lastAddedID = response.data.fields.length;
+
+        //add is req from validation arr
+        for(var i = 0; i < $scope.form.fields.length; i++){
+        for(var j = 0; j < $scope.form.fields[i].validations.length; j++) {
+            if($scope.form.fields[i].validations[j].key == "required"){
+                $scope.form.fields[i].is_required = true;
+            }
+        }
+        }
+
+
     }, function errorCallback(response) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
     });
+
+
+
+
+
 
 
     $scope.options.rules = {
@@ -71,9 +87,13 @@ app.controller('createForm', function($scope, $http) {
         var vKey = $scope.options.validationRule;
         var vValue = $scope.options.validationRuleValue;
 
+        if(typeof vKey == 'undefined' || vKey == "null"){
+            field.validationErr = "Please select valid rule.";
+            return;
+        }
 
-        if(typeof vKey == 'undefined' || typeof vValue == 'undefined' || vKey == "null"){
-            field.validationErr = "Please select correct rule and value.";
+        if(typeof vValue == 'undefined'){
+            field.validationErr = "Rule value is required.";
             return;
         }
 
@@ -215,6 +235,19 @@ app.controller('createForm', function($scope, $http) {
         });
 
 
+    }
+
+
+    $scope.deleteField = function (field){
+        field_id = field.id;
+        for(var i = 0; i < $scope.form.fields.length; i++){
+            if($scope.form.fields[i].id == field_id){
+                $scope.form.fields.splice(i, 1);
+                break;
+            }
+        }
+
+        $scope.updateForm();
     }
 
 

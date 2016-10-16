@@ -24,7 +24,7 @@ public class Form {
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date createdAt;
 
-    private Boolean isEnabled;
+    private Boolean isPublished;
     private Boolean isLocked;
     private String ownerId;
 
@@ -84,12 +84,12 @@ public class Form {
         this.settings = settings;
     }
 
-    public Boolean getEnabled() {
-        return isEnabled;
+    public Boolean getPublished() {
+        return isPublished;
     }
 
-    public void setEnabled(Boolean enabled) {
-        isEnabled = enabled;
+    public void setPublished(Boolean published) {
+        isPublished = published;
     }
 
     public Boolean getLocked() {
