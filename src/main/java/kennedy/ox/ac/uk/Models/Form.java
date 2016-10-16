@@ -28,6 +28,9 @@ public class Form {
     private Boolean isLocked;
     private String ownerId;
 
+    private String mode = Modes.unpaged;
+    private Integer questionsPerPage = 0;
+    private Integer randomQuestions = 0;
 
     public Form() {}
 
@@ -35,6 +38,13 @@ public class Form {
         this.title = title;
         this.description = description;
         this.createdAt = createdAt;
+    }
+
+    public static class Modes {
+        public final static String unpaged = "unpaged";
+        public final static String paged = "paged";
+        public final static String random = "random";
+        public final static String adaptive = "adaptive";
     }
 
 
@@ -100,11 +110,21 @@ public class Form {
         isLocked = locked;
     }
 
-    public String getOwnerId() {
-        return ownerId;
-    }
+    public String getOwnerId() { return ownerId; }
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
     }
+
+    public String getMode() { return mode; }
+
+    public void setMode(String mode) { this.mode = mode; }
+
+    public Integer getQuestionsPerPage() { return questionsPerPage; }
+
+    public void setQuestionsPerPage(Integer questionsPerPage) { this.questionsPerPage = questionsPerPage; }
+
+    public Integer getRandomQuestions() { return randomQuestions; }
+
+    public void setRandomQuestions(Integer randomQuestions) { this.randomQuestions = randomQuestions; }
 }

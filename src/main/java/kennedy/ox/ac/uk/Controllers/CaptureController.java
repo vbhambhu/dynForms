@@ -37,38 +37,36 @@ public class CaptureController {
     public String capture(Model model,
                           @PathVariable String id,
                           HttpServletRequest request,
-                          HttpServletResponse response,
+                          HttpServletResponse response /*,
                           @CookieValue(value="fidCookie", required=false) String fidCookie,
-                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie) {
-        //final String mode = "adaptive";
-        //final String mode = "random";
-        final String mode = "paged";
-        int fieldsPerPage = 2;
-        int totalRandomQuestions = 5;
+                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie */) {
 
         Form form = formRepository.findById(id);
 
         List<Page> pages = new ArrayList<>();
         int number = 0;
 
-        if (mode.equals("paged") && fieldsPerPage > 0) {
+        if (form.getMode() == null) {
+            form.setMode(Form.Modes.unpaged);
+        }
+        else if (form.getMode().equals(Form.Modes.paged) && form.getQuestionsPerPage() > 0) {
             // build page list at start.
             Page _page = null;
             for (Field field : form.getFields()) {
-                if (_page == null || _page.getFields().size() >= fieldsPerPage) {
+                if (_page == null || _page.getFields().size() >= form.getQuestionsPerPage()) {
                     _page = new Page(++number);
                     pages.add(_page);
                 }
                 _page.add(field);
             }
             // store in session
-        } else if (mode.equals("random")) {
+        } else if (form.getMode().equals(Form.Modes.random)) {
             // select questions
             Random rand = new Random();
-            for(int i = 0; i < totalRandomQuestions; i++) {
+            for(int i = 0; i < form.getRandomQuestions(); i++) {
                 pages.add(new Page(++number, form.getFields().get(rand.nextInt(form.getFields().size()) + 1)));
             }
-        } else if (mode.equals("adaptive")) {
+        } else if (form.getMode().equals(Form.Modes.adaptive)) {
             // each one on a page and the page is stepped over
             for (Field field : form.getFields()) {
                 pages.add(new Page(++number, field));
@@ -79,16 +77,17 @@ public class CaptureController {
 
         request.getSession().setAttribute("pages", pages);
 
-        return capture(model, id, 1, request, response, null, null);
+        return capture(model, id, 1, request, response);
     }
+
     @RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.GET)
     public String capture(Model model,
                           @PathVariable String id,
                           @PathVariable int page,
                           HttpServletRequest request,
-                          HttpServletResponse response,
+                          HttpServletResponse response /*,
                           @CookieValue(value="fidCookie", required=false) String fidCookie,
-                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie) {
+                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie */) {
 
         Form form = formRepository.findById(id);
         model.addAttribute("form", form);
@@ -96,8 +95,9 @@ public class CaptureController {
         Page _page = ((List<Page>)request.getSession().getAttribute("pages")).get(page - 1);    // start at 0
         model.addAttribute("page", _page);
 
-        System.out.println( this.getFieldIdsCookie(form));
+//        System.out.println( this.getFieldIdsCookie(form));
 
+        /*
         if(fidCookie != null){
             Cookie formIdcookie = new Cookie("fidCookie", form.getId());
             Cookie fieldIdscookie = new Cookie("fieldIdsCookie", this.getFieldIdsCookie(form) );
@@ -108,6 +108,7 @@ public class CaptureController {
         }
 
         model.addAttribute("fieldLimit", 1);
+        */
 
         //Modify field list here
 
@@ -126,6 +127,7 @@ public class CaptureController {
 
         }
     */
+/*
     private String getFieldIdsCookie(Form form){
 
         StringJoiner fieldSeu = new StringJoiner("|");
@@ -142,10 +144,10 @@ public class CaptureController {
         else random - random sequence
 
         else per page - sequence with per page
-         */
+         * /
         return fieldSeu.toString();
     }
-
+*/
 
     @RequestMapping(value="/capture/{id}/{psge}", method= RequestMethod.POST)
     public String capturePost(Model model,
@@ -230,7 +232,6 @@ public class CaptureController {
                 return "form/thankyou";
 
         }
-
 
         return "capture/index";
 
