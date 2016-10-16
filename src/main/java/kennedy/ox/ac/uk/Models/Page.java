@@ -9,6 +9,7 @@ import java.util.List;
 public class Page {
     List<Field> fields = new ArrayList<>();
     int number;
+    boolean enabled = true;
 
     public Page(int number) {
         this.number = number;
@@ -33,4 +34,7 @@ public class Page {
     public int getNumber() {
         return number;
     }
+    public boolean isEnabled() { return enabled; }
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
 }

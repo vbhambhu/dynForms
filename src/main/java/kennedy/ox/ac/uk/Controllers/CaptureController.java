@@ -49,7 +49,7 @@ public class CaptureController {
         if (form.getMode() == null) {
             form.setMode(Form.Modes.unpaged);
         }
-        else if (form.getMode().equals(Form.Modes.paged) && form.getQuestionsPerPage() > 0) {
+        else if (form.isPaged() && form.getQuestionsPerPage() > 0) {
             // build page list at start.
             Page _page = null;
             for (Field field : form.getFields()) {
@@ -60,13 +60,13 @@ public class CaptureController {
                 _page.add(field);
             }
             // store in session
-        } else if (form.getMode().equals(Form.Modes.random)) {
+        } else if (form.isRandom()) {
             // select questions
             Random rand = new Random();
             for(int i = 0; i < form.getRandomQuestions(); i++) {
                 pages.add(new Page(++number, form.getFields().get(rand.nextInt(form.getFields().size()) + 1)));
             }
-        } else if (form.getMode().equals(Form.Modes.adaptive)) {
+        } else if (form.isAdaptive()) {
             // each one on a page and the page is stepped over
             for (Field field : form.getFields()) {
                 pages.add(new Page(++number, field));
@@ -92,7 +92,8 @@ public class CaptureController {
         Form form = formRepository.findById(id);
         model.addAttribute("form", form);
 
-        Page _page = ((List<Page>)request.getSession().getAttribute("pages")).get(page - 1);    // start at 0
+        List<Page> pages = (List<Page>)request.getSession().getAttribute("pages");
+        Page _page = pages.get(page - 1);    // start at 0
         model.addAttribute("page", _page);
 
 //        System.out.println( this.getFieldIdsCookie(form));
@@ -220,14 +221,29 @@ public class CaptureController {
 
         }
 
-        if(formSuccess){
+        if(formSuccess) {
 
             //add data saving steps here!
             DBCollection collection = mongoOperation.getCollection(form.getId());
             collection.insert(document);
 
-            if(mrequest.getSession().getAttribute("pages") != null || ((List<Page>)mrequest.getSession().getAttribute("pages")).size() > page)
-                return "form/" + form.getId() + "/" + (page + 1);
+            List<Page> pages = (List<Page>)mrequest.getSession().getAttribute("pages");
+
+            int nextPage = page;
+            if(form.isAdaptive() && pages != null) {
+                // disable a page based on answer of this
+                // then see which is the next page
+                do {
+                    if(page < pages.size())
+                        nextPage++;
+                    else
+                        break;
+                } while(!pages.get(page - 1).isEnabled());
+
+            }
+
+            if(page < pages.size())
+                return "form/" + form.getId() + "/" + nextPage;
             else
                 return "form/thankyou";
 

@@ -29,8 +29,8 @@ public class Form {
     private String ownerId;
 
     private String mode = Modes.unpaged;
-    private Integer questionsPerPage = 0;
-    private Integer randomQuestions = 0;
+    private int questionsPerPage = 0;
+    private int randomQuestions = 0;
 
     public Form() {}
 
@@ -127,4 +127,10 @@ public class Form {
     public Integer getRandomQuestions() { return randomQuestions; }
 
     public void setRandomQuestions(Integer randomQuestions) { this.randomQuestions = randomQuestions; }
+
+    public boolean isPaged() { return this.mode.equals(Modes.paged); }
+
+    public boolean isRandom() { return this.mode.equals(Modes.random); }
+
+    public boolean isAdaptive() { return this.mode.equals(Modes.adaptive); }
 }
