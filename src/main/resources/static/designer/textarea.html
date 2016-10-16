@@ -1,12 +1,12 @@
 <div class="wellx">
   <div class="form-group">
-  <label ng-bind="field.title">{{field.title}}</label>
+    <label ng-bind="field.label">{{field.label}}</label>
   <textarea class="form-control" rows="3" disabled></textarea>
 </div>
 
 
-<button class="btn btn-default" data-toggle="modal" data-target="#fieldEdit_{{field.id}}">Edit</button>
-<button class="btn btn-danger" ng-click="deleteField(field)">Delete</button>
+<button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#fieldEdit_{{field.id}}">Edit</button>
+<button class="btn btn-danger btn-sm" ng-click="deleteField(field)">Delete</button>
 
 
 </div>
