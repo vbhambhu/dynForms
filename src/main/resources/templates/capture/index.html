@@ -28,8 +28,8 @@
         <span th:each="field : ${page.fields}" th:classappend="${field.hasError} ? has-danger">
 
             <div class="form-group" th:classappend="${field.hasError} ? adminclass : userclass">
-            <label th:if="${field.required}" th:text="${field.label + '*'}">{label}</label>
-            <label th:unless="${field.required}" th:text="${field.label}">{label}</label>
+
+            <label th:text="${field.label}">{label}</label>
 
 
         <span  th:switch="${field.type}">
@@ -55,8 +55,8 @@
          <span th:case="'radio'">
             <div th:each="option : ${field.options}">
                 <label class="form-check-label">
-                <input type="radio" class="form-check-input" name="radiotest"/>
-                    <span th:text="${option.name}"></span>
+                <input type="radio" class="form-check-input" th:name="${field.name}" th:value="${option.value}"/>
+                    <span th:text="${option.label}"></span>
                 </label>
             </div>
         </span>

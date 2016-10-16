@@ -1,71 +1,106 @@
 <div class="wellx">
   <div class="form-group">
     <label ng-bind="field.label">{{field.label}}</label>
+      <small ng-if="field.helpText" class="form-text text-muted">{{field.helpText}}</small>
   <textarea class="form-control" rows="3" disabled></textarea>
+
 </div>
 
 
-<button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#fieldEdit_{{field.id}}">Edit</button>
+<button class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#fieldEdit_{{field.fieldId}}">Edit</button>
 <button class="btn btn-danger btn-sm" ng-click="deleteField(field)">Delete</button>
 
 
 </div>
 
 
-<!-- Start -->
-<div class="form-group">
-  <label>Field label</label>
-  <input type="text" class="form-control" ng-model="field.title" value="Hello, world!">
-</div>
 
-<div class="checkbox">
-  <label>
-    <input type="checkbox" ng-model="field.required"> Required?
-  </label>
-</div>
-
-
-<div class="checkbox">
-  <label>
-    <input type="checkbox" ng-model="field.disabled"> Disabled?
-  </label>
-</div>
-
-
-
-<div class="form-group">
-  <label>Validation (optional)</label>
-  <select class="form-control" ng-model="field.validation">
-    <option value="none">None</option>
-    <option value="integer">Numeric</option>
-    <option value="string">String</option>
-    <option value="date">Date</option>
-    <option value="custome">Custom</option>
-  </select>
-</div>
-
-
-
-<div class="form-group">
-  <label>Help text (optional)</label>
-  <textarea class="form-control" rows="3" ng-model="field.helpText"></textarea>
-</div>
-
-<!-- end -->
-
-
-
-<div class="modal fade" id="fieldEdit_{{field.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="fieldEdit_{{field.fieldId}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-body">
 
-        lll
+          <!-- Start -->
+          <div class="form-group">
+              <label>Field label</label>
+              <input type="text" class="form-control" ng-model="field.label">
+          </div>
+
+          <div class="checkbox">
+              <label>
+                  <input type="checkbox" ng-model="field.is_required" ng-change="fieldIsrequred(field)"> Required?
+              </label>
+          </div>
+
+          <div class="form-group">
+              <label>Help text (optional)</label>
+              <textarea class="form-control" rows="3" ng-model="field.helpText"></textarea>
+          </div>
+
+          <h4>Add validation rules</h4>
+          <hr/>
+
+
+          <div class="row">
+              <div class="col-sm-6">
+
+                  <div class="form-group">
+                      <label form-label-sm>Validation rule</label>
+                      <select class="form-control form-control-sm" ng-model="options.validationRule" ng-init="options.validationRule='null'">
+                          <option value="null" selected>--- Select rule ---</option>
+                          <option value="min_length" selected>Min length</option>
+                          <option value="max_length" selected>Max length</option>
+                          <option value="exact_length" selected>Exact length</option>
+                      </select>
+                  </div>
+              </div>
+              <div class="col-sm-4">
+
+                  <div class="form-group" ng-if="options.rules[options.validationRule].inputType == 'text'">
+                      <label>Value</label>
+                      <input type="text" class="form-control form-control-sm" ng-model="options.validationRuleValue"/>
+                  </div>
+                  <div class="error text-sm" ng-bind="field.validationErr">{{field.validationErr}}</div>
+
+              </div>
+              <div class="col-sm-2">
+                  <div class="form-group">
+                      <div>&nbsp;</div>
+                      <button class="btn btn-secondary" ng-click="addValidation(field)">Add</button>
+                  </div>
+              </div>
+          </div>
+
+          <div ng-show="field.validations.length > 0">
+
+
+              <h4>Applied validation rules</h4>
+
+              <table class="table">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Rule</th>
+                      <th>Value</th>
+                      <th>Delete</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr ng-repeat="validation in field.validations">
+                      <th scope="row">1</th>
+                      <td>{{validation.key}}</td>
+                      <td>{{validation.value}}</td>
+                      <td><button class="btn btn-danger btn-sm" ng-click="removeValidationRule(field, validation.key)">Delete</button></td>
+                  </tr>
+                  </tbody>
+              </table>
+          </div>
+          <!-- end -->
 
         
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Done</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="updateForm()">Done</button>
       </div>
     </div>
   </div>

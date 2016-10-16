@@ -174,8 +174,8 @@ app.controller('createForm', function($scope, $http) {
             "label" : "New field - " + $scope.options.lastAddedID
         };
 
-        if(fieldType == "multiple" || fieldType == "check" || fieldType == "select"){
-            newField.options = [{id:1,title:"Option 1", pos:"1"}, {id:2,title:"Option 2", pos:"2"}, {id:3,title:"Option 3", pos:"3"}];
+        if(fieldType == "radio" || fieldType == "check" || fieldType == "select"){
+            newField.options = [{id:1,label:"Choice 1", value:"1"}, {id:2,label:"Choice 2", value:"2"}, {id:3,label:"Choice 3", value:"3"}];
         }
 
         $scope.form.fields.push(newField);
@@ -248,6 +248,41 @@ app.controller('createForm', function($scope, $http) {
         }
 
         $scope.updateForm();
+    }
+
+
+    // add new option to the field
+    $scope.addOption = function (field){
+
+        if(!field.options)
+            field.options = new Array();
+
+        var lastOptionID = 0;
+
+        if(field.options[field.options.length-1])
+            lastOptionID = field.options[field.options.length-1].id;
+
+        // new option's id
+        var option_id = lastOptionID + 1;
+
+        var newOption = {
+            "id" : option_id,
+            "label" : "Choice " + option_id,
+            "value" : "Choice value"
+        };
+
+        // put new option into field_options array
+        field.options.push(newOption);
+    }
+
+    // delete particular option
+    $scope.deleteOption = function (field,option){
+        for(var i = 0; i < field.options.length; i++){
+            if(field.options[i].id == option.id){
+                field.options.splice(i, 1);
+                break;
+            }
+        }
     }
 
 

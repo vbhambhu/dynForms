@@ -35,7 +35,7 @@
                                 <hr/>
                                 <p><button class="btn btn-primary btn-block" ng-click="addField('text')">Single text box</button></p>
                                 <p><button class="btn btn-primary btn-block" ng-click="addField('textarea')">Multiline text box</button></p>
-                                <p><button class="btn btn-primary btn-block" ng-click="addField('multiple')">Multiple choice</button></p>
+                                <p><button class="btn btn-primary btn-block" ng-click="addField('radio')">Multiple choice</button></p>
                                 <p><button class="btn btn-primary btn-block" ng-click="addField('check')">Checkbox</button></p>
                                 <p><button class="btn btn-primary btn-block" ng-click="addField('select')">Dropdown list</button></p>
                                 <p><button class="btn btn-primary btn-block" ng-click="addField('upload')">File upload</button></p>
@@ -62,8 +62,11 @@
                                 </div>
 
 
-<pre>
+                                <pre>
 {{form | json}}
+</pre>
+                                <pre>
+{{options | json}}
 </pre>
 
 
