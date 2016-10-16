@@ -2,16 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ffc0b60-3d4c-4d44-8400-a8423ae81853" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/resources/static/designer/multiple.html" afterPath="$PROJECT_DIR$/src/main/resources/static/designer/radio.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Configs/SecurityConfig.java" afterPath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Configs/SecurityConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Models/Option.java" afterPath="$PROJECT_DIR$/src/main/java/kennedy/ox/ac/uk/Models/Option.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/designer/check.html" afterPath="$PROJECT_DIR$/src/main/resources/static/designer/check.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/designer/textarea.html" afterPath="$PROJECT_DIR$/src/main/resources/static/designer/textarea.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/static/js/app.js" afterPath="$PROJECT_DIR$/src/main/resources/static/js/app.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/capture/index.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/capture/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/form/design.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/form/design.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/templates/form/list.html" afterPath="$PROJECT_DIR$/src/main/resources/templates/form/list.html" />
     </list>
     <ignored path="dynForms.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -1246,7 +1237,7 @@
       <workItem from="1476121731887" duration="2325000" />
       <workItem from="1476467437219" duration="5250000" />
       <workItem from="1476482711746" duration="1668000" />
-      <workItem from="1476520354860" duration="33738000" />
+      <workItem from="1476520354860" duration="33746000" />
     </task>
     <task id="LOCAL-00001" summary="2nd changes">
       <created>1473508707636</created>
@@ -1451,7 +1442,14 @@
       <option name="project" value="LOCAL" />
       <updated>1476606729701</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="form design text and validation updates">
+      <created>1476612593564</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1476612593564</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1463,7 +1461,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="156076000" />
+    <option name="totallyTimeSpent" value="156084000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="8" y="23" width="1412" height="767" extended-state="0" />
