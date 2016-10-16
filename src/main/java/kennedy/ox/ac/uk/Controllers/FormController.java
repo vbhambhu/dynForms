@@ -47,10 +47,10 @@ public class FormController {
         Form form = new Form();
         form.setTitle("Untitled form");
         form.setDescription("Form description");
+        form.setPublished(false);
         form.setMode("paged");
         form.setQuestionsPerPage(2);
         form.setRandomQuestions(0);
-        form.setEnabled(false);
         form.setLocked(false);
         form.setCreatedAt(new Date());
         mongoOperation.save(form);
@@ -74,6 +74,19 @@ public class FormController {
 
         return "form/design";
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @RequestMapping(value="/form/insert", method= RequestMethod.GET)
     public String test() {

@@ -35,10 +35,26 @@ app.controller('createForm', function($scope, $http) {
     }).then(function successCallback(response) {
         $scope.form = response.data;
         $scope.options.lastAddedID = response.data.fields.length;
+
+        //add is req from validation arr
+        for(var i = 0; i < $scope.form.fields.length; i++){
+        for(var j = 0; j < $scope.form.fields[i].validations.length; j++) {
+            if($scope.form.fields[i].validations[j].key == "required"){
+                $scope.form.fields[i].is_required = true;
+            }
+        }
+        }
+
+
     }, function errorCallback(response) {
         // called asynchronously if an error occurs
         // or server returns response with an error status.
     });
+
+
+
+
+
 
 
     $scope.options.rules = {
@@ -71,9 +87,13 @@ app.controller('createForm', function($scope, $http) {
         var vKey = $scope.options.validationRule;
         var vValue = $scope.options.validationRuleValue;
 
+        if(typeof vKey == 'undefined' || vKey == "null"){
+            field.validationErr = "Please select valid rule.";
+            return;
+        }
 
-        if(typeof vKey == 'undefined' || typeof vValue == 'undefined' || vKey == "null"){
-            field.validationErr = "Please select correct rule and value.";
+        if(typeof vValue == 'undefined'){
+            field.validationErr = "Rule value is required.";
             return;
         }
 
@@ -154,8 +174,8 @@ app.controller('createForm', function($scope, $http) {
             "label" : "New field - " + $scope.options.lastAddedID
         };
 
-        if(fieldType == "multiple" || fieldType == "check" || fieldType == "select"){
-            newField.options = [{id:1,title:"Option 1", pos:"1"}, {id:2,title:"Option 2", pos:"2"}, {id:3,title:"Option 3", pos:"3"}];
+        if(fieldType == "radio" || fieldType == "check" || fieldType == "select"){
+            newField.options = [{id:1,label:"Choice 1", value:"1"}, {id:2,label:"Choice 2", value:"2"}, {id:3,label:"Choice 3", value:"3"}];
         }
 
         $scope.form.fields.push(newField);
@@ -215,6 +235,54 @@ app.controller('createForm', function($scope, $http) {
         });
 
 
+    }
+
+
+    $scope.deleteField = function (field){
+        field_id = field.id;
+        for(var i = 0; i < $scope.form.fields.length; i++){
+            if($scope.form.fields[i].id == field_id){
+                $scope.form.fields.splice(i, 1);
+                break;
+            }
+        }
+
+        $scope.updateForm();
+    }
+
+
+    // add new option to the field
+    $scope.addOption = function (field){
+
+        if(!field.options)
+            field.options = new Array();
+
+        var lastOptionID = 0;
+
+        if(field.options[field.options.length-1])
+            lastOptionID = field.options[field.options.length-1].id;
+
+        // new option's id
+        var option_id = lastOptionID + 1;
+
+        var newOption = {
+            "id" : option_id,
+            "label" : "Choice " + option_id,
+            "value" : "Choice value"
+        };
+
+        // put new option into field_options array
+        field.options.push(newOption);
+    }
+
+    // delete particular option
+    $scope.deleteOption = function (field,option){
+        for(var i = 0; i < field.options.length; i++){
+            if(field.options[i].id == option.id){
+                field.options.splice(i, 1);
+                break;
+            }
+        }
     }
 
 

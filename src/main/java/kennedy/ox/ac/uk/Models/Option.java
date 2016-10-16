@@ -1,12 +1,25 @@
 package kennedy.ox.ac.uk.Models;
 
+import org.springframework.data.annotation.Id;
+
 /**
  * Created by vinod on 09/09/2016.
  */
 public class Option {
 
+    @Id
+    private int id;
+
+    private String label;
     private String value;
-    private String name;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getValue() {
         return value;
@@ -16,11 +29,11 @@ public class Option {
         this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public String getLabel() {
+        return label;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLabel(String label) {
+        this.label = label;
     }
 }

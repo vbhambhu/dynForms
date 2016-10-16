@@ -37,16 +37,23 @@
                         <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                <th>Title</th>
+                                    <th>Title</th>
+                                    <th>Published?</th>
+                                    <th>Locked?</th>
+
                                 <th>Action</th>
-                                <th>Action</th>
+                                    <th>Action</th>
+                                    <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="form : ${forms}">
                                 <td th:text="${form.title}"></td>
+                                <td th:text="${form.published}"></td>
+                                <td th:text="${form.locked}"></td>
                                 <td><a class="btn btn-default btn-sm" th:href="@{/capture/} + ${form.id}">Capture data</a></td>
                                 <td><a class="btn btn-default btn-sm" th:href="@{/import/} + ${form.id}">Import CSV</a></td>
+                                <td><a class="btn btn-default btn-sm" th:href="@{/forms/design/} + ${form.id}">Edit</a></td>
                             </tr>
                             </tbody>
                         </table>
