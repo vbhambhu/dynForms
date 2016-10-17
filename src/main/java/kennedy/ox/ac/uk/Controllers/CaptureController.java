@@ -8,6 +8,7 @@ import kennedy.ox.ac.uk.Models.Page;
 import kennedy.ox.ac.uk.Models.Validation;
 import kennedy.ox.ac.uk.Repositories.FormRepository;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.bson.types.ObjectId;
 import org.omg.CORBA.Object;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -27,29 +28,23 @@ import java.util.*;
 public class CaptureController {
 
     @Autowired
-    private FormRepository formRepository;
-
-    @Autowired
     MongoOperations mongoOperation;
 
 
-    @RequestMapping(value="/capture/{id}", method= RequestMethod.GET)
+    @RequestMapping(value="/capture/{id}", method = { RequestMethod.GET, RequestMethod.POST })
     public String capture(Model model,
                           @PathVariable String id,
                           HttpServletRequest request,
-                          HttpServletResponse response /*,
-                          @CookieValue(value="fidCookie", required=false) String fidCookie,
-                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie */) {
+                          HttpServletResponse response) {
 
-        Form form = formRepository.findById(id);
+        Form form = mongoOperation.findById(new ObjectId(id), Form.class);
 
         List<Page> pages = new ArrayList<>();
         int number = 0;
 
         if (form.getMode() == null) {
             form.setMode(Form.Modes.unpaged);
-        }
-        else if (form.isPaged() && form.getQuestionsPerPage() > 0) {
+        }  else if (form.isPaged() && form.getQuestionsPerPage() > 0) {
             // build page list at start.
             Page _page = null;
             for (Field field : form.getFields()) {
@@ -80,84 +75,44 @@ public class CaptureController {
         return capture(model, id, 1, request, response);
     }
 
-    @RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.GET)
+    //@RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.GET)
     public String capture(Model model,
                           @PathVariable String id,
                           @PathVariable int page,
                           HttpServletRequest request,
-                          HttpServletResponse response /*,
-                          @CookieValue(value="fidCookie", required=false) String fidCookie,
-                          @CookieValue(value="fieldIdsCookie", required=false) String fieldIdsCookie */) {
+                          HttpServletResponse response) {
 
-        Form form = formRepository.findById(id);
+        Form form = mongoOperation.findById(new ObjectId(id), Form.class);
+
+        //add * in front of label if required is in validation.
+        for(Field field : form.getFields()){
+            for (Validation validation : field.getValidations()) {
+                if(validation.getKey().equals("required") && validation.getValue().equals("true")){
+                    field.setLabel(field.getLabel() + "*");
+                }
+            }
+            System.out.println(field.getLabel());
+        }
+
         model.addAttribute("form", form);
 
         List<Page> pages = (List<Page>)request.getSession().getAttribute("pages");
         Page _page = pages.get(page - 1);    // start at 0
         model.addAttribute("page", _page);
 
-//        System.out.println( this.getFieldIdsCookie(form));
-
-        /*
-        if(fidCookie != null){
-            Cookie formIdcookie = new Cookie("fidCookie", form.getId());
-            Cookie fieldIdscookie = new Cookie("fieldIdsCookie", this.getFieldIdsCookie(form) );
-            formIdcookie.setMaxAge(360);
-            fieldIdscookie.setMaxAge(360);
-            response.addCookie(formIdcookie);
-            response.addCookie(fieldIdscookie);
-        }
-
-        model.addAttribute("fieldLimit", 1);
-        */
-
-        //Modify field list here
-
-
-        // System.out.println(fieldIdsCookie);
-
-
-        //Settings settings = form.getSettings();
-        //System.out.println(form.getSettings());
         return "capture/index";
 
     }
 
-    /*
-        private List<Field> getDynamicFields(Form form) {
 
-        }
-    */
-/*
-    private String getFieldIdsCookie(Form form){
-
-        StringJoiner fieldSeu = new StringJoiner("|");
-
-        for (Field field : form.getFields()) {
-            fieldSeu.add(Integer.toString(field.getFieldId()) );
-        }
-
-
-
-        /*
-        if adaptive - sequence
-
-        else random - random sequence
-
-        else per page - sequence with per page
-         * /
-        return fieldSeu.toString();
-    }
-*/
-
-    @RequestMapping(value="/capture/{id}/{psge}", method= RequestMethod.POST)
+    @RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.POST)
     public String capturePost(Model model,
                               @RequestParam("formId") String formId,
                               MultipartHttpServletRequest mrequest,
                               @PathVariable String id,
                               @PathVariable int page) {
 
-        Form form = formRepository.findById(formId);
+        Form form = mongoOperation.findById(new ObjectId(id), Form.class);
         //FormValidator fv = new FormValidator(form);
         model.addAttribute("form",  form);
         //model.addAttribute("fv",  fv);

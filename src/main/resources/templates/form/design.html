@@ -49,17 +49,78 @@
                             <div class="well">
 
 
-                                <div id="form_details" data-toggle="modal" data-target="#myModal">
-                                    <h3 id="titleLabel">{{form.title}}</h3>
-                                    <p id="descriptionLabel">{{form.description}}</p>
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#design" role="tab">Design</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#settings" role="tab">Settings</a>
+                                    </li>
+                                </ul>
+
+                                <p>&nbsp;</p>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="design" role="tabpanel">
+
+                                        <div id="form_details" data-toggle="modal" data-target="#myModal">
+                                            <h3 id="titleLabel">{{form.title}}</h3>
+                                            <p id="descriptionLabel">{{form.description}}</p>
+                                        </div>
+
+                                        <hr/>
+
+                                        <div ui-sortable="sortableOptions" ng-model="form.fields">
+                                            <div ng-repeat="field in form.fields">
+                                                <field-directive field="field"></field-directive>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="tab-pane" id="settings" role="tabpanel">
+
+
+                                        <h3>Form settings</h3>
+                                        <hr>
+
+
+                                        <div class="form-group">
+                                            <label>Form mode</label>
+                                            <select class="form-control" ng-model="form.mode">
+                                                <option value="paged">Page</option>
+                                                <option value="random">Random</option>
+                                                <option value="adaptive">Adaptive</option>
+                                            </select>
+                                        </div>
+
+
+                                        <div ng-show="form.mode == 'paged'">
+                                            <div class="form-group">
+                                                <label>Per page</label>
+                                                <input type="text" class="form-control" ng-model="form.questionsPerPage">
+                                            </div>
+                                        </div>
+
+
+                                        <div ng-show="form.mode == 'random'">
+                                            <div class="form-group">
+                                                <label>Random questions</label>
+                                                <input type="text" class="form-control" ng-model="form.randomQuestions">
+                                            </div>
+                                        </div>
+
+
+                                        <button type="button" class="btn btn-success" ng-click="updateForm()">Save</button>
+
+
+                                    </div>
                                 </div>
 
-                                <hr/>
 
 
-                                <div ng-repeat="field in form.fields">
-                                    <field-directive field="field"></field-directive>
-                                </div>
                                 
 
                             </div>

@@ -7,9 +7,10 @@ import java.util.List;
  * Created by Jim on 06/10/2016.
  */
 public class Page {
-    List<Field> fields = new ArrayList<>();
-    int number;
-    boolean enabled = true;
+
+    private  List<Field> fields = new ArrayList<>();
+    private int number;
+    private boolean enabled = true;
 
     public Page(int number) {
         this.number = number;

@@ -63,7 +63,9 @@
 
 
           <label>Choices</label>
-          <div class="row" ng-repeat="option in field.options">
+          <div ui-sortable="sortableOptions" ng-model="field.options">
+
+              <div class="row" ng-repeat="option in field.options">
               <div class="col-sm-4">
 
                   <div class="form-group">
@@ -84,7 +86,7 @@
 
                   <button class="btn btn-danger btn-sm" ng-click="deleteOption(field,option)">Delete</button>
 
-
+              </div>
               </div>
           </div>
 

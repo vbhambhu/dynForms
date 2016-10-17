@@ -20,7 +20,7 @@ $("#menu-toggle").click(function(e) {
 });
 
 
-var app = angular.module('dynForms', []);
+var app = angular.module('dynForms', ['ui.sortable']);
 
 
 app.controller('createForm', function($scope, $http) {
@@ -181,6 +181,11 @@ app.controller('createForm', function($scope, $http) {
     }
 
     $scope.removeValidationRule = function (field, rule) {
+
+        if(rule == "required"){
+            field.is_required = false;
+        }
+
         for(var i = 0; i < field.validations.length; i++){
             if(field.validations[i].key == rule){
                 field.validations.splice(i, 1);
@@ -204,8 +209,18 @@ app.controller('createForm', function($scope, $http) {
             "fieldId" : $scope.options.lastAddedID,
             "type" : fieldType,
             "name" : createIdentifier(),
-            "label" : "New field - " + $scope.options.lastAddedID
+            "label" : "New field - " + $scope.options.lastAddedID,
+            "value": null,
+            "hasError": null,
+            "errMsg": null,
+            "helpText": null,
+            "options": [],
+            "validations": []
         };
+
+
+
+
 
         if(fieldType == "radio" || fieldType == "check" || fieldType == "select"){
             newField.options = [{id:1,label:"Choice 1", value:"1"}, {id:2,label:"Choice 2", value:"2"}, {id:3,label:"Choice 3", value:"3"}];
@@ -336,8 +351,11 @@ app.controller('createForm', function($scope, $http) {
 
 
 
-
-
+    $scope.sortableOptions = {
+        update: function(e, ui) {
+            $scope.updateForm();
+        }
+    };
 
 
 
