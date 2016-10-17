@@ -1,5 +1,4 @@
 # basic gitignore
-.idea
-.idea/workspace.xml
+.idea/*
 target
 upload-dir/

@@ -99,5 +99,8 @@ public class FormController {
         return "redirect:/forms";
 
     }
-
+    @RequestMapping(value="/form/thankyou", method= RequestMethod.GET)
+    public String thankyou() {
+        return "form/thankyou";
+    }
 }

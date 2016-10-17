@@ -31,9 +31,8 @@ public class CaptureController {
     MongoOperations mongoOperation;
 
 
-    @RequestMapping(value="/capture/{id}", method = { RequestMethod.GET, RequestMethod.POST })
-    public String capture(Model model,
-                          @PathVariable String id,
+    @RequestMapping(value="/capture/{id}", method = { RequestMethod.GET })
+    public String capture(@PathVariable String id,
                           HttpServletRequest request,
                           HttpServletResponse response) {
 
@@ -59,7 +58,7 @@ public class CaptureController {
             // select questions
             Random rand = new Random();
             for(int i = 0; i < form.getRandomQuestions(); i++) {
-                pages.add(new Page(++number, form.getFields().get(rand.nextInt(form.getFields().size()) + 1)));
+                pages.add(new Page(++number, form.getFields().get(rand.nextInt(form.getFields().size()-1))));
             }
         } else if (form.isAdaptive()) {
             // each one on a page and the page is stepped over
@@ -72,10 +71,10 @@ public class CaptureController {
 
         request.getSession().setAttribute("pages", pages);
 
-        return capture(model, id, 1, request, response);
+        return "redirect:/capture/" + id + "/1/";
     }
 
-    //@RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.GET)
+    @RequestMapping(value="/capture/{id}/{page}", method= RequestMethod.GET)
     public String capture(Model model,
                           @PathVariable String id,
                           @PathVariable int page,
@@ -184,23 +183,22 @@ public class CaptureController {
 
             List<Page> pages = (List<Page>)mrequest.getSession().getAttribute("pages");
 
-            int nextPage = page;
+            int nextPage = page + 1;
             if(form.isAdaptive() && pages != null) {
                 // disable a page based on answer of this
                 // then see which is the next page
-                do {
+                while(!pages.get(page - 1).isEnabled()) {
                     if(page < pages.size())
                         nextPage++;
                     else
                         break;
-                } while(!pages.get(page - 1).isEnabled());
-
+                }
             }
 
             if(page < pages.size())
-                return "form/" + form.getId() + "/" + nextPage;
+                return "redirect:/capture/" + form.getId() + "/" + nextPage;
             else
-                return "form/thankyou";
+                return "redirect:/form/thankyou";
 
         }
 
