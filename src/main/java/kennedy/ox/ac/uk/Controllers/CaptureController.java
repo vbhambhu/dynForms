@@ -56,9 +56,32 @@ public class CaptureController {
             // store in session
         } else if (form.isRandom()) {
             // select questions
+            form.setQuestionsPerPage(1);
+            List<Integer> nums = new ArrayList<>();
+            List<Integer> questions = new ArrayList<>();
+            // Create random
             Random rand = new Random();
-            for(int i = 0; i < form.getRandomQuestions(); i++) {
-                pages.add(new Page(++number, form.getFields().get(rand.nextInt(form.getFields().size()-1))));
+            //Create array of fields: 1,2,3,4,5,6,7,8,9,10
+            for( int i = 0; i < form.getFields().size(); i++) {
+                nums.add(i);
+            }
+            //use random to search in array (array size = 10 items)
+            while(questions.size() < form.getRandomQuestions()) {
+                // use random to search in array (array size = 8 items)
+                int index = rand.nextInt(nums.size()); // to include 0
+                questions.add(index);
+                nums.remove(nums.indexOf(index));            // remove selected entry
+            }
+            // sort into ascending order
+            Collections.sort(questions);
+
+            Page _page = null;
+            for (int  question : questions) {
+                if (_page == null || _page.getFields().size() >= form.getQuestionsPerPage()) {
+                    _page = new Page(++number);
+                    pages.add(_page);
+                }
+                _page.add(form.getFields().get(question));
             }
         } else if (form.isAdaptive()) {
             // each one on a page and the page is stepped over
