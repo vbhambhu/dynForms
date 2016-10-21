@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by vinodkumar on 10/10/2016.
@@ -20,15 +21,16 @@ public class Project {
     @Id
     private String id;
 
-    @Size(min=1,max=20, message="Project title field must be between 1 and 20 characters in length.")
+    @Size(min=1,max=20, message="Project name field must be between 1 and 20 characters in length.")
     private String name;
     private String description;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt;
 
-    private String ownerId;
-    private ArrayList formIds;
+    private String owner;
+    private List<String> formIds = new ArrayList<>();
+    private boolean isDeleted = false;
 
     public String getId() {
         return id;
@@ -62,19 +64,29 @@ public class Project {
         this.createdAt = createdAt;
     }
 
-    public String getOwnerId() {
-        return ownerId;
+
+    public String getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(String ownerId) {
-        this.ownerId = ownerId;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 
-    public ArrayList getFormIds() {
+
+    public List<String> getFormIds() {
         return formIds;
     }
 
-    public void setFormIds(ArrayList formIds) {
+    public void setFormIds(List<String> formIds) {
         this.formIds = formIds;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }

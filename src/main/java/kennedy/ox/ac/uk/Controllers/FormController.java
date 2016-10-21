@@ -12,10 +12,12 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -42,11 +44,18 @@ public class FormController {
 
 
     @RequestMapping(value="/forms/new", method= RequestMethod.GET)
-    public String createForm() {
+    public String createForm(Form form) {
+        return "form/create";
+    }
 
-        Form form = new Form();
-        form.setTitle("Untitled form");
-        form.setDescription("Form description");
+
+    @RequestMapping(value="/forms/new", method= RequestMethod.POST)
+    public String insertForm(@Valid Form form, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "form/create";
+        }
+
         form.setPublished(false);
         form.setMode("paged");
         form.setQuestionsPerPage(2);

@@ -39,8 +39,8 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Description</th>
+                                <th>Owner</th>
                                 <th>Create date</th>
-                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -49,11 +49,9 @@
                                     <a th:href="@{/project/} + ${project.id}" th:text="${project.name}">{project name}</a>
                                 </td>
 
-
-                                <td th:text="${#strings.substring(project.description,0,20)+'...'}"></td>
+                                <td th:text="${project.description}"></td>
+                                <td th:text="${project.owner}"></td>
                                 <td th:text="${project.createdAt}"></td>
-                                <td><a class="btn btn-default btn-sm" th:href="@{/projects/edit/} + ${project.id}">Edit</a>
-                                | <a class="btn btn-default btn-sm" th:href="@{/projects/delete/} + ${project.id}">Delete</a></td>
                             </tr>
                             </tbody>
                         </table>

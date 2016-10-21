@@ -10,12 +10,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import javax.validation.constraints.Size;
+
 
 @Document(collection = "forms")
 public class Form {
 
     @Id
     private String id;
+
+    @Size(min=3,max=50, message="Form title field must be between 3 and 50 characters in length.")
     private String title;
     private String description;
     private List<Field> fields = new ArrayList<>();

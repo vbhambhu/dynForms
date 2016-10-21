@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -29,6 +31,9 @@ public class ProjectController {
     @RequestMapping(value="/project/{id}", method= RequestMethod.GET)
     public String singleProjectPage(@PathVariable String id, Model model) {
         Project project = mongoOperation.findById(new ObjectId(id), Project.class);
+
+
+
         model.addAttribute("project", project);
         return "project/single";
     }
@@ -53,8 +58,14 @@ public class ProjectController {
             return "project/create";
         }
 
+        //Save object to DB
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
         project.setCreatedAt(new Date());
-        //Save to DB
+        project.setOwner(username);
+
+
         mongoOperation.save(project);
 
         return "redirect:/projects";
