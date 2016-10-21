@@ -6,6 +6,9 @@ import kennedy.ox.ac.uk.Repositories.UserRepository;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.BasicQuery;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,6 +35,25 @@ public class UserController {
 
     @Autowired
     MongoOperations mongoOperation;
+
+    @RequestMapping(value="/user", method= RequestMethod.GET)
+    public String showProfile(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName(); //get logged in username
+
+
+//        BasicQuery query = new BasicQuery("{ age : { $lt : 40 }, name : 'cat' }");
+//        User userTest1 = mongoOperation.findOne(query1, User.class);
+//
+//
+//        System.out.print(auth.getPrincipal());
+//
+//        mongoOperation.
+
+
+        return "users/profile";
+    }
 
 
     @RequestMapping(value="/users", method= RequestMethod.GET)

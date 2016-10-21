@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Projects</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <div th:replace="fragments/menu :: sidebar"> </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+
+
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="well">
+
+                        <h3 th:text="${project.name}"></h3>
+                        <p th:text="${project.description}"></p>
+
+
+
+
+                        single pro
+
+
+
+
+
+                    </div>
+
+                    <div th:replace="fragments/footer :: footer"> </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<div th:replace="fragments/footer :: dt-scripts"> </div>
+</body>
+</html>
