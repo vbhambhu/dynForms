@@ -23,7 +23,7 @@ public class Form {
     private String title;
     private String description;
     private List<Field> fields = new ArrayList<>();
-    private List<Setting> settings = new ArrayList<>();
+    private List<String> projectIds = new ArrayList<>();
 
     @DateTimeFormat(iso = ISO.DATE_TIME)
     private Date createdAt;
@@ -92,10 +92,20 @@ public class Form {
         this.createdAt = createdAt;
     }
 
-    public List<Setting> getSettings() { return settings; }
+    public List<String> getProjectIds() {
+        return projectIds;
+    }
 
-    public void setSettings(List<Setting> settings) {
-        this.settings = settings;
+    public void setProjectIds(List<String> projectIds) {
+        this.projectIds = projectIds;
+    }
+
+    public void setQuestionsPerPage(int questionsPerPage) {
+        this.questionsPerPage = questionsPerPage;
+    }
+
+    public void setRandomQuestions(int randomQuestions) {
+        this.randomQuestions = randomQuestions;
     }
 
     public Boolean getPublished() {

@@ -32,9 +32,9 @@ public class ProjectController {
     public String singleProjectPage(@PathVariable String id, Model model) {
         Project project = mongoOperation.findById(new ObjectId(id), Project.class);
 
-
-
         model.addAttribute("project", project);
+        model.addAttribute("formCount", 0);
+
         return "project/single";
     }
 

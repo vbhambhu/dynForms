@@ -7,6 +7,10 @@ $.fn.exists = function(callback) {
     return this;
 };
 
+$('[data-toggle="tooltip"]').exists(function() {
+ $('[data-toggle="tooltip"]').tooltip()
+});
+
 
 $('.datatable').exists(function() {
     $(".datatable").DataTable();

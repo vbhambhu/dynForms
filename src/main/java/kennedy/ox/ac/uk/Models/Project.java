@@ -29,8 +29,9 @@ public class Project {
     private Date createdAt;
 
     private String owner;
-    private List<String> formIds = new ArrayList<>();
     private boolean isDeleted = false;
+
+    private int formCount;
 
     public String getId() {
         return id;
@@ -73,20 +74,19 @@ public class Project {
         this.owner = owner;
     }
 
-
-    public List<String> getFormIds() {
-        return formIds;
-    }
-
-    public void setFormIds(List<String> formIds) {
-        this.formIds = formIds;
-    }
-
     public boolean isDeleted() {
         return isDeleted;
     }
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public int getFormCount() {
+        return formCount;
+    }
+
+    public void setFormCount(int formCount) {
+        this.formCount = formCount;
     }
 }

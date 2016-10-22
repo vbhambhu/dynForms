@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Create new user</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <div th:replace="fragments/menu :: sidebar"> </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <a th:href="@{/users/delete/} + ${user.id}" class="btn btn-danger btn-sm pull-right">Delete</a>
+
+
+
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/users/} + ${user.id}" role="tab">General</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/users/group/} + ${user.id}">Groups <span class="tag tag-default" th:text="${user.groups.size()}">total</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/users/role/} + ${user.id}">Roles <span class="tag tag-default" th:text="${user.roles.size()}">total</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/users/access/} + ${user.id}" role="tab">Access</a>
+                        </li>
+                    </ul>
+
+
+
+
+
+                    <div class="well">
+
+
+                        <h3 th:text="${user.fullName}">{name}</h3>
+
+                        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+                        if (principal instanceof UserDetails) {
+                        String username = ((UserDetails)principal).getUsername();
+                        } else {
+                        String username = principal.toString();
+                        }
+
+
+                    </div>
+
+
+
+
+
+
+                    <div th:replace="fragments/footer :: footer"> </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+
+<div th:replace="fragments/footer :: scripts"> </div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+

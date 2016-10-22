@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <title>Create new user</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<div id="wrapper">
+
+    <div th:replace="fragments/menu :: sidebar"> </div>
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+
+
+
+            <div class="row">
+                <div class="col-lg-12">
+
+
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/users/new" role="tab">Create user</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/users/invite" role="tab">Invite users</a>
+                        </li>
+                    </ul>
+
+
+                    <div class="well">
+
+                        <form method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                            <div class="form-group"  th:classappend="${err} ?  has-danger">
+                                <label>Emails</label>
+                                <textarea class="form-control" name="emails" rows="3" placeholder="One email address per line" th:text="${postEmails}"></textarea>
+                                <div th:if="${err}" th:text="${err}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+
+                            <input type="submit" value="Invite" class="btn btn-success" />
+                        </form>
+
+
+
+                    </div>
+
+
+
+
+
+
+                    <div th:replace="fragments/footer :: footer"> </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+
+<div th:replace="fragments/footer :: scripts"> </div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+

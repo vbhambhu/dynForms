@@ -8,9 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Document(collection = "users")
 public class User {
@@ -38,27 +36,37 @@ public class User {
     @Email
     @NotNull
     @Size(min=2, max=30)
+    @Indexed(unique = true)
     private String email;
 
-    private boolean isLDAPAccount;
+    private boolean isLDAPAccount = false;
+    private boolean enabled = true;
+    private boolean firstTimePasswordChange = true;
+    private int loginCount = 0;
 
-    private boolean enabled;
+    private List<String> roles = new ArrayList<String>();
+    private List<String> groups = new ArrayList<String>();
+
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date updatedAt;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    private Date createdAt;
+    private Date createdAt = new Date();
 
-    private Set<String> roles = new HashSet<String>();
 
-    public void addRole(String role) {
+    public void setRole(String role) {
         roles.add(role);
     }
 
-    public Set<String> getRoles() {
-        return roles;
+    public void setGroup(String group) {
+        groups.add(group);
     }
+
+    public String getFullName() {
+        return firstName + ' ' + lastName;
+    }
+
 
     public String getId() {
         return id;
@@ -122,6 +130,38 @@ public class User {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public boolean isFirstTimePasswordChange() {
+        return firstTimePasswordChange;
+    }
+
+    public void setFirstTimePasswordChange(boolean firstTimePasswordChange) {
+        this.firstTimePasswordChange = firstTimePasswordChange;
+    }
+
+    public int getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(int loginCount) {
+        this.loginCount = loginCount;
+    }
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
+    public List<String> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
 
     public Date getUpdatedAt() {
