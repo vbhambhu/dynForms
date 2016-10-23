@@ -1,6 +1,7 @@
 package kennedy.ox.ac.uk.Controllers;
 
 import kennedy.ox.ac.uk.Models.Form;
+import kennedy.ox.ac.uk.Models.Group;
 import kennedy.ox.ac.uk.Models.User;
 import kennedy.ox.ac.uk.Repositories.UserRepository;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
@@ -139,6 +140,11 @@ public class UserController {
     @RequestMapping(value="/install", method= RequestMethod.GET)
     public String setup() {
 
+        mongoOperation.getCollection("users").drop();
+        mongoOperation.getCollection("groups").drop();
+        mongoOperation.getCollection("projects").drop();
+        mongoOperation.getCollection("forms").drop();
+
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = new User();
         user.setFirstName("Vinod");
@@ -151,6 +157,12 @@ public class UserController {
         user.setRole("ROLE_ADMIN");
         user.setGroup("ALL_USERS");
         mongoOperation.save(user);
+
+
+        Group group = new Group();
+        group.setName("ALL_USERS");
+        group.setOwner("admin");
+        mongoOperation.save(group);
 
 
 /*

@@ -28,7 +28,7 @@
 
 
                         <div class="clearfix">
-                            <a href="/groups/new" class="btn btn-success pull-right">New group</a>
+                            <a href="/roles/new" class="btn btn-success pull-right">New role</a>
                         </div>
 
                         <div class="clearfix">&nbsp;</div>
@@ -45,15 +45,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="group : ${groups}">
+                            <tr th:each="role : ${roles}">
                                 <td>
-                                    <a th:href="@{/groups/} + ${group.id}" th:text="${group.name}">{project name}</a>
+                                    <a th:href="@{/roles/} + ${role.id}" th:text="${role.name}">{project name}</a>
                                 </td>
 
-                                <td th:text="${group.description}"></td>
-                                <td th:text="${group.membersCount}"></td>
-                                <td th:text="${group.owner}"></td>
-                                <td th:text="${group.createdAt}"></td>
+                                <td th:text="${role.description}"></td>
+                                <td th:text="${role.membersCount}"></td>
+                                <td th:text="${role.owner}"></td>
+                                <td th:text="${role.createdAt}"></td>
                             </tr>
                             </tbody>
                         </table>

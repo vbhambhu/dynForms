@@ -2,6 +2,7 @@ package kennedy.ox.ac.uk.Controllers;
 
 
 import kennedy.ox.ac.uk.Models.Group;
+import kennedy.ox.ac.uk.Models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.security.core.Authentication;
@@ -16,38 +17,38 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-public class GroupController {
+public class RoleController {
 
     @Autowired
     MongoOperations mongoOperation;
 
-    @RequestMapping(value="/groups", method= RequestMethod.GET)
-    public String listGroups(Model model) {
+    @RequestMapping(value="/roles", method= RequestMethod.GET)
+    public String listRoles(Model model) {
 
-        List<Group> groups =  mongoOperation.findAll(Group.class);
-        model.addAttribute("groups", groups);
-        return "groups/list";
+        List<Role> roles =  mongoOperation.findAll(Role.class);
+        model.addAttribute("roles", roles);
+        return "roles/list";
     }
 
 
-    @RequestMapping(value="/groups/new", method= RequestMethod.GET)
-    public String addGroups(Group group) {
-        return "groups/create";
+    @RequestMapping(value="/roles/new", method= RequestMethod.GET)
+    public String createRole(Role role) {
+        return "roles/create";
     }
 
 
-    @RequestMapping(value="/groups/new", method= RequestMethod.POST)
-    public String addGroups(@Valid Group group, BindingResult bindingResult) {
+    @RequestMapping(value="/roles/new", method= RequestMethod.POST)
+    public String createRole(@Valid Role role, BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
-            return "groups/create";
+            return "roles/create";
         }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        group.setOwner(auth.getName());
-        mongoOperation.save(group);
+        role.setOwner(auth.getName());
+        mongoOperation.save(role);
 
-        return "redirect:/groups/"+group.getId();
+        return "redirect:/roles/"+role.getId();
     }
 
 
