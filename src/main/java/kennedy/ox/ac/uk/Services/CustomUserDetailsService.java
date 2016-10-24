@@ -11,13 +11,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by vinod on 07/10/2016.
- */
+
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -29,13 +30,19 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         User user = userRepository.findByUsername(username);
         if (user == null) {
-            System.out.println("fail");
             throw new UsernameNotFoundException(username);
         }
 
-        System.out.println("success");
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.isEnabled(), true,
-                true, true, getAuthorities(user));
+        //do check if account expired / suspended / deleted
+        Boolean isAcconutExpired = false;
+
+        Date today = new Date();
+        if(user.getAcconutExpireDate() != null && today.before(user.getAcconutExpireDate()) ){
+            isAcconutExpired = true;
+        }
+
+        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), !user.isDeleted(), !isAcconutExpired ,
+                true, !user.isLocked(), getAuthorities(user));
 
     }
 

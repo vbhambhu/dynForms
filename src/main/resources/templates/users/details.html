@@ -85,13 +85,24 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <label>Account status</label>
-                                <select th:field="*{enabled}" class="form-control">
-                                    <option value="true">Enable</option>
-                                    <option value="false">Disable</option>
-                                </select>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" th:field="*{locked}">
+                                    Lock account <i class="fa fa-question-circle-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Once locked user will not able to login to their account."></i>
+                                </label>
                             </div>
+
+
+
+                            <div class="form-group" th:classappend="${#fields.hasErrors('acconutExpireDate')} ?  has-danger">
+                                <label>Expiration date <i class="fa fa-question-circle-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Time that the user's account will be automatically suspended. User will be notified via email 14 days prior to their suspension."></i>
+                                </label>
+                                <input class="form-control" type="date" name="expireDate">
+                                <div th:if="${#fields.hasErrors('acconutExpireDate')}" th:errors="*{acconutExpireDate}" class="form-control-feedback">{errMsg}</div>
+                            </div>
+
+
+
 
 
 

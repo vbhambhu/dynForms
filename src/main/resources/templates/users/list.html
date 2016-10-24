@@ -45,7 +45,8 @@
                             <th>Email</th>
                             <th>Groups</th>
                             <th>Roles</th>
-                            <th>Enabled</th>
+                            <th>Locked</th>
+                            <th>Expire date</th>
                         </tr>
                         </thead>
 
@@ -58,7 +59,8 @@
                             <td th:text="${user.email}"></td>
                             <td th:text="${user.groups}"></td>
                             <td th:text="${user.roles}"></td>
-                            <td th:text="${user.enabled}"></td>
+                            <td th:text="${user.locked}"></td>
+                            <td th:text="${user.acconutExpireDate}"></td>
                         </tr>
                         </tbody>
                     </table>

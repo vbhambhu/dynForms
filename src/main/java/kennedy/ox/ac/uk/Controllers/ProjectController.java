@@ -31,10 +31,14 @@ public class ProjectController {
     @RequestMapping(value="/project/{id}", method= RequestMethod.GET)
     public String singleProjectPage(@PathVariable String id, Model model) {
         Project project = mongoOperation.findById(new ObjectId(id), Project.class);
-
         model.addAttribute("project", project);
-        model.addAttribute("formCount", 0);
+        return "project/single";
+    }
 
+    @RequestMapping(value="/project/edit/{id}", method= RequestMethod.GET)
+    public String editroject(@PathVariable String id, Model model) {
+        Project project = mongoOperation.findById(new ObjectId(id), Project.class);
+        model.addAttribute("project", project);
         return "project/single";
     }
 

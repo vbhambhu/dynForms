@@ -24,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -120,7 +123,27 @@ public class UserController {
 
 
     @RequestMapping(value="/users/new", method= RequestMethod.POST)
-    public String createUser(@Valid User user, BindingResult bindingResult) {
+    public String createUser(@Valid User user, BindingResult bindingResult, @RequestParam("expireDate") String expireDate) {
+
+        if(expireDate != null || !expireDate.isEmpty() ){
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date today = removeTime(new Date());
+            Date expDate = null;
+            try {
+                expDate = formatter.parse(expireDate);
+                System.out.println(expDate);
+            } catch (ParseException e) {
+                e.getMessage();
+            }
+
+            if(expDate != null && expDate.before(today)  ){
+                bindingResult.rejectValue("acconutExpireDate","user.acconutExpireDate", "Expire date must not be a past date.");
+            }
+
+            user.setAcconutExpireDate(expDate);
+        }
+
+        //check if has errors
         if (bindingResult.hasErrors()) {
             return "users/create";
         }
@@ -251,6 +274,18 @@ public class UserController {
             //send email invitation here
         }
 
+    }
+
+
+
+    public Date removeTime(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        return cal.getTime();
     }
 
 

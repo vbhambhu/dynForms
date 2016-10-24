@@ -78,6 +78,13 @@
                                         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="form-control-feedback">{errMsg}</div>
                                     </div>
 
+                                    <div class="form-group" th:classappend="${#fields.hasErrors('acconutExpireDate')} ?  has-danger">
+                                        <label>Expiration date <i class="fa fa-question-circle-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Time that the user's account will be automatically suspended. User will be notified via email 14 days prior to their suspension."></i>
+                                        </label>
+                                        <input class="form-control" type="date" name="expireDate">
+                                        <div th:if="${#fields.hasErrors('acconutExpireDate')}" th:errors="*{acconutExpireDate}" class="form-control-feedback">{errMsg}</div>
+                                    </div>
+
 
                                     <div class="form-group" th:classappend="${#fields.hasErrors('password')} ?  has-danger">
                                         <label>Password</label>
@@ -91,7 +98,9 @@
                                             <input type="checkbox" class="form-check-input" th:field="*{firstTimePasswordChange}">
                                             Force Changing Password
                                         </label>
+
                                         <i class="fa fa-question-circle-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="User will be prompted to change password upon the first login."></i>
+
                                     </div>
 
 

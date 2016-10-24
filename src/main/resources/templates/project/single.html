@@ -32,7 +32,6 @@
 
                         <a href="/forms" th:text="${project.formCount + ' forms'}"> forms</a> |
                         <a th:href="@{/forms/new(pid=${project.id})}">Add new form</a> |
-                        <a href="/">Add existing form</a> |
                         <a th:href="@{/projects/edit/} + ${project.id}">Edit project</a>
 
                         <h3>Team</h3>

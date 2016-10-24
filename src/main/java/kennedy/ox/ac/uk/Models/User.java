@@ -36,16 +36,23 @@ public class User {
     @Email
     @NotNull
     @Size(min=2, max=30)
-    @Indexed(unique = true)
     private String email;
 
     private boolean isLDAPAccount = false;
-    private boolean enabled = true;
+
     private boolean firstTimePasswordChange = true;
     private int loginCount = 0;
 
+    //Indicates whether the user's account is deleted or not.
+    private boolean isDeleted;
+    //Indicates whether the user is locked or unlocked.
+    private boolean isLocked;
+
     private List<String> roles = new ArrayList<String>();
     private List<String> groups = new ArrayList<String>();
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    private Date acconutExpireDate;
 
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -124,14 +131,6 @@ public class User {
         isLDAPAccount = LDAPAccount;
     }
 
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
-
     public boolean isFirstTimePasswordChange() {
         return firstTimePasswordChange;
     }
@@ -178,5 +177,29 @@ public class User {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public Date getAcconutExpireDate() {
+        return acconutExpireDate;
+    }
+
+    public void setAcconutExpireDate(Date acconutExpireDate) {
+        this.acconutExpireDate = acconutExpireDate;
     }
 }
