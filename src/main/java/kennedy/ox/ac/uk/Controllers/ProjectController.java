@@ -2,6 +2,8 @@ package kennedy.ox.ac.uk.Controllers;
 
 
 import kennedy.ox.ac.uk.Models.Project;
+import kennedy.ox.ac.uk.Models.Team;
+import kennedy.ox.ac.uk.Models.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -69,9 +71,25 @@ public class ProjectController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(username));
+        User user = mongoOperation.findOne(query,User.class);
+
+        System.out.println(user);
+
         project.setCreatedAt(new Date());
         project.setOwner(username);
+
+        //Set current user in team list
+        Team team = new Team();
+        team.setType("User");
+        team.setTypeId(user.getId());
+        team.setName(username);
+        project.setTeam(team);
+
         mongoOperation.save(project);
+
+
         return "redirect:/projects";
     }
 

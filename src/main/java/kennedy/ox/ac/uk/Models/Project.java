@@ -35,6 +35,9 @@ public class Project {
 
     private boolean isArchived = false;
 
+    private List<Team> teams = new ArrayList<>();
+
+
     public String getId() {
         return id;
     }
@@ -99,4 +102,18 @@ public class Project {
     public void setArchived(boolean archived) {
         isArchived = archived;
     }
+
+
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
+    public void setTeam(Team team) {
+        teams.add(team);
+    }
+
 }

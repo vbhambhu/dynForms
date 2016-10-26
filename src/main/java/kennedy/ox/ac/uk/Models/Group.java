@@ -12,7 +12,6 @@ import java.util.Date;
 @Document(collection = "groups")
 public class Group {
 
-
     @Id
     private String id;
 
