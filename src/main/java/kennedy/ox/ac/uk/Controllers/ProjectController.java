@@ -44,7 +44,10 @@ public class ProjectController {
 
     @RequestMapping(value="/projects", method= RequestMethod.GET)
     public String projectPage(Model model) {
-        List<Project> projects = mongoOperation.findAll(Project.class);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("isDeleted").is(false));
+        List<Project> projects = mongoOperation.find(query, Project.class);
         model.addAttribute("projects", projects);
         return "project/list";
     }
@@ -68,12 +71,71 @@ public class ProjectController {
 
         project.setCreatedAt(new Date());
         project.setOwner(username);
-
-
         mongoOperation.save(project);
-
         return "redirect:/projects";
     }
+
+
+    @RequestMapping(value="/projects/archive", method= RequestMethod.GET)
+    public String archiveProject(@RequestParam(value = "pid", required=true) String projectId) {
+
+        //check if valid project id
+
+        // check if user has right permissions
+
+        //update object to DB
+
+        //Create log audit
+        Project project = mongoOperation.findById(new ObjectId(projectId), Project.class);
+        project.setArchived(true);
+        mongoOperation.save(project);
+        return "redirect:/project/"+ projectId;
+    }
+
+    @RequestMapping(value="/projects/unarchive", method= RequestMethod.GET)
+    public String unarchiveProject(@RequestParam(value = "pid", required=true) String projectId) {
+
+        //check if valid project id
+
+        // check if user has right permissions
+
+        //update object to DB
+
+        //Create log audit
+
+
+        Project project = mongoOperation.findById(new ObjectId(projectId), Project.class);
+        project.setArchived(false);
+        mongoOperation.save(project);
+        return "redirect:/project/"+ projectId;
+    }
+
+
+    @RequestMapping(value="/projects/delete", method= RequestMethod.GET)
+    public String deleteProject(@RequestParam(value = "pid", required=true) String projectId) {
+
+        //check if valid project id
+
+        // check if user has right permissions
+
+        //update object to DB
+        //also delete all forms belong to project
+
+        //Create log audit
+
+        Project project = mongoOperation.findById(new ObjectId(projectId), Project.class);
+        project.setDeleted(true);
+        mongoOperation.save(project);
+        return "redirect:/projects";
+    }
+
+
+
+
+
+
+
+
 
 
 }

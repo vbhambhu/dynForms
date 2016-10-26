@@ -40,81 +40,93 @@ public class UserController {
     @Autowired
     MongoOperations mongoOperation;
 
+
+    @RequestMapping(value="/users", method= RequestMethod.GET)
+    public String listUsers(Model model) {
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("isDeleted").is(false));
+        List<User> users = mongoOperation.find(query, User.class);
+        model.addAttribute("users", users);
+
+        return "users/list";
+    }
+
+    @RequestMapping(value="/users/{id}", method= RequestMethod.GET)
+    public String editUser(Model model, @PathVariable String id) {
+
+        User user = mongoOperation.findById(new ObjectId(id), User.class);
+
+        if(user.getAcconutExpireDate() != null){
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            user.setReadableAcconutExpireDate(formatter.format(user.getAcconutExpireDate()));
+        }
+
+        model.addAttribute("user", user);
+        return "users/details";
+    }
+
+    @RequestMapping(value="/users/{id}", method= RequestMethod.POST)
+    public String updateUser(@Valid User user, BindingResult bindingResult, Model model, @PathVariable String id) {
+
+        //validate email
+        if(isEmailExists(user.getEmail(), null)){
+            bindingResult.rejectValue("email","user.email", "An account with provided email is already exists.");
+        }
+
+        //validation username
+        if(isUsernameExists(user.getUsername(),null)){
+            bindingResult.rejectValue("username","user.username", "Username is already exists. Please choose unique username.");
+        }
+
+        //validate expiry date
+        if(user.getReadableAcconutExpireDate() != null || !user.getReadableAcconutExpireDate().isEmpty() ){
+            DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Date today = removeTime(new Date());
+            Date expDate = null;
+            try {
+                expDate = formatter.parse(user.getReadableAcconutExpireDate());
+                System.out.println(expDate);
+            } catch (ParseException e) {
+                e.getMessage();
+            }
+
+            if(expDate != null && expDate.before(today)  ){
+                bindingResult.rejectValue("acconutExpireDate","user.acconutExpireDate", "Expire date must not be a past date.");
+            }
+
+            user.setAcconutExpireDate(expDate);
+        }
+
+
+        if (bindingResult.hasErrors()) {
+            return "users/details";
+        }
+
+        return "users/desstails";
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     @RequestMapping(value="/user", method= RequestMethod.GET)
     public String showProfile(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String name = auth.getName(); //get logged in username
-
-
-//        BasicQuery query = new BasicQuery("{ age : { $lt : 40 }, name : 'cat' }");
-//        User userTest1 = mongoOperation.findOne(query1, User.class);
-//
-//
-//        System.out.print(auth.getPrincipal());
-//
-//        mongoOperation.
-
-
         return "users/profile";
     }
 
 
-    @RequestMapping(value="/users/invite", method = { RequestMethod.GET, RequestMethod.POST })
-    public String inviteUser(Model model, @RequestParam(value = "emails", required = false) String emails) {
-
-
-        if(emails != null){
-
-            List<String> items = Arrays.asList(emails.split(","));
-            model.addAttribute("postEmails", emails);
-
-            String err = null;
-
-            //validate
-            for (String item: items){
-                item = item.trim();
-                if(!isValidEmail(item)){
-                    err = "Invalid emails in list.";
-                    break;
-                } else if(isAlreadyEmail(item)){
-                    err = "Email address '"+item+"' already exists.";
-                    break;
-                }
-            }
-
-           if(err != null){
-               model.addAttribute("err", err);
-           } else{
-
-               createUsers(items);
-               return "redirect:/users/";
-
-           }
-        }
-        return "users/invite";
-    }
-
-
-    @RequestMapping(value="/users/{id}", method= RequestMethod.GET)
-    public String singleUser(Model model, @PathVariable String id) {
-
-        User user = mongoOperation.findById(new ObjectId(id), User.class);
-
-        System.out.print(user.getRoles());
-        model.addAttribute("user", user);
-        return "users/details";
-
-    }
-
-
-    @RequestMapping(value="/users", method= RequestMethod.GET)
-    public String listUsers(Model model) {
-
-        List<User> users = mongoOperation.findAll(User.class);
-        model.addAttribute("users", users);
-        return "users/list";
-    }
 
     @RequestMapping(value="/users/new", method= RequestMethod.GET)
     public String newUser(User user) {
@@ -123,14 +135,27 @@ public class UserController {
 
 
     @RequestMapping(value="/users/new", method= RequestMethod.POST)
-    public String createUser(@Valid User user, BindingResult bindingResult, @RequestParam("expireDate") String expireDate) {
+    public String createUser(@Valid User user, BindingResult bindingResult) {
 
-        if(expireDate != null || !expireDate.isEmpty() ){
+
+
+        //validate email
+        if(isEmailExists(user.getEmail(),null)){
+            bindingResult.rejectValue("email","user.email", "An account with provided email is already exists.");
+        }
+
+        //validation username
+        if(isUsernameExists(user.getUsername(),null)){
+            bindingResult.rejectValue("username","user.username", "Username is already exists. Please choose unique username.");
+        }
+
+        //validate expiry date
+        if(user.getReadableAcconutExpireDate() != null || !user.getReadableAcconutExpireDate().isEmpty() ){
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date today = removeTime(new Date());
             Date expDate = null;
             try {
-                expDate = formatter.parse(expireDate);
+                expDate = formatter.parse(user.getReadableAcconutExpireDate());
                 System.out.println(expDate);
             } catch (ParseException e) {
                 e.getMessage();
@@ -155,6 +180,41 @@ public class UserController {
         user.setGroup("ALL_USERS");
         mongoOperation.save(user);
         return "redirect:/users/"+user.getId();
+    }
+
+    @RequestMapping(value="/users/invite", method = { RequestMethod.GET, RequestMethod.POST })
+    public String inviteUser(Model model, @RequestParam(value = "emails", required = false) String emails) {
+
+
+        if(emails != null){
+
+            List<String> items = Arrays.asList(emails.split(","));
+            model.addAttribute("postEmails", emails);
+
+            String err = null;
+
+            //validate
+            for (String item: items){
+                item = item.trim();
+                if(!isValidEmail(item)){
+                    err = "Invalid emails in list.";
+                    break;
+                } else if(isEmailExists(item, null)){
+                    err = "Email address '"+item+"' already exists.";
+                    break;
+                }
+            }
+
+            if(err != null){
+                model.addAttribute("err", err);
+            } else{
+
+                createUsers(items);
+                return "redirect:/users/";
+
+            }
+        }
+        return "users/invite";
     }
 
 
@@ -240,19 +300,32 @@ public class UserController {
         }
     }
 
-    private Boolean isAlreadyEmail(String email){
+    private Boolean isEmailExists(String email, String userid){
+
         Query query = new Query();
-        query.addCriteria(Criteria.where("email").is(email));
+        if(userid == null){
+            query.addCriteria(Criteria.where("email").is(email));
+        } else{
+            query.addCriteria(Criteria.where("email").is(email).and("_id").not().is(new ObjectId(userid)));
+        }
+
         User user = mongoOperation.findOne(query, User.class);
         return (user == null) ? false : true;
     }
 
-    private Boolean isUsernameExists(String username){
+    private Boolean isUsernameExists(String username, String userid){
         Query query = new Query();
-        query.addCriteria(Criteria.where("username").is(username));
+
+        if(userid == null){
+            query.addCriteria(Criteria.where("username").is(username));
+        } else{
+            query.addCriteria(Criteria.where("username").is(username).and("_id").not().is(new ObjectId(userid)));
+        }
+
         User user = mongoOperation.findOne(query, User.class);
         return (user == null) ? false : true;
     }
+
 
 
 
@@ -263,7 +336,7 @@ public class UserController {
         for (String email: emails) {
             email = email.trim();
             String firstName = email.substring(0,email.trim().indexOf("@"));
-            String username = (isUsernameExists(firstName)) ? randString(10) : firstName;
+            String username = (isUsernameExists(firstName, null)) ? randString(10) : firstName;
             user = new User();
             user.setFirstName(firstName);
             user.setEmail(email);

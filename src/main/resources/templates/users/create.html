@@ -81,7 +81,7 @@
                                     <div class="form-group" th:classappend="${#fields.hasErrors('acconutExpireDate')} ?  has-danger">
                                         <label>Expiration date <i class="fa fa-question-circle-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Time that the user's account will be automatically suspended. User will be notified via email 14 days prior to their suspension."></i>
                                         </label>
-                                        <input class="form-control" type="date" name="expireDate">
+                                        <input class="form-control" type="date" th:field="*{readableAcconutExpireDate}">
                                         <div th:if="${#fields.hasErrors('acconutExpireDate')}" th:errors="*{acconutExpireDate}" class="form-control-feedback">{errMsg}</div>
                                     </div>
 

@@ -33,6 +33,8 @@ public class Project {
 
     private int formCount;
 
+    private boolean isArchived = false;
+
     public String getId() {
         return id;
     }
@@ -88,5 +90,13 @@ public class Project {
 
     public void setFormCount(int formCount) {
         this.formCount = formCount;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public void setArchived(boolean archived) {
+        isArchived = archived;
     }
 }

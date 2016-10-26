@@ -2,12 +2,14 @@ package kennedy.ox.ac.uk.Models;
 
 import org.hibernate.validator.constraints.Email;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Document(collection = "users")
@@ -17,25 +19,25 @@ public class User {
     private String id;
 
     @NotNull
-    @Size(min=2, max=30)
+    @Size(min=3, max=20)
     @Indexed(unique = true)
     private String username;
 
     @NotNull
-    @Size(min=2, max=30)
+    @Size(min=5, max=30)
     private String password;
 
     @NotNull
-    @Size(min=2, max=30)
+    @Size(min=3, max=30)
     private String firstName;
 
     @NotNull
-    @Size(min=2, max=30)
+    @Size(min=3, max=30)
     private String lastName;
 
     @Email
     @NotNull
-    @Size(min=2, max=30)
+    @Size(min=2, max=100)
     private String email;
 
     private boolean isLDAPAccount = false;
@@ -47,6 +49,9 @@ public class User {
     private boolean isDeleted;
     //Indicates whether the user is locked or unlocked.
     private boolean isLocked;
+
+    @Transient
+    private String readableAcconutExpireDate;
 
     private List<String> roles = new ArrayList<String>();
     private List<String> groups = new ArrayList<String>();
@@ -74,6 +79,13 @@ public class User {
         return firstName + ' ' + lastName;
     }
 
+    public String getReadableAcconutExpireDate() {
+        return readableAcconutExpireDate;
+    }
+
+    public void setReadableAcconutExpireDate(String readableAcconutExpireDate) {
+        this.readableAcconutExpireDate = readableAcconutExpireDate;
+    }
 
     public String getId() {
         return id;
