@@ -218,64 +218,6 @@ public class UserController {
     }
 
 
-
-
-    @RequestMapping(value="/install", method= RequestMethod.GET)
-    public String setup() {
-
-        mongoOperation.getCollection("users").drop();
-        mongoOperation.getCollection("groups").drop();
-        mongoOperation.getCollection("projects").drop();
-        mongoOperation.getCollection("forms").drop();
-
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        User user = new User();
-        user.setFirstName("Vinod");
-        user.setLastName("Kumar");
-        user.setEmail("vinod@test.com");
-        user.setUsername("admin");
-        user.setPassword(passwordEncoder.encode("admin"));
-
-        user.setRole("ROLE_USER");
-        user.setRole("ROLE_ADMIN");
-        user.setGroup("ALL_USERS");
-        mongoOperation.save(user);
-
-
-        Group group = new Group();
-        group.setName("ALL_USERS");
-        group.setOwner("admin");
-        mongoOperation.save(group);
-
-
-/*
-        for(int i=1; i<10; i++){
-            String username = this.randString();
-
-            String fname = this.randString();
-            String lname = this.randString();
-
-            passwordEncoder = new BCryptPasswordEncoder();
-            user = new User();
-            user.setFirstName(fname);
-            user.setLastName(lname);
-            user.setEmail(username+"@test.com");
-            user.setUsername(username);
-            user.setPassword(passwordEncoder.encode("user"));
-            user.addRole("ROLE_USER");
-            mongoOperation.save(user);
-
-        }
-
-*/
-        return "redirect:/";
-
-
-
-    }
-
-
-
     public  String randString(int strLength){
 
         char[] chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();

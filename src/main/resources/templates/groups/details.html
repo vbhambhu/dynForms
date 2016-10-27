@@ -40,6 +40,12 @@
                     <div class="well">
 
 
+                        <div th:if="${error}" class="alert alert-danger" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <span th:text="${error}"></span>
+                        </div>
+
+
 
 
                         <div th:if="${succ_msg}" class="alert alert-success" role="alert">
@@ -54,26 +60,30 @@
 
                             <div class="form-group" th:classappend="${#fields.hasErrors('name')} ?  has-danger">
                                 <label>Group name</label>
-                                <input type="text" th:field="*{name}" class="form-control"/>
+                                <input type="text" th:field="*{name}" class="form-control" th:disabled="${group.default}"/>
                                 <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="form-control-feedback">{errMsg}</div>
                             </div>
 
                             <div class="form-group" th:classappend="${#fields.hasErrors('description')} ?  has-danger">
                                 <label>Description (optional)</label>
-                                <textarea class="form-control" rows="3" th:field="*{description}"></textarea>
+                                <textarea class="form-control" rows="3" th:field="*{description}" th:disabled="${group.default}"></textarea>
                                 <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="form-control-feedback">{errMsg}</div>
                             </div>
 
                             <div class="form-group" th:classappend="${owner} ?  has-danger">
                                 <label>Owner</label>
-                                <select th:field="*{owner}" class="form-control">
+                                <select th:field="*{owner}" class="form-control" th:disabled="${group.default}">
                                     <option th:each="user : ${users}" th:value="${user.username}" th:text="${user.fullName + ' - ' + user.username}" th:selected="${user.id == group.owner}"></option>
                                 </select>
                                 <div th:if="${owner}" th:text="${owner}" class="form-control-feedback">{errMsg}</div>
                             </div>
 
+
+                            <div th:if="${!group.default}">
                             <input type="submit" value="Update" class="btn btn-success" />
-                        </form>
+                            </div>
+                            </form>
+
                         </form>
 
 

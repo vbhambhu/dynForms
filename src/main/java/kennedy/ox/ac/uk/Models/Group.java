@@ -29,6 +29,8 @@ public class Group {
 
     private boolean isDeleted;
 
+    private boolean isDefault = false;
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt = new Date();
 
@@ -98,5 +100,13 @@ public class Group {
 
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
     }
 }

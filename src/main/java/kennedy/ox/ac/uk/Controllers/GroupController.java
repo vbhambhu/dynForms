@@ -126,19 +126,11 @@ public class GroupController {
         model.addAttribute("users", users);
 
 
-        query = new Query();
-        query.addCriteria(Criteria.where("groups").in(group.getIdentifier()));
-        List<User> members =  mongoOperation.find(query, User.class);
-        model.addAttribute("members", members);
-
-
-        System.out.println(newMember);
-
         if(newMember != null){
 
             if(isAlreadyMember(newMember, group.getIdentifier())){
 
-                System.out.println("Already member of group!");
+                model.addAttribute("error", "User is already in this group.");
 
                 //error
             } else{
@@ -156,6 +148,15 @@ public class GroupController {
             }
 
         }
+
+
+        query = new Query();
+        query.addCriteria(Criteria.where("groups").in(group.getIdentifier()));
+        List<User> members =  mongoOperation.find(query, User.class);
+        model.addAttribute("members", members);
+
+
+
         return "groups/members";
 
     }
