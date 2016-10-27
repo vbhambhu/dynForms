@@ -58,7 +58,50 @@
 
                         <hr>
 
-                        <h4>Group and Users to project</h4>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h4>Group and Users to project</h4>
+                            </div>
+                            <div class="col-md-8">
+
+                                <form class="form-inline">
+
+                                    <div class="form-group">
+                                        <select class="form-control" id="exampleSelect1">
+                                            <option th:each="user : ${users}" th:value="${user.id}" th:text="${user.fullName + ' (User)'}"></option>
+                                            <option th:each="group : ${groups}" th:value="${group.id}" th:text="${group.name + ' (Groups)'}"></option>
+                                        </select>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i>  Add</button>
+                                </form>
+
+
+                            </div>
+                        </div>
+
+
+
+
+
+                        <hr>
+
+                        <table class="table table-striped table-bordered datatable" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Group or User</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr  th:each="user : ${project.users}">
+
+
+                            </tr>
+                            </tbody>
+                        </table>
 
 
 
@@ -66,7 +109,7 @@
 
 
 
-                        single pro
+
 
 
 

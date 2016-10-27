@@ -35,9 +35,19 @@ public class Project {
 
     private boolean isArchived = false;
 
-    private List<Team> teams = new ArrayList<>();
+    private List<String> groups = new ArrayList<>();
+    private List<String> users = new ArrayList<>();
 
+    //Custom methods
+    public void setGroup(String group) {
+        groups.add(group);
+    }
 
+    public void setUser(String user) {
+        users.add(user);
+    }
+
+    //Getter setters
     public String getId() {
         return id;
     }
@@ -103,17 +113,19 @@ public class Project {
         isArchived = archived;
     }
 
-
-    public List<Team> getTeams() {
-        return teams;
+    public List<String> getGroups() {
+        return groups;
     }
 
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
 
-    public void setTeam(Team team) {
-        teams.add(team);
+    public List<String> getUsers() {
+        return users;
     }
 
+    public void setUsers(List<String> users) {
+        this.users = users;
+    }
 }

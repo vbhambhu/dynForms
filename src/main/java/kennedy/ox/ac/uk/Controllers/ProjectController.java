@@ -2,14 +2,12 @@ package kennedy.ox.ac.uk.Controllers;
 
 
 import kennedy.ox.ac.uk.Models.Project;
-import kennedy.ox.ac.uk.Models.Team;
 import kennedy.ox.ac.uk.Models.User;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -34,6 +32,23 @@ public class ProjectController {
     public String singleProjectPage(@PathVariable String id, Model model) {
         Project project = mongoOperation.findById(new ObjectId(id), Project.class);
         model.addAttribute("project", project);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("isDeleted").is(false));
+        List<User> users = mongoOperation.find(query, User.class);
+        model.addAttribute("users", users);
+
+
+
+
+//        Team team = new Team();
+//
+//        //
+//        //team.add();
+//
+//        model.addAttribute("team", team);
+
+
         return "project/single";
     }
 
@@ -74,19 +89,9 @@ public class ProjectController {
         Query query = new Query();
         query.addCriteria(Criteria.where("username").is(username));
         User user = mongoOperation.findOne(query,User.class);
-
-        System.out.println(user);
-
         project.setCreatedAt(new Date());
-        project.setOwner(username);
-
-        //Set current user in team list
-        Team team = new Team();
-        team.setType("User");
-        team.setTypeId(user.getId());
-        team.setName(username);
-        project.setTeam(team);
-
+        project.setOwner(user.getUsername());
+        project.setUser(user.getUsername());
         mongoOperation.save(project);
 
 

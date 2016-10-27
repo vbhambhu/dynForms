@@ -16,18 +16,26 @@ public class Group {
     private String id;
 
     @Size(min=3,max=30, message="Group name field must be between 3 and 30 characters in length.")
-    @Indexed(unique = true)
     private String name;
+
+    @Indexed(unique = true)
+    private String identifier;
 
     private String description;
 
     private int membersCount = 0;
+
     private String owner;
+
+    private boolean isDeleted;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private Date createdAt = new Date();
 
+    //Custom methods
 
+
+    // Getter and setters
     public String getId() {
         return id;
     }
@@ -74,5 +82,21 @@ public class Group {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }
