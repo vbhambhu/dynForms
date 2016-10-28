@@ -1,5 +1,6 @@
 package kennedy.ox.ac.uk.Models;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -21,8 +22,10 @@ public class Project {
     @Id
     private String id;
 
-    @Size(min=1,max=20, message="Project name field must be between 1 and 20 characters in length.")
+    @NotBlank(message = "Project name field is required.")
     private String name;
+
+    @NotBlank(message = "Project description field is required.")
     private String description;
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)

@@ -27,6 +27,59 @@ $("#menu-toggle").click(function(e) {
 var app = angular.module('dynForms', ['ui.sortable']);
 
 
+app.controller('projects', function($scope, $http) {
+
+
+    $('#projectList').DataTable( {
+        "processing": true,
+        "serverSide": true,
+        "ajax": "http://localhost:8080/api/projects"
+    } );
+
+
+
+
+    $scope.project = {};
+    $scope.createForm = function () {
+
+        var token = $("meta[name='_csrf']").attr("content");
+
+        $http({
+            url: 'http://localhost:8080/api/projects',
+            dataType: 'json',
+            method: 'POST',
+            data: $scope.project,
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRF-TOKEN': token
+            }
+        }).success(function(response){
+            if(response.hasError){
+               $scope.project.error = {};
+                for(var i = 0, len = response.errors.length; i < len; i++) {
+                    $scope.project.error[response.errors[i].field] = response.errors[i].message;
+                }
+            } else{
+                delete($scope.project);
+                $('#myModal').modal('hide');
+            }
+        }).error(function(error){
+            console.log(error);
+            $scope.error = error;
+        });
+
+    };
+
+    $scope.closeCreateForm = function () {
+        $scope.project = {};
+    }
+
+
+
+
+});
+
+
 app.controller('createForm', function($scope, $http) {
 
     var formId = $("meta[name='_form_id']").attr("content");

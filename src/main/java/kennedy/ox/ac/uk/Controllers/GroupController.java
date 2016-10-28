@@ -155,8 +155,6 @@ public class GroupController {
         List<User> members =  mongoOperation.find(query, User.class);
         model.addAttribute("members", members);
 
-
-
         return "groups/members";
 
     }
