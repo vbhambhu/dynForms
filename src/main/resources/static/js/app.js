@@ -33,8 +33,18 @@ app.controller('projects', function($scope, $http) {
     $('#projectList').DataTable( {
         "processing": true,
         "serverSide": true,
-        "ajax": "http://localhost:8080/api/projects"
+        "ajax": "http://localhost:8080/api/projects",
+        "columns": [
+            { data: 'name' },
+            { data: 'description' },
+            { data: 'formCount' },
+            { data: 'owner' },
+            { data: 'createdAt' }
+        ]
     } );
+
+
+
 
 
 

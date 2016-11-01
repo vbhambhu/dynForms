@@ -1,8 +1,10 @@
 package kennedy.ox.ac.uk.Services;
 
 import kennedy.ox.ac.uk.Models.User;
-import kennedy.ox.ac.uk.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,12 +25,15 @@ import java.util.Set;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepository userRepository;
+    MongoOperations mongoOperation;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(username);
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(username));
+        User user =  mongoOperation.findOne(query, User.class);
+
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

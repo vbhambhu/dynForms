@@ -5,6 +5,7 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,9 +18,11 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static com.sun.org.apache.xalan.internal.xsltc.compiler.sym.error;
 
@@ -33,27 +36,45 @@ public class ProjectRestController {
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DataTable allForms() {
+    public DataTable allForms(HttpServletRequest request,
+                              @RequestParam(required = true) String draw,
+                              @RequestParam(required = true) String start,
+                              @RequestParam(required = true) String length) {
+
+        Map<String, String[]> parameters = request.getParameterMap();
+
+        System.out.println(parameters);
+        System.out.println(start);
+        System.out.println(length);
+
 
         DataTable dt = new DataTable();
+        dt.setDraw(Integer.parseInt(draw));
 
-
+        //total records
         Query query = new Query();
-        //query.with(new Sort(Sort.Direction.DESC, "createdAt"));
-        // query.fields().include("id");
-        query.fields().include("username");
-        //query.fields().include("firstName");
+        query.addCriteria(Criteria.where("isDeleted").is(false));
+        long totalRecords = mongoOperation.count(query, Project.class);
 
-        long totalRecords = mongoOperation.count(query, User.class);
-        long filteredRecords = mongoOperation.count(query, User.class);
-
-        dt.setDraw(1);
-        dt.setRecordsFiltered(filteredRecords);
         dt.setRecordsTotal(totalRecords);
-        List<User> users = mongoOperation.findAll(User.class);
+        dt.setRecordsFiltered(totalRecords);
 
-        dt.setData(users);
+        //records with query
+        query = new Query();
+        query.skip(Integer.parseInt(start));
+        query.limit(Integer.parseInt(length));
+
+        //long filteredRecords = mongoOperation.count(query, Project.class);
+        //dt.setRecordsFiltered(filteredRecords);
+
+        List<Project> projects = mongoOperation.find(query, Project.class);
+
+
+
+        dt.setData(projects);
         return dt;
+
+        //return new ResponseEntity<Greeting>(greeting, HttpStatus.OK);
 
     }
 

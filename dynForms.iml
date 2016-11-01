@@ -16,51 +16,6 @@
     </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: net.sourceforge.nekohtml:nekohtml:1.9.22" level="project" />
-    <orderEntry type="library" name="Maven: xerces:xercesImpl:2.11.0" level="project" />
-    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.4.01" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-ldap:4.1.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.ldap:spring-ldap-core:2.0.2.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-core:4.1.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-server-jndi:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-protocol-ldap:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.shared:shared-asn1-codec:0.9.15" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.mina:mina-core:2.0.0-M6" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-kerberos-shared:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-core:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-xdbm-search:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: commons-io:commons-io:1.4" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-xdbm-tools:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-schema-bootstrap:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-jdbm:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-core-entry:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-schema-registries:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-core-shared:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-core-constants:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-utils:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-jdbm-store:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-core-avl:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-xdbm-base:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-bootstrap-extract:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.shared:shared-cursor:0.9.15" level="project" />
-    <orderEntry type="library" name="Maven: bouncycastle:bcprov-jdk15:140" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-bootstrap-partition:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-schema-extras:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-protocol-shared:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.server:apacheds-core-jndi:1.5.5" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.shared:shared-ldap:0.9.15" level="project" />
-    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.4" level="project" />
-    <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.shared:shared-asn1:0.9.15" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.directory.shared:shared-ldap-constants:0.9.15" level="project" />
-    <orderEntry type="library" name="Maven: antlr:antlr:2.7.7" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-security:1.4.0.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-config:4.1.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: org.springframework.security:spring-security-web:4.1.1.RELEASE" level="project" />
-    <orderEntry type="library" name="Maven: net.sourceforge.nekohtml:nekohtml:1.9.22" level="project" />
-    <orderEntry type="library" name="Maven: xerces:xercesImpl:2.11.0" level="project" />
-    <orderEntry type="library" name="Maven: xml-apis:xml-apis:1.4.01" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-data-mongodb:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:1.4.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot:1.4.0.RELEASE" level="project" />
