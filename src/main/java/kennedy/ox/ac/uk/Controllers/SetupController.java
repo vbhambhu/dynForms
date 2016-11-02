@@ -54,7 +54,7 @@ public class SetupController {
 
 
 
-        for(int i=1; i<100000; i++){
+        for(int i=1; i<10000; i++){
             String username = randString(10);
 
             String fname = randString(5);
@@ -83,7 +83,7 @@ public class SetupController {
         Project project;
 
 
-        for(int i=1; i<200; i++){
+        for(int i=1; i<500000; i++){
 
             project = new Project();
             String username = randString(10);

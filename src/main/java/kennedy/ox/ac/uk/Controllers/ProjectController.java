@@ -59,11 +59,6 @@ public class ProjectController {
 
     @RequestMapping(value="/projects", method= RequestMethod.GET)
     public String projectPage(Model model) {
-
-        Query query = new Query();
-        query.addCriteria(Criteria.where("isDeleted").is(false));
-        List<Project> projects = mongoOperation.find(query, Project.class);
-        model.addAttribute("projects", projects);
         return "project/list";
     }
 
