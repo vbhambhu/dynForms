@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,20 +37,28 @@ public class ProjectRestController {
 
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DataTable allForms(HttpServletRequest request,
-                              @RequestParam(required = true) String draw,
-                              @RequestParam(required = true) String start,
-                              @RequestParam(required = true) String length) {
+    public DataTable allForms(HttpServletRequest request, DataTableRequest dataTableRequest) {
 
         Map<String, String[]> parameters = request.getParameterMap();
 
+
+       // List<HashMap<String, String>> order =  dataTableRequest.getOrder();
+
         System.out.println(parameters);
-        System.out.println(start);
-        System.out.println(length);
+        System.out.println(dataTableRequest.getColumns());
+
+        //System.out.println(dataTableRequest.getOrder().get(0).get("column"));
+
+
+
+
+        //System.out.println(dataTableRequest.getColumns().get(orderColIndex).get("data"));
+        //System.out.println(orderColDir);
+        //System.out.println(length);
 
 
         DataTable dt = new DataTable();
-        dt.setDraw(Integer.parseInt(draw));
+        dt.setDraw(dataTableRequest.getDraw());
 
         //total records
         Query query = new Query();
@@ -60,9 +69,21 @@ public class ProjectRestController {
         dt.setRecordsFiltered(totalRecords);
 
         //records with query
+        int orderColIndex = Integer.parseInt(dataTableRequest.getOrder().get(0).get("column"));
+        String orderColDir = dataTableRequest.getOrder().get(0).get("dir");
+        String sortCol = dataTableRequest.getColumns().get(orderColIndex).get("data");
         query = new Query();
-        query.skip(Integer.parseInt(start));
-        query.limit(Integer.parseInt(length));
+        if(orderColDir.equals("asc")){
+            query.with(new Sort(Sort.Direction.ASC, sortCol));
+        } else{
+            query.with(new Sort(Sort.Direction.DESC, sortCol));
+        }
+
+        query.skip(dataTableRequest.getStart());
+        query.limit(dataTableRequest.getLength());
+
+
+
 
         //long filteredRecords = mongoOperation.count(query, Project.class);
         //dt.setRecordsFiltered(filteredRecords);

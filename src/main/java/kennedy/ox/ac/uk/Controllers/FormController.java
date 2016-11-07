@@ -54,11 +54,10 @@ public class FormController {
 
         Query query = new Query();
         query.addCriteria(Criteria.where("owner").is("admin"));
-        List<Project> projects = mongoOperation.find(query, Project.class);
+        List<Project> projects = mongoOperation.findAll(Project.class);
 
         model.addAttribute("projectId", projectId);
         model.addAttribute("projects", projects);
-
 
         return "form/create";
 
@@ -75,9 +74,9 @@ public class FormController {
             model.addAttribute("projectIdErr", "Please select valid project.");
         }
 
-        Query query = new Query();
-        query.addCriteria(Criteria.where("owner").is("admin"));
-        List<Project> projects = mongoOperation.find(query, Project.class);
+        //Query query = new Query();
+        //query.addCriteria(Criteria.where("owner").is("spadmin"));
+        List<Project> projects = mongoOperation.findAll(Project.class);
 
         model.addAttribute("projectId", projectId);
         model.addAttribute("projects", projects);
@@ -113,7 +112,6 @@ public class FormController {
     public String designForm(Model model, @PathVariable String id) {
 
         //do validation here if that is exist, owned by user , not locked and enabled  - maybe permission too.
-
         Form form = mongoOperation.findById(new ObjectId(id), Form.class);
 
         model.addAttribute("form", form);

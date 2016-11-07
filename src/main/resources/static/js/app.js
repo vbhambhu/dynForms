@@ -33,7 +33,12 @@ app.controller('projects', function($scope, $http) {
     $('#projectList').DataTable( {
         "processing": true,
         "serverSide": true,
-        "ajax": "http://localhost:8080/api/projects",
+        ajax: {
+            "url": "http://localhost:8080/api/projects",
+            "data": function(data) {
+                planify(data);
+            }
+        },
         "columns": [
             { data: 'name' },
             { data: 'description' },
@@ -42,6 +47,15 @@ app.controller('projects', function($scope, $http) {
             { data: 'createdAt' }
         ]
     } );
+
+    function planify(data) {
+        for (var i = 0; i < data.columns.length; i++) {
+            column = data.columns[i];
+            column.searchRegex = column.search.regex;
+            column.searchValue = column.search.value;
+            delete(column.search);
+        }
+    }
 
 
 
