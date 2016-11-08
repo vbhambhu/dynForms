@@ -24,6 +24,54 @@ $("#menu-toggle").click(function(e) {
 });
 
 
+
+//select 2
+$(".projectPicker").select2({
+    theme: "bootstrap",
+    ajax: {
+        url: "http://localhost:8080/api/projects",
+        dataType: 'json',
+        delay: 250,
+        data: function (params) {
+            return {
+                scol: 2,
+                sqry: params.term,
+                page: params.page
+            };
+        },
+        processResults: function (result, params) {
+            // parse the results into the format expected by Select2
+            // since we are using custom formatting functions we do not need to
+            // alter the remote JSON data, except to indicate that infinite
+            // scrolling can be used
+            params.page = params.page || 1;
+            return {
+                results: result.data,
+                pagination: {
+                    more: (params.page * 30) < result.recordsTotal
+                }
+            };
+        },
+        cache: false
+    },
+    escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+    minimumInputLength: 1,
+    templateResult: formatProject, // omitted for brevity, see the source of this page
+    templateSelection: formatProjectSelection, // omitted for brevity, see the source of this page
+    placeholder: "Enter name"
+});
+
+
+
+function formatProject (project) {
+    if (project.loading) return "searching...";
+    return  project.name;
+}
+
+function formatProjectSelection (project) {
+    return project.name || project.id;
+}
+
 var app = angular.module('dynForms', ['ui.sortable']);
 
 
@@ -33,18 +81,33 @@ app.controller('projects', function($scope, $http) {
     $('#projectList').DataTable( {
         "processing": true,
         "serverSide": true,
+        "searching": false,
         ajax: {
-            "url": "http://localhost:8080/api/projects",
+            "url": "http://localhost:8080/api/projects/datatable",
             "data": function(data) {
                 planify(data);
             }
         },
         "columns": [
-            { data: 'name' },
-            { data: 'description' },
+            {
+                data: 'name',
+                render: function (data ,type, full, meta) {
+                    return '<a href="/project/'+full.id+'">'+data+'</a>';
+                }
+            },
+            {
+                data: 'description',
+                render: function (data) {
+                    return data.substr( 0, 35 );
+                }
+            },
             { data: 'formCount' },
             { data: 'owner' },
-            { data: 'createdAt' }
+            { data: 'createdAt',
+                render: function (data) {
+                    return moment(data).format("MMMM Do YYYY, h:mm a");
+                }
+            }
         ]
     } );
 
@@ -60,11 +123,8 @@ app.controller('projects', function($scope, $http) {
 
 
 
-
-
-
     $scope.project = {};
-    $scope.createForm = function () {
+    $scope.createProject = function () {
 
         var token = $("meta[name='_csrf']").attr("content");
 
@@ -85,16 +145,15 @@ app.controller('projects', function($scope, $http) {
                 }
             } else{
                 delete($scope.project);
-                $('#myModal').modal('hide');
+                $('#newProject').modal('hide');
             }
         }).error(function(error){
-            console.log(error);
             $scope.error = error;
         });
 
     };
 
-    $scope.closeCreateForm = function () {
+    $scope.closeCreateProject = function () {
         $scope.project = {};
     }
 
@@ -102,6 +161,70 @@ app.controller('projects', function($scope, $http) {
 
 
 });
+
+
+
+app.controller('forms', function($scope, $http) {
+
+    //Get all projects
+    $http({
+        method: 'GET',
+        url: 'http://localhost:8080/api/projects'
+    }).then(function successCallback(response) {
+        $scope.projects = response.data;
+        console.log(response);
+    }, function errorCallback(response) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+    });
+
+
+
+
+
+    $scope.form = {projectIds:[]};
+
+    $scope.createForm = function () {
+
+        var token = $("meta[name='_csrf']").attr("content");
+
+        $http({
+            url: 'http://localhost:8080/api/forms',
+            dataType: 'json',
+            method: 'POST',
+            data: $scope.form,
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRF-TOKEN': token
+            }
+        }).success(function(response){
+
+            console.log(response);
+
+            if(response.hasError){
+                $scope.form.error = {};
+                for(var i = 0, len = response.errors.length; i < len; i++) {
+                    $scope.form.error[response.errors[i].field] = response.errors[i].message;
+                }
+            } else{
+                delete($scope.form);
+                $('#newForm').modal('hide');
+            }
+        }).error(function(error){
+            $scope.error = error;
+        });
+
+    }
+
+    $scope.closeCreateForm = function () {
+        $scope.form = {projectIds:[]};
+    }
+
+
+
+});
+
+
 
 
 app.controller('createForm', function($scope, $http) {
@@ -138,11 +261,8 @@ app.controller('createForm', function($scope, $http) {
                 }
 
                 $scope.form.fields[i].files = fobj;
+                }
             }
-
-
-
-        }
         }
 
 

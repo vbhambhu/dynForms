@@ -42,8 +42,8 @@ public class FormController {
     @RequestMapping(value="/forms", method= RequestMethod.GET)
     public String showFroms(Model model) {
 
-        List<Form> forms = formRepository.findAll();
-        model.addAttribute("forms", forms);
+       // List<Form> forms = formRepository.findAll();
+       // model.addAttribute("forms", forms);
         return "form/list";
     }
 

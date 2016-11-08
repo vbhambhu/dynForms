@@ -29,7 +29,7 @@
 
 
                         <div class="clearfix">
-                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#myModal">
+                            <button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#newProject">
                                 New project
                             </button>
                         </div>
@@ -38,11 +38,11 @@
                         <div class="clearfix">&nbsp;</div>
 
 
-                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="newProject" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeCreateForm()">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeCreateProject()">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                         <h4 class="modal-title" id="myModalLabel">Add new project</h4>
@@ -65,7 +65,7 @@
                                         <div class="form-control-feedback" ng-show="project.error.description">{{project.error.description}}</div>
                                         </div>
 
-                                        <input type="button" value="Create project" class="btn btn-success" ng-click="createForm()"/>
+                                        <input type="button" value="Create project" class="btn btn-success" ng-click="createProject()"/>
 
                                     </form>
                                         <!-- end of model body -->

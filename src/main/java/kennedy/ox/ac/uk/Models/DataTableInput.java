@@ -4,7 +4,7 @@ package kennedy.ox.ac.uk.Models;
 import java.util.HashMap;
 import java.util.List;
 
-public class DataTableRequest {
+public class DataTableInput {
 
     private int draw;
     private List<HashMap<String, String>> columns;

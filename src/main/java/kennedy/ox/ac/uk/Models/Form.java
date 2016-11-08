@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,10 +21,17 @@ public class Form {
     @Id
     private String id;
 
-    @Size(min=3,max=50, message="Form title field must be between 3 and 50 characters in length.")
-    private String title;
+    @NotBlank(message = "Form name field is required.")
+    private String name;
+
+    @NotBlank(message = "Form description field is required.")
     private String description;
+
     private List<Field> fields = new ArrayList<>();
+    private String owner;
+
+
+    @NotEmpty(message = "Project field is required.")
     private List<String> projectIds = new ArrayList<>();
 
     @DateTimeFormat(iso = ISO.DATE_TIME)
@@ -39,7 +48,7 @@ public class Form {
     public Form() {}
 
     public Form(String title, String description, Date createdAt) {
-        this.title = title;
+        this.name = title;
         this.description = description;
         this.createdAt = createdAt;
     }
@@ -52,6 +61,14 @@ public class Form {
     }
 
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     public String getId() {
         return id;
     }
@@ -60,12 +77,12 @@ public class Form {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getDescription() {
