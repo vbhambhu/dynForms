@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" ng-app="dynForms">
 <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
+    <meta content="ie=edge" http-equiv="x-ua-compatible" />
+    <meta th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
     <title>Hello AngularJS</title>
     <link href="/css/bootstrap.min.css" rel="stylesheet" />
     <link href="/css/style.css" rel="stylesheet" />
 </head>
 <body>
-<div class="container">
+<div class="container" ng-controller="login">
 
 
     <div class="row">
@@ -18,6 +22,28 @@
 
             <h4>Login to your account</h4>
             <hr/>
+
+            {{login | json}}
+
+
+            <div class="alert alert-danger" ng-show="controller.error">
+                There was a problem logging in. Please try again.
+            </div>
+            <form role="form" ng-submit="doLogin()">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" ng-model="login.username"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" ng-model="login.password"/>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+
+
+
 
             <div th:if="${param.error}" class="alert alert-danger" role="alert">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>

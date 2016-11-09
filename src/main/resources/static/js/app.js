@@ -74,6 +74,44 @@ function formatProjectSelection (project) {
 
 var app = angular.module('dynForms', ['ui.sortable']);
 
+app.controller('login', function($scope, $http) {
+
+    $scope.login = {};
+
+    $scope.doLogin = function() {
+
+        var token = $("meta[name='_csrf']").attr("content");
+
+        $http({
+            url: 'http://localhost:8080/login',
+            dataType: 'json',
+            method: 'POST',
+            data: $scope.login,
+            headers: {
+                "Content-Type": "application/json",
+                'X-CSRF-TOKEN': token
+            }
+        }).success(function(response){
+            console.log(response);
+            // if(response.hasError){
+            //
+            // } else{
+            //     delete($scope.project);
+            //     $('#newProject').modal('hide');
+            // }
+        }).error(function(error){
+            console.log(error);
+            //$scope.error = error;
+        });
+
+        console.log($scope.login.username);
+    };
+
+
+});
+
+
+
 
 app.controller('projects', function($scope, $http) {
 
