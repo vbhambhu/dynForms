@@ -1,5 +1,6 @@
 package kennedy.ox.ac.uk.Services;
 
+import kennedy.ox.ac.uk.Models.ActivityLog;
 import kennedy.ox.ac.uk.Models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -29,6 +30,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        ActivityLog log = new ActivityLog(username,"Login attempt");
+        mongoOperation.save(log);
 
         Query query = new Query();
         query.addCriteria(Criteria.where("username").is(username));
