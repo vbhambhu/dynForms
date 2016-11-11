@@ -63,13 +63,6 @@ public class ProjectRestController {
     }
 
 
-
-
-
-
-
-
-
     @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public DataTableOutput getProjects(HttpServletRequest request,
