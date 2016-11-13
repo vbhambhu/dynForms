@@ -13,19 +13,29 @@ import kennedy.ox.ac.uk.Repositories.FormRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import java.security.Principal;
+
 /**
  * Created by vinod on 08/09/2016.
  */
 @Controller
 public class HomeController {
 
-    @Autowired
-    private FormRepository formRepository;
-    
-
     @RequestMapping(value={"", "/", "dashboard"}, method= RequestMethod.GET)
-    public String showDashboard() {
+    public String showDashboard(Principal principal, Model model) {
+        model.addAttribute("metaTitle", "daddas ada dasda dada");
+
+        //String[] cssFiles = {"style1", "style2", "style3"};
+
+        //String[] jsFiles = {"js1", "js2", "js.js"};
+
+       // model.addAttribute("cssFiles", cssFiles);
+        //model.addAttribute("jsFiles", jsFiles);
+
+
         return "account/dashboard";
     }
+
+
 
 }

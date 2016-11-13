@@ -7,6 +7,15 @@ $.fn.exists = function(callback) {
     return this;
 };
 
+
+
+$(".collapsed").hover(function () {
+    var data_id = $(this).data('target');
+   // $(data_id).toggleClass("small-menu");
+   // $(data_id).removeClass("collapse");
+});
+
+
 $('[data-toggle="tooltip"]').exists(function() {
  $('[data-toggle="tooltip"]').tooltip()
 });
@@ -26,6 +35,7 @@ $("#menu-toggle").click(function(e) {
 
 
 //select 2
+$(".projectPicker").exists(function() {
 $(".projectPicker").select2({
     theme: "bootstrap",
     ajax: {
@@ -60,6 +70,7 @@ $(".projectPicker").select2({
     templateSelection: formatProjectSelection, // omitted for brevity, see the source of this page
     placeholder: "Enter name"
 });
+});
 
 
 
@@ -72,40 +83,25 @@ function formatProjectSelection (project) {
     return project.name || project.id;
 }
 
-var app = angular.module('dynForms', ['ui.sortable']);
+var app = angular.module('dynForms', []);
 
-app.controller('login', function($scope, $http) {
 
-    $scope.login = {};
+app.controller('projectDetails', function($scope, $http) {
 
-    $scope.doLogin = function() {
+    var pId = getUrlSegment(1);
 
-        var token = $("meta[name='_csrf']").attr("content");
+    $http({
+        url: 'http://localhost:8080/api/projects/findbyid?pid='+pId,
+        dataType: 'json',
+        method: 'GET',
+        data: $scope.project
+    }).success(function(response){
+        $scope.project = response;
+    }).error(function(error){
+        $scope.error = error;
+    });
 
-        $http({
-            url: 'http://localhost:8080/login',
-            dataType: 'json',
-            method: 'POST',
-            data: $scope.login,
-            headers: {
-                "Content-Type": "application/json",
-                'X-CSRF-TOKEN': token
-            }
-        }).success(function(response){
-            console.log(response);
-            // if(response.hasError){
-            //
-            // } else{
-            //     delete($scope.project);
-            //     $('#newProject').modal('hide');
-            // }
-        }).error(function(error){
-            console.log(error);
-            //$scope.error = error;
-        });
 
-        console.log($scope.login.username);
-    };
 
 
 });
@@ -114,7 +110,6 @@ app.controller('login', function($scope, $http) {
 
 
 app.controller('projects', function($scope, $http) {
-
 
     $('#projectList').DataTable( {
         "processing": true,
@@ -143,7 +138,7 @@ app.controller('projects', function($scope, $http) {
             { data: 'owner' },
             { data: 'createdAt',
                 render: function (data) {
-                    return moment(data).format("MMMM Do YYYY, h:mm a");
+                    return moment(data).format("MMM Do YY, h:mm a");
                 }
             }
         ]
@@ -642,4 +637,12 @@ function isInt(value) {
     return !isNaN(value) &&
         parseInt(Number(value)) == value &&
         !isNaN(parseInt(value, 10));
+}
+
+
+function getUrlSegment(segment) {
+    var url = $(location).attr('href');
+    var arr = url.split('/');
+    arr =  arr.slice(arr.length-2,arr.length);
+    return arr[segment];
 }

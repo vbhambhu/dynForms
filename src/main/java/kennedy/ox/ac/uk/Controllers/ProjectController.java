@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Date;
 import java.util.List;
 
@@ -29,25 +30,15 @@ public class ProjectController {
     MongoOperations mongoOperation;
 
     @RequestMapping(value="/project/{id}", method= RequestMethod.GET)
-    public String singleProjectPage(@PathVariable String id, Model model) {
-        Project project = mongoOperation.findById(new ObjectId(id), Project.class);
-        model.addAttribute("project", project);
+    public String singleProjectPage(Model model, @PathVariable String id, Principal principal) {
 
-        Query query = new Query();
-        query.addCriteria(Criteria.where("isDeleted").is(false));
-        List<User> users = mongoOperation.find(query, User.class);
-        model.addAttribute("users", users);
+        model.addAttribute("metaTitle", "Project");
+        String[] jsFiles = {"jquery.dataTables.min.js",
+                "dataTables.bootstrap4.min.js",
+                "moment.min.js", "bootstrap-editable.min.js"};
 
-
-//        Team team = new Team();
-//
-//        //
-//        //team.add();
-//
-//        model.addAttribute("team", team);
-
-
-        return "project/single";
+        model.addAttribute("jsFiles", jsFiles);
+        return "project/details";
     }
 
     @RequestMapping(value="/project/edit/{id}", method= RequestMethod.GET)
@@ -59,6 +50,9 @@ public class ProjectController {
 
     @RequestMapping(value="/projects", method= RequestMethod.GET)
     public String projectPage(Model model) {
+        model.addAttribute("metaTitle", "My projects");
+        String[] jsFiles = {"jquery.dataTables.min.js", "dataTables.bootstrap4.min.js", "moment.min.js"};
+        model.addAttribute("jsFiles", jsFiles);
         return "project/list";
     }
 

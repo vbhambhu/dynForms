@@ -2,13 +2,12 @@ package kennedy.ox.ac.uk.API;
 
 
 import kennedy.ox.ac.uk.Helpers.Validation;
-import kennedy.ox.ac.uk.Models.DataTableInput;
-import kennedy.ox.ac.uk.Models.DataTableOutput;
-import kennedy.ox.ac.uk.Models.Project;
-import kennedy.ox.ac.uk.Models.RestValidationResult;
+import kennedy.ox.ac.uk.Models.*;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.MediaType;
@@ -31,7 +30,6 @@ public class ProjectRestController {
 
     @Autowired
     MongoOperations mongoOperation;
-
 
     @RequestMapping(value = "/datatable", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -63,29 +61,72 @@ public class ProjectRestController {
     }
 
 
-    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/findbyid", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public DataTableOutput getProjects(HttpServletRequest request,
-                                       @RequestParam(value = "start", required = false) String start,
-                                       @RequestParam(value = "length", required = false) String length,
-                                       @RequestParam(value = "sortCol", required = false) String sortCol,
-                                       @RequestParam(value = "orderDir", required = false) String orderDir,
-                                       @RequestParam(value = "scol", required = false) String sCol,
-                                       @RequestParam(value = "sqry", required = false) String sQry) {
+    public Project getProjectByID( @RequestParam(value = "pid", required = false) String projectId) {
 
         DataTableOutput data = new DataTableOutput();
+        Project project = mongoOperation.findById(new ObjectId(projectId), Project.class);
+
+        //String filters = "{ $or: [{ username : { $in : "+project.getUsers()+" }}, {groups : { $in : ['TEST'] }}] }";
+        //BasicQuery query = new BasicQuery(filters);
+
+        Query query = new Query();
+
+
+       // query.addCriteria(Criteria.where("username").in(project.getUsers()));
+
+        Criteria c = new Criteria().orOperator(
+                Criteria.where("username").in(project.getUsers()),
+                Criteria.where("groups").in(project.getGroups())
+        );
+
+        query.addCriteria(c);
+
+
+        List<User> team = mongoOperation.find(query, User.class);
+
+        System.out.println(query.toString());
+
+        project.setTeam(team);
+
+        return project;
+
+    }
+
+
+    @CrossOrigin(origins = "*", maxAge = 3600)
+    @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public DataTableOutput getProjects(RestInput restInput) {
+
+        DataTableOutput data = new DataTableOutput();
+
         HashMap cols = new HashMap();
-        cols.put("1", "_id");
-        cols.put("2", "name");
-        cols.put("3", "description");
-        cols.put("4", "createdAt");
-        cols.put("5", "owner");
-        cols.put("6", "isDeleted");
-        cols.put("7", "formCount");
-        cols.put("8", "isArchived");
+        cols.put("0", "_id");
+        cols.put("1", "name");
+        cols.put("2", "description");
+        cols.put("3", "createdAt");
+        cols.put("4", "owner");
+        cols.put("5", "isDeleted");
+        cols.put("6", "formCount");
+        cols.put("7", "isArchived");
+
+        System.out.println("Start" + restInput.getStart());
+        System.out.println("length" + restInput.getLength());
+        System.out.println("dir" + restInput.getDir());
+        System.out.println("sort col" + restInput.getSortcol());
+        System.out.println("sort col" + restInput.getSortcol());
 
 
-        Map<String, String[]> parameters = request.getParameterMap();
+
+
+
+        /*
+
+
+
+        //Map<String, String[]> parameters = request.getParameterMap();
 
         if(start == null){ start = "0"; }
         if(length == null){ length = "10"; }
@@ -137,6 +178,9 @@ public class ProjectRestController {
         query.limit(Integer.parseInt(length));
         List<Project> projects = mongoOperation.find(query, Project.class);
         data.setData(projects);
+
+
+        */
 
         return data;
     }

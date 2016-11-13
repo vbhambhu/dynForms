@@ -1,10 +1,116 @@
-<div th:fragment="default">
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <title>Title</title>
-    </head>
-    <body>
+<!DOCTYPE html>
+<html>
+<head th:fragment="head">
+<meta charset="utf-8" />
+<meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
+<meta content="ie=edge" http-equiv="x-ua-compatible" />
+<meta th:name="${_csrf.parameterName}" th:content="${_csrf.token}"/>
+<title th:text="${metaTitle} ? ${metaTitle} : 'dynForms' "></title>
+<link rel="stylesheet" href="/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="/css/font-awesome.min.css"/>
+<link th:each="css : ${cssFiles}" rel="stylesheet" th:href="@{/css/} + ${css}" />
+<link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div id="sidebar" th:fragment="sidebar">
+        <div class="sidebar-brand">
+            <a href="#"><i class="fa fa fa-wpforms"></i> <span class="toggled-hide">dyn<span class="strong">Forms</span></span></a>
+        </div>
+        <div class="nav-header toggled-hide">List header</div>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="nav-item">
+                <a class="nav-link" href="/projects"><i class="fa fa-cube nav-ico"></i> <span class="toggled-hide">Projects</span></a>
+            </li>
+            <li class="nav-item">
+                <a href="#" data-toggle="collapse" data-target="#toggleDemo" data-parent="#sidenav01" class="nav-link collapsed"><i class="fa fa-users nav-ico"></i>
+                    <span class="toggled-hide">Users <i class="fa fa-fw fa-angle-right pull-right nav-arrow"></i> </span></a>
+                <div class="collapse" id="toggleDemo">
+                    <ul class="nav nav-pills nav-sub">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa fa-dedent fa-fw nav-ico"></i> Sub 1 of 1</i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><i class="fa fa-dedent fa-fw nav-ico"></i> Sub 2 of 1</i></a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-dedent fa-fw nav-ico"></i>
+                    <span class="toggled-hide">Link <i class="fa fa-fw fa-angle-right pull-right nav-arrow"></i></span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/users"><i class="fa fa-users nav-ico"></i> <span class="toggled-hide">Users</span></a>
+            </li>
+        </ul>
+
+        <div class="nav-header">List header</div>
+        <ul class="nav nav-pills nav-stacked">
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-dedent fa-fw nav-ico"></i> Users <i class="fa fa-fw fa-angle-right pull-right nav-arrow"></i> </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-dedent fa-fw nav-ico"></i> Link <i class="fa fa-fw fa-angle-right pull-right nav-arrow"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-dedent fa-fw nav-ico"></i> Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#"><i class="fa fa-dedent fa-fw nav-ico"></i> Disabled</a>
+            </li>
+        </ul>
+    </div>
+    <!-- //sidebar -->
+
+
+
+<!-- top menu -->
+        <nav class="navbar navbar-light bg-plain box-shadow navbar-full"  th:fragment="menu">
+            <a class="navbar-brand" href="#menu-toggle" id="menu-toggle"><i class="fa fa-dedent fa-fw"></i></a>
+            <div id="navbar">
+                <nav class="nav navbar-nav float-sm-left">
+                    <a class="nav-item nav-link" href="#">Dashboard</a>
+                    <a class="nav-item nav-link" href="#">Settings</a>
+                </nav>
+            </div>
+
+            <ul class="nav navbar-nav pull-right">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-expand fa-fw text"></i></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-bell-o" aria-hidden="true"></i></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Vinod.Kumar
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-user" aria-labelledby="navbarDropdownMenuLink">
+
+                        <a class="dropdown-item" href="#"><i class="fa fa-cog nav-ico" aria-hidden="true"></i> Settings</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-user nav-ico" aria-hidden="true"></i> Profile</a>
+                        <a class="dropdown-item" href="#"><i class="fa fa-info-circle nav-ico" aria-hidden="true"></i> Help</a>
+                        <hr>
+                        <a class="dropdown-item" href="/logout"><i class="fa fa-power-off nav-ico" aria-hidden="true"></i> Logout</a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a href="#" ><img class="avatar" src="http://flatfull.com/themes/angulr/angular/img/a0.jpg"></a>
+                </li>
+            </ul>
+        </nav>
+    <!-- //top menu -->
+
 </div>
 
 
+
+</body>
+</html>

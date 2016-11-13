@@ -3,6 +3,7 @@ package kennedy.ox.ac.uk.Models;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -40,6 +41,9 @@ public class Project {
 
     private List<String> groups = new ArrayList<>();
     private List<String> users = new ArrayList<>();
+
+    @Transient
+    private List<User> team = new ArrayList<>();
 
     //Custom methods
     public void setGroup(String group) {
@@ -82,7 +86,6 @@ public class Project {
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-
 
     public String getOwner() {
         return owner;
@@ -130,5 +133,13 @@ public class Project {
 
     public void setUsers(List<String> users) {
         this.users = users;
+    }
+
+    public List<User> getTeam() {
+        return team;
+    }
+
+    public void setTeam(List<User> team) {
+        this.team = team;
     }
 }
