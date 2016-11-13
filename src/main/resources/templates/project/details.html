@@ -13,6 +13,9 @@
 
     <button class="btn btn-secondary">Forms({{project.formCount}})</button>
 
+
+    <button class="btn btn-secondary">Add new form</button>
+
     <hr>
 
     <h4>Project team</h4>
@@ -27,7 +30,7 @@
         <tr>
             <th>Name</th>
             <th>Email</th>
-            <th>Role</th>
+            <th>Type</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -35,7 +38,9 @@
             <tr ng-repeat="user in project.team">
                 <td>{{user.fullName}}</td>
                 <td>{{user.email}}</td>
-                <td>Owner</td>
+                <td>
+                    <span>{{user.username == project.owner ? 'Owner' : 'User'}}</span>
+                </td>
                 <td><button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></td>
             </tr>
         </tbody>
